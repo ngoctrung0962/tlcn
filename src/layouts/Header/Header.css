@@ -1,0 +1,88 @@
+@import "../../App.css";
+
+.navbar {
+  transition: 0.4s;
+  background: var(--background);
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+}
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 1px;
+}
+.navbar-brand:hover {
+  color: var(--pink);
+  transform: scale(1.1);
+  transition: 0.3s;
+}
+.navbar-toggler {
+  color: var(--yellow);
+}
+
+.nav-link:hover {
+  color: var(--pink);
+}
+
+.nav-link::after {
+  content: "";
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--yellow);
+  transition: all 0.3s ease-in-out;
+}
+.nav-link:hover::after {
+  width: 100%;
+}
+
+.nav-item .active::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--yellow);
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-item {
+  padding: 0 20px;
+}
+.nav-item a {
+  padding: 5px 30px;
+}
+.nav-item i {
+  font-size: 25px;
+  color: var(--yellow);
+}
+.nav-item span {
+  text-transform: uppercase;
+  padding-top: 3px;
+  font-weight: 700;
+  color: var(--white);
+  font-size: 12px;
+}
+.form__search {
+  position: relative;
+}
+.nav__tool-user i {
+  font-size: 26px;
+  color: var(--yellow);
+}
+.nav__search {
+  padding-left: 20px;
+  padding-right: 20px;
+  border: none;
+  border-radius: 20px;
+  background: var(--white);
+}
+.nav__search:focus {
+  border-color: var(--pink) !important;
+  box-shadow: none;
+  background-color: var(--white);
+}
+.nav__tool-user .bx-search {
+  position: absolute;
+  right: 30px;
+  color: var(--yellow);
+}

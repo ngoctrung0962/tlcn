@@ -1,0 +1,83 @@
+@import url(../../../App.css);
+.new__course {
+  margin-top: 50px;
+}
+.new__course .new__course-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1.2px;
+  margin-bottom: 30px;
+}
+.card__course-item {
+  position: relative;
+  border-radius: 10px;
+  border: none;
+  width: 100%;
+  max-width: 290px;
+  box-shadow: 0 4px 24px 0 rgb(34 41 47 / 20%);
+  height: auto;
+  z-index: 1;
+  transition: 0.3s !important;
+}
+.card__course-item:hover {
+  background-color: var(--yellow);
+  transform: scale(1.02) !important;
+}
+.card__course-item img {
+  width: auto;
+  height: 100%;
+  max-height: 150px;
+  object-fit: contain;
+}
+.card__layer {
+  background: transparent;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 10px;
+}
+.card__layer:hover {
+  background: linear-gradient(rgba(22, 22, 22, 0.06) 0%, #090908 100%);
+  cursor: pointer;
+}
+.card__layer a {
+  position: absolute;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 2px solid var(--yellow);
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  background-color: transparent;
+  border-radius: 30px;
+  display: inline-block;
+  color: var(--white);
+}
+.card__layer a:hover {
+  transition: all 0.5s;
+  background: var(--yellow);
+  border: 2px solid var(--yellow);
+}
+.card__layer:hover a {
+  bottom: 40%;
+  opacity: 1;
+  transition: all 0.4s;
+}
+.card-text {
+  font-size: 15px;
+  font-weight: 700;
+}
+.card-text span {
+  background: var(--yellow);
+  border: 2px solid #000;
+  border-radius: 5px;
+  padding: 3px 10px;
+}
+.card-title {
+  font-size: 18px;
+  font-weight: 800;
+}

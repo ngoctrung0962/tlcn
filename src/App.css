@@ -1,38 +1,151 @@
-.App {
-  text-align: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+  --yellow: linear-gradient(180deg, #f8d49a -146.42%, #fad79d -46.42%);
+  --purple: linear-gradient(180deg, #bb67ff 0%, #c484f3 100%);
+  --bg--color: linear-gradient(#9f0036 0%, rgba(22, 22, 22, 0.06) 100%);
+  --main--color: rgba(254, 44, 85, 1);
+  --text--color: #fff;
+  --btn--color: #e6c511;
+  --yellow: rgb(252, 207, 0);
+  --black: #2d3748;
+  --white: #fff;
+  --pink: rgba(254, 44, 85, 1);
+  --gray: #faf9fa;
+  --big--font: 2.5rem;
+  --medium--font: 1.5rem;
+  --small--font: 1rem;
+  --xsmall--font: 0.8rem;
+  --green: #5fa509;
+  --background: #212121;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+  font-family: "Roboto Slab", serif;
+  line-height: 1.8;
+  margin: 0;
+  padding: 0;
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+ul {
+  list-style: none;
+  margin: 0;
 }
-
-.App-link {
-  color: #61dafb;
+a {
+  text-decoration: none;
+  color: var(--black);
 }
+.grow {
+  flex-grow: 0.5 !important;
+}
+.main__btn {
+  color: var(--yellow);
+  border: 2px solid var(--yellow);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: inline-block;
+  font-weight: 600;
+  background-color: transparent;
+}
+.main__btn:hover {
+  background-color: #fff;
+  color: #000;
+  transition: 0.4s;
+  transform: scale(1.1);
+  border: 2px solid #000;
+}
+.blog__title {
+  font-size: 3rem;
+  line-height: 1.33;
+  color: #2d3748;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+.list__info li {
+  padding-right: 20px;
+  font-size: 1rem;
+  font-weight: normal;
+  color: #718096;
+  line-height: 1.8;
+}
+.blog__card {
+  border-radius: 1rem !important;
+}
+.blog__img {
+  object-fit: cover !important;
+  max-height: 500px !important;
+  border-radius: 1rem 1rem 0 0;
+}
+.blog__head {
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+  color: #2d3748;
+  font-weight: bold;
+}
+.blog__detail {
+  font-size: 1.25rem;
+  color: #4a5568;
+  margin-bottom: 2rem;
+}
+.signin__page {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.725), rgba(0, 0, 0, 0.7)),
+    url("https://utex.hcmute.edu.vn/pluginfile.php/1/theme_maker/loginbgimage/1634220818/57f4e15cb6bc4be212ad.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+}
+.signin__page-inner {
+  width: 80%;
+  max-width: 900px;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  box-shadow: 0px 3px 1px -2px rgb(145 158 171 / 20%),
+    0px 2px 2px 0px rgb(145 158 171 / 14%),
+    0px 1px 5px 0px rgb(145 158 171 / 50%);
+  border-radius: 16px;
+  padding: 40px 30px;
+  background: #fff;
+  opacity: 1;
+}
+.form__login {
+  width: 100%;
+  max-width: 400px;
+}
+.login__title {
+  -webkit-box-decoration-break: clone;
+  background: #232526; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #414345,
+    #232526
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #414345,
+    #232526
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  color: transparent;
+  background-clip: text;
+  font-weight: 800;
+  font-size: 38px;
+}
+.btn_login {
+  border: 2px solid var(--black);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: inline-block;
+  font-weight: 600;
+  background-color: transparent;
+  max-width: 300px;
+}
+.btn_login:hover {
+  color: var(--yellow);
+  border: 2px solid var(--yellow);
+  transition: 0.3s;
+}
+.link_to_signup {
+  font-size: 11px;
+  color: rgb(63, 63, 120);
 }

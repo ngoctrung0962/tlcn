@@ -1,0 +1,67 @@
+.carousel {
+  border-radius: 16px;
+  overflow: hidden;
+}
+.carousel-item img {
+}
+.carousel-item1 {
+  background: linear-gradient(
+    to right,
+    rgb(35, 33, 35),
+    rgba(247, 254, 33, 0.882)
+  );
+}
+
+.carousel-item2 {
+  background: linear-gradient(to right, #eecda3, #ef629f);
+}
+
+.carousel-item3 {
+  background: linear-gradient(to right, #ed4264, #ffedbc);
+}
+.carousel-color {
+  width: 0% !important;
+}
+.carousel-color i {
+  background-color: #fff;
+  font-size: 3rem;
+  color: var(--pink);
+  border-radius: 50%;
+}
+.carousel-control-prev i {
+  position: absolute;
+  left: 0;
+}
+.carousel-control-next i {
+  position: absolute;
+  right: 0;
+}
+.banner__link {
+  color: var(--white);
+  border: 2px solid var(--yellow);
+  border-radius: 30px;
+  padding: 10px 20px;
+  display: inline-block;
+  font-weight: 600;
+}
+.banner__link:hover {
+  color: var(--white);
+  transition: 0.4s;
+  transform: scale(1.1);
+}
+.carousel-inner button {
+  width: 0% !important;
+}
+.banner__text h1 {
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: var(--white);
+  padding-bottom: 1.2rem;
+}
+.banner__text p {
+  color: var(--white);
+  font-size: 1.1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  padding-bottom: 1.2rem;
+}

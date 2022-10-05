@@ -1,0 +1,31 @@
+@import url("../../App.css");
+.filter__courses {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+  padding: 20px 10px;
+}
+.courses__container {
+  border-radius: 20px;
+  box-shadow: 0 4px 24px 0 rgb(34 41 47 / 10%);
+  padding: 20px 10px;
+}
+.filter__title {
+  font-size: 19px;
+  font-weight: 800;
+  color: var(--black);
+  text-transform: uppercase;
+}
+.filter__type {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--black);
+}
+.MuiSlider-thumb {
+  width: 10px !important;
+  height: 10px !important;
+}
+.value__filter {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--black);
+}

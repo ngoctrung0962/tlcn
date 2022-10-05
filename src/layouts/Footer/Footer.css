@@ -1,0 +1,23 @@
+@import url(../../App.css);
+.footer {
+  background-color: var(--background);
+  color: var(--yellow);
+  font-weight: 900;
+  position: relative;
+  bottom: 0;
+  /* background: url("../../assets/img/footer-background.24475349.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center; */
+}
+.footer__logo {
+  font-weight: 900;
+  color: var(--black);
+  font-size: 30px;
+}
+
+.about__text p {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
