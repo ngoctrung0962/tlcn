@@ -2,26 +2,26 @@
 
 .navbar {
   transition: 0.4s;
-  background: var(--background);
+  background: #fff;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
 }
 .navbar-brand {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 900;
-  color: var(--white);
+  color: var(--black);
   letter-spacing: 1px;
 }
 .navbar-brand:hover {
-  color: var(--pink);
+  color: #ff3f3f;
   transform: scale(1.1);
-  transition: 0.3s;
+  transition: 0.4s !important;
 }
 .navbar-toggler {
-  color: var(--yellow);
+  color: var(--orange);
 }
 
 .nav-link:hover {
-  color: var(--pink);
+  color: #ff3f3f !important;
 }
 
 .nav-link::after {
@@ -29,7 +29,7 @@
   display: block;
   width: 0;
   height: 2px;
-  background: var(--yellow);
+  background: var(--orange);
   transition: all 0.3s ease-in-out;
 }
 .nav-link:hover::after {
@@ -41,7 +41,7 @@
   display: block;
   width: 100%;
   height: 2px;
-  background: var(--yellow);
+  background: var(--orange);
   transition: all 0.3s ease-in-out;
 }
 
@@ -52,22 +52,22 @@
   padding: 5px 30px;
 }
 .nav-item i {
-  font-size: 25px;
-  color: var(--yellow);
+  font-size: 18px;
+  color: var(--orange);
 }
 .nav-item span {
   text-transform: uppercase;
   padding-top: 3px;
   font-weight: 700;
-  color: var(--white);
-  font-size: 12px;
+  color: var(--black);
+  font-size: 10px;
 }
 .form__search {
   position: relative;
 }
 .nav__tool-user i {
-  font-size: 26px;
-  color: var(--yellow);
+  font-size: 18px;
+  color: var(--orange);
 }
 .nav__search {
   padding-left: 20px;
@@ -75,14 +75,21 @@
   border: none;
   border-radius: 20px;
   background: var(--white);
+  font-size: 14px;
+  border: 1px solid transparent;
+  box-shadow: 0 2px 12px 0 rgb(20 20 43 / 8%);
 }
 .nav__search:focus {
   border-color: var(--pink) !important;
+  border: 1px solid var(--orange);
   box-shadow: none;
-  background-color: var(--white);
 }
 .nav__tool-user .bx-search {
   position: absolute;
   right: 30px;
-  color: var(--yellow);
+  color: var(--orange);
+}
+input::-webkit-input-placeholder {
+  color: var(--pink);
+  font-size: 14px;
 }

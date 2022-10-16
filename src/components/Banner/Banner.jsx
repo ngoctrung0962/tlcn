@@ -20,7 +20,7 @@ export default function Banner() {
                 sit asperiores ipsum. Sunt fugiat delectus modi!
               </p>
               <div className="mb-4">
-                <Link className="banner__link" to="/">
+                <Link className="banner__link " to="/">
                   Truy cập ngay
                 </Link>
               </div>

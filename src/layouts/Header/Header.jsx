@@ -10,7 +10,6 @@ function Header() {
     });
   }, []);
   const { pathname } = useLocation();
-  console.log(pathname);
   return (
     <nav
       className="navbar navbar-expand-lg fixed-top position-sticky"
@@ -19,16 +18,16 @@ function Header() {
       <div className="container align-items-center">
         <Link
           data-aos="flip-right"
-          className="navbar-brand justify-content-center align-items-center d-flex"
+          className="navbar-brand  justify-content-center align-items-center d-flex"
           to="/"
         >
           <img
-            src={require("../../assets/img/logo.gif")}
+            src={require("../../assets/img/112-book-morph-outline.gif")}
             width={"auto"}
-            height={50}
+            height={40}
             alt=""
           />
-          <span style={{ color: "rgb(252, 207, 0)" }}>Le</span>gacy
+          <span style={{ color: "#ff5336" }}>Le</span>gacy
         </Link>
 
         <button

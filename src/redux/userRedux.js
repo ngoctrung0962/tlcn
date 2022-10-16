@@ -35,7 +35,7 @@ export const register = async (dispatch, data) => {
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    currentUser: JSON.parse(localStorage.getItem(Storagekey.USER)) || null,
+    currentUser: null,
     isFetching: false,
     error: false,
   },
@@ -63,6 +63,9 @@ const userSlice = createSlice({
       state.isFetching = false;
       state.error = true;
     },
+    deleteDetailUser: (state, action) => {
+      state.currentUser = null;
+    },
     Logout(state) {
       localStorage.clear();
       state.currentUser = null;
@@ -79,5 +82,6 @@ export const {
   RegisterSuccess,
   RegisterFailure,
   Logout,
+  deleteDetailUser,
 } = userSlice.actions;
 export default userSlice.reducer;

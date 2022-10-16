@@ -7,8 +7,6 @@ import MainRoute from "../MainRoute/MainRoute";
 export default function CustomLayout() {
   return (
     <>
-
-    
       <Header />
       <MainRoute />
       <Footer />

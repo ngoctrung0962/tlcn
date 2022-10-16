@@ -5,8 +5,38 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import CustomLayout from "./CustomLayout/CustomLayout";
 import SignIn from "./pages/auth/signin/SignIn.page";
 import SignUp from "./pages/auth/signup/SignUp.page";
+import LearnPage from "./pages/learn/Learn.page";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import Cookies from "js-cookie";
+import { deleteDetailUser, loginSuccess } from "./redux/userRedux";
+import userApi from "./api/userApi";
 function App() {
-  const user = false;
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user.currentUser);
+  useEffect(() => {
+    const getUser = async () => {
+      const token = await Cookies.get("token");
+      const username = await Cookies.get("username");
+      try {
+        if (token && username) {
+          const resGetUser = await userApi.get(username);
+          dispatch(loginSuccess(resGetUser.data));
+          if (resGetUser.errorCode) {
+            await Cookies.remove("token");
+            await Cookies.remove("username");
+            await dispatch(deleteDetailUser());
+          }
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getUser();
+  }, [dispatch]);
+  window.addEventListener("online", () => console.log("Became online"));
+  window.addEventListener("offline", () => console.log("Became offline"));
   return (
     <div className="App">
       <BrowserRouter>
@@ -21,6 +51,7 @@ function App() {
             path="/signup"
             element={user ? <Navigate to="/" /> : <SignUp />}
           />
+          <Route path="/learn/:id" element={<LearnPage />} />
         </Routes>
       </BrowserRouter>
     </div>

@@ -7,7 +7,11 @@ const reviewApi = {
     },
     // get 10 products first
     get(id) {
-        const url = `/reviews/${id}`
+        const url = `/reviews/course/${id}`
+        return axiosClient.get(url);
+    },
+    getReviewByCourseId(id) {
+        const url = `/reviews/course/${id}`
         return axiosClient.get(url);
     },
     add(username, productId, data) {

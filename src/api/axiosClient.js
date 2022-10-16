@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 import Storagekey from "../constants/storagekey";
 
 const axiosClient = axios.create({
@@ -12,7 +13,7 @@ const axiosClient = axios.create({
 axiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
-    const token = localStorage.getItem(Storagekey.ACCESS_TOKEN);
+    const token = Cookies.get("token");
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${token}`,
