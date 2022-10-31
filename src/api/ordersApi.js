@@ -11,7 +11,6 @@ export const getListOrdersApi = async (idUser) => {
 
 export const insertOrderApi = async (order, username, listOrdersDetail) => {
     const res = await apiContainData(`orders/${username}`, 'POST', order);
-    console.log(res);
     if (res.status === 200) {
         listOrdersDetail.map((item) => item.id.orderId = res.data.orderId)
 

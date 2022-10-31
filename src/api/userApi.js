@@ -16,7 +16,7 @@ const userApi = {
     return axiosClient.get(url);
   },
   update(username, data) {
-    const url = `/users/${username}`;
+    const url = `/account/${username}`;
     return axiosClient.put(url, data);
   },
   resetPass(user) {

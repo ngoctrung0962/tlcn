@@ -1,14 +1,14 @@
 import axiosClient from "./axiosClient";
 import axios from "axios";
 
-const coursesApi = {
+const coursesVideoApi = {
   getAll(params) {
     const url = `/courses?page=${params}`;
     return axiosClient.get(url);
   },
   // get course by id
-  get(id) {
-    const url = `/course/${id}`;
+  getByCourseId(id) {
+    const url = `/course-video/${id}`;
     return axiosClient.get(url);
   },
   add(data) {
@@ -61,4 +61,4 @@ const coursesApi = {
   },
 };
 
-export default coursesApi;
+export default coursesVideoApi;

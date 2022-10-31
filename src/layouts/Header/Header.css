@@ -93,3 +93,47 @@ input::-webkit-input-placeholder {
   color: var(--pink);
   font-size: 14px;
 }
+
+.offcanvas-title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: var(--black);
+  letter-spacing: 1px;
+}
+.btn-close {
+  color: var(--orange) !important;
+}
+.cart__item {
+  padding: 10px 0;
+}
+.cart__item__title h5 {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--black);
+}
+.cart__item__price p {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--orange);
+}
+.cart__item__price span {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--black);
+}
+.cart__total_price p {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--black);
+}
+.total__price {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--orange);
+}
+.btn__delete__cart {
+  color: var(--orange);
+}
+.btn__delete__cart:hover {
+  cursor: pointer;
+}

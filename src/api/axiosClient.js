@@ -1,6 +1,5 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import Storagekey from "../constants/storagekey";
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:8080/api/v1",

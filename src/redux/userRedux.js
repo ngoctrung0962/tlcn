@@ -66,11 +66,6 @@ const userSlice = createSlice({
     deleteDetailUser: (state, action) => {
       state.currentUser = null;
     },
-    Logout(state) {
-      localStorage.clear();
-      state.currentUser = null;
-      showNotification("success", "Goodbye", "", "OK");
-    },
   },
 });
 

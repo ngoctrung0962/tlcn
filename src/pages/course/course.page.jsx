@@ -4,12 +4,16 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { Tabs } from "react-bootstrap";
-import { useLocation, useParams } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import coursesApi from "../../api/coursesApi";
 import reviewApi from "../../api/reviewApi";
 import ReviewForm from "./reviewForm/reviewForm";
-
+import { FaShoppingCart, FaRegRegistered } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { handleAddtoCart } from "../../redux/cartRedux";
 const CoursePage = (props) => {
+  const user = useSelector((state) => state.user.currentUser);
+  const {listCart} = useSelector((state) => state.cart);
   const courseId = useLocation().pathname.split("/")[2];
   const [course, setCourse] = useState();
   const [listReviews, setListReviews] = useState();
@@ -20,13 +24,33 @@ const CoursePage = (props) => {
         setCourse(res.data);
         const resReview = await reviewApi.getReviewByCourseId(courseId);
         setListReviews(resReview.data.content);
-        console.log(res.data);
       } catch (error) {
         console.log(error);
       }
     };
     getCourse();
   }, [courseId]);
+  const dispatch = useDispatch();
+  const handleSubmitAddtoCart = async (courseId) => {
+    await handleAddtoCart(courseId, user?.username, dispatch, listCart);
+  };
+
+  // Kiểm tra khóa học đã được đăng ký hay chưa
+  const [wasBought, setWasBought] = useState(false);
+  useEffect(() => {
+    const checkRegistered = async () => {
+      try {
+        const res = await coursesApi.checkisPurchaseCourse(
+          courseId,
+          user?.username
+        );
+        setWasBought(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    checkRegistered();
+  }, [courseId, user?.username]);
   return (
     <div className="container course__page">
       <div className="row d-flex flex-row">
@@ -97,8 +121,15 @@ const CoursePage = (props) => {
                   </div>
                 </div>
               </Tab>
-              <Tab eventKey="review" title="Đánh giá (3)">
-                <ReviewForm listReviews={listReviews} />
+              <Tab
+                eventKey="review"
+                title={`Đánh giá (${listReviews ? listReviews.length : "0"})`}
+              >
+                <ReviewForm
+                  listReviews={listReviews}
+                  setListReviews={setListReviews}
+                  courseId={courseId}
+                />
               </Tab>
             </Tabs>
           </section>
@@ -135,11 +166,28 @@ const CoursePage = (props) => {
             />
 
             <p className="text-center mt-3 course__price">
-              <span> Chỉ</span> 2.999.000 <span>VNĐ</span>{" "}
+              <span> Chỉ</span> {course ? course.price : ""} <span>VNĐ</span>{" "}
             </p>
-            <div className="d-flex justify-content-center mt-3">
-              <button className="  btn-dkkh">Đăng kí ngay</button>
-            </div>
+
+            {wasBought ? (
+              <div className="d-flex justify-content-center mt-3 gap-2">
+                <Link className="  btn-dkkh" to={`/learn/${courseId}`}>
+                  Học ngay
+                </Link>
+              </div>
+            ) : (
+              <div className="d-flex justify-content-center mt-3 gap-2">
+                <button className="  btn-dkkh">
+                  Đăng kí ngay <FaRegRegistered />
+                </button>
+                <button
+                  className="  btn-dkkh"
+                  onClick={() => handleSubmitAddtoCart(course?.id)}
+                >
+                  Thêm vào giỏ hàng <FaShoppingCart />
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -11,10 +11,27 @@ import { useEffect } from "react";
 import Cookies from "js-cookie";
 import { deleteDetailUser, loginSuccess } from "./redux/userRedux";
 import userApi from "./api/userApi";
+import cartApi from "./api/cartApi";
+import { getListCart } from "./redux/cartRedux";
+import Account from "./pages/Account/Account.page";
 function App() {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user.currentUser);
+  //get list courses in cart
+
+  useEffect(() => {
+    const getListCartAction = async () => {
+      const res = await cartApi.getListCourseInCart(user?.username);
+      if (res.errorCode === "") {
+        dispatch(getListCart(res.data));
+      }
+    };
+    if (user) {
+      getListCartAction();
+    }
+  }, [dispatch, user]);
+
   useEffect(() => {
     const getUser = async () => {
       const token = await Cookies.get("token");
@@ -51,7 +68,16 @@ function App() {
             path="/signup"
             element={user ? <Navigate to="/" /> : <SignUp />}
           />
-          <Route path="/learn/:id" element={<LearnPage />} />
+
+          <Route
+            path="/learn/:id"
+            element={user ? <LearnPage /> : <SignIn />}
+          />
+
+          <Route
+            path="/account/:id"
+            element={user ? <Account /> : <SignIn />}
+          />
         </Routes>
       </BrowserRouter>
     </div>

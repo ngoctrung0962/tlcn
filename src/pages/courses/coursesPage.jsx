@@ -13,24 +13,34 @@ import coursesApi from "../../api/coursesApi";
 
 export default function CoursesPage() {
   const [value, setValue] = useState([0, 0]);
-
+  const [outOfStock, setOutOfStock] = useState(false);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const [listCourses, setListCourses] = useState();
+  const [paginate, setPaginate] = useState({
+    page: 0,
+  });
+
+  const [listCourses, setListCourses] = useState([]);
   useEffect(() => {
     const getListCourses = async () => {
       try {
-        const res = await coursesApi.getAll();
-        console.log(res.data.content);
-        setListCourses(res.data.content);
+        const res = await coursesApi.getAll(paginate.page);
+        if (res.data.content.length > 0) {
+          setListCourses([...listCourses, ...res.data.content]);
+          if (res.data.content.length < 10) {
+            setOutOfStock(true);
+          }
+        } else {
+          setOutOfStock(true);
+        }
       } catch (error) {
         console.log(error);
       }
     };
     getListCourses();
-  }, []);
+  }, [paginate]);
   return (
     <div className="container-fluid">
       <div className="row">
@@ -128,7 +138,17 @@ export default function CoursesPage() {
               })}
             </div>
             <div className="d-flex align-items-center justify-content-center w-100 my-4">
-              <button className="main__btn  text-center">Xem thêm</button>
+              <button
+                className="main__btn  text-center"
+                onClick={() => {
+                  setPaginate({
+                    page: paginate.page + 1,
+                  });
+                }}
+                disabled={outOfStock}
+              >
+                {outOfStock === false ? "Xem thêm" : "Hết khóa học"}
+              </button>
             </div>
           </div>
         </div>

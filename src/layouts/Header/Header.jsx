@@ -3,13 +3,59 @@ import "./Header.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
+import { FaShoppingCart } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import { Badge, Menu, MenuItem } from "@mui/material";
+import { handleDeleteFromCart } from "../../redux/cartRedux";
+import { AiFillEye, AiFillDelete } from "react-icons/ai";
+import { BiHistory } from "react-icons/bi";
+import { useState } from "react";
+import { deleteDetailUser } from "../../redux/userRedux";
+import Cookies from "js-cookie";
+import Swal from "sweetalert2";
+import { Dropdown } from "react-bootstrap";
+
 function Header() {
   useEffect(() => {
     AOS.init({
       duration: 1500,
     });
   }, []);
+
   const { pathname } = useLocation();
+  const { listCart, totalQuantity, totalPrice } = useSelector(
+    (state) => state.cart
+  );
+  const user = useSelector((state) => state.user.currentUser);
+  const dispatch = useDispatch();
+  const handleSubmitDeleteFromCart = async (courseId) => {
+    await handleDeleteFromCart(courseId, user?.username, dispatch);
+  };
+  const [anchorEl, setAnchorEl] = useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    Swal.fire({
+      title: "Bạn chắc chắn muốn đăng xuất?",
+      denyButtonText: "Hủy",
+      showDenyButton: true,
+      confirmButtonText: `Đăng`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await Cookies.remove("token");
+        await Cookies.remove("username");
+        await dispatch(deleteDetailUser());
+        Swal.fire("Đăng xuất thành công!", "", "success");
+      }
+    });
+  };
+
   return (
     <nav
       className="navbar navbar-expand-lg fixed-top position-sticky"
@@ -113,14 +159,72 @@ function Header() {
               />
               <i className="bx bx-search"></i>
             </form>
-            <i
-              className="bx bx-user-circle"
-              data-bs-toggle="offcanvas"
-              href="#offcanvasExample"
-              role="button"
-              aria-controls="offcanvasExample"
-            ></i>
+            {/* <i
+              className="bx bx-user-circle me-3"
+              id="basic-button"
+              aria-controls={open ? "basic-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+              onClick={handleClick}
+              style={{ cursor: "pointer" }}
+            ></i> */}
+            {/* <Menu
+              id="basic-menu"
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem>
+                <Link to={`/account/${user.username}`}>Profile</Link>{" "}
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  handleClose();
+                  handleLogout();
+                }}
+              >
+                Logout
+              </MenuItem>
+            </Menu> */}
 
+            <Dropdown>
+              <Dropdown.Toggle
+                id="dropdown-basic"
+                style={{ backgroundColor: "transparent", border: "none" }}
+              >
+                <i
+                  className="bx bx-user-circle me-3"
+                  style={{ cursor: "pointer" }}
+                ></i>
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="drop__menu">
+                <Dropdown.Item>
+                  <Link to={`/account/${user.username}`}>Profile</Link>{" "}
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() => {
+                    handleClose();
+                    handleLogout();
+                  }}
+                >
+                  Đăng xuất
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+
+            <Badge badgeContent={listCart.length} showZero color="warning">
+              <FaShoppingCart
+                data-bs-toggle="offcanvas"
+                href="#offcanvasExample"
+                role="button"
+                aria-controls="offcanvasExample"
+                color="#ff5336"
+                size={20}
+              />
+            </Badge>
             {/* Show Cart */}
             <div
               className="offcanvas offcanvas-end"
@@ -130,7 +234,7 @@ function Header() {
             >
               <div className="offcanvas-header">
                 <h5 className="offcanvas-title" id="offcanvasExampleLabel">
-                  Your Cart
+                  Giỏ hàng của bạn
                 </h5>
                 <button
                   type="button"
@@ -141,104 +245,44 @@ function Header() {
               </div>
               <div className="offcanvas-body">
                 <div className="container">
-                  <div className="row cart__item">
-                    <div className="col-3">
-                      <img
-                        src="./assets/image/sp5.png"
-                        alt="product"
-                        className="img-fluid cart__item-img"
-                      />
-                    </div>
-                    <div className="col-7">
-                      <div className="cart__item__title">
-                        <h5>Luxury ring</h5>
+                  {listCart?.map((item, index) => (
+                    <div
+                      key={index}
+                      className="row cart__item d-flex justify-content-between align-items-center"
+                    >
+                      <div className="col-3 justify-content-center align-items-center d-flex flex-column">
+                        <img
+                          src={require("../../assets/img/backgroundLogin.gif")}
+                          alt="product"
+                          className="img-fluid cart__item-img"
+                        />
                       </div>
-                      <div className="cart__item__price">
-                        <p>
-                          100$ <span>x 3</span>
-                        </p>
+                      <div className="col-7 justify-content-center  d-flex flex-column">
+                        <div className="cart__item__title">
+                          <h5>{item?.name}</h5>
+                        </div>
+                        <div className="cart__item__price">
+                          <p className="m-0">
+                            {item?.price} <span>VNĐ</span>
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-2 cart__item__delete">
-                      <i className="fa-solid fa-times-circle cart__item-remove" />
-                    </div>
-                  </div>
-                  <div className="row cart__item">
-                    <div className="col-3">
-                      <img
-                        src="./assets/image/sp5.png"
-                        alt="product"
-                        className="img-fluid cart__item-img"
-                      />
-                    </div>
-                    <div className="col-7">
-                      <div className="cart__item__title">
-                        <h5>Luxury ring</h5>
-                      </div>
-                      <div className="cart__item__price">
-                        <p>
-                          100$ <span>x 3</span>
-                        </p>
+                      <div className="col-2 cart__item__delete">
+                        <i
+                          className="bx bx-trash btn__delete__cart"
+                          onClick={() => handleSubmitDeleteFromCart(item?.id)}
+                        ></i>
                       </div>
                     </div>
-                    <div className="col-2 cart__item__delete">
-                      <i className="fa-solid fa-times-circle cart__item-remove" />
-                    </div>
-                  </div>
-                  <div className="row cart__item">
-                    <div className="col-3">
-                      <img
-                        src="./assets/image/sp5.png"
-                        alt="product"
-                        className="img-fluid cart__item-img"
-                      />
-                    </div>
-                    <div className="col-7">
-                      <div className="cart__item__title">
-                        <h5>Luxury ring</h5>
-                      </div>
-                      <div className="cart__item__price">
-                        <p>
-                          100$ <span>x 3</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-2 cart__item__delete">
-                      <i className="fa-solid fa-times-circle cart__item-remove" />
-                    </div>
-                  </div>
-                  <div className="row cart__item">
-                    <div className="col-3">
-                      <img
-                        src="./assets/image/sp5.png"
-                        alt="product"
-                        className="img-fluid cart__item-img"
-                      />
-                    </div>
-                    <div className="col-7">
-                      <div className="cart__item__title">
-                        <h5>Luxury ring</h5>
-                      </div>
-                      <div className="cart__item__price">
-                        <p>
-                          100$ <span>x 3</span>
-                        </p>
-                      </div>
-                    </div>
-                    <div className="col-2 cart__item__delete">
-                      <i className="fa-solid fa-times-circle cart__item-remove" />
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
-              <div className="offcanvas-footer px-3 d-flex justify-content-between align-items-center pb-4">
+              <div className="offcanvas-footer px-3 d-flex justify-content-between align-items-center pb-4 cart__total_price">
                 <p>
-                  Total: <span className="total__price">400$</span>
+                  Tổng cộng:{" "}
+                  <span className="total__price">{totalPrice} VNĐ</span>
                 </p>
-                <button className="btn main-btn">
-                  <i className="fa-solid fa-shopping-cart" />
-                  <span className="ml-2">Check out</span>
-                </button>
+                <button className="main__btn">Check out</button>
               </div>
             </div>
           </div>
