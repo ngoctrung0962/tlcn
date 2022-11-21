@@ -5,11 +5,25 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import { useEffect } from "react";
 import { Rating } from "@mui/material";
+import { useState } from "react";
+import coursesApi from "../../../api/coursesApi";
 export default function HotCourse() {
   useEffect(() => {
     AOS.init({
       duration: 2000,
     });
+  }, []);
+  const [listHotCourse, setListHotCourses] = useState([]);
+  useEffect(() => {
+    const fetchNewwestCourse = async () => {
+      try {
+        const res = await coursesApi.getTop4CoursesHot(4);
+        setListHotCourses(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchNewwestCourse();
   }, []);
   return (
     <div data-aos="fade-up" className="d-flex flex-column mb-5 new__course">
@@ -19,94 +33,47 @@ export default function HotCourse() {
         </h1>
       </div>
       <div className="row d-flex flex-column flex-md-row justify-content-between gap-3 flex-wrap align-items-center">
-        <div
-          data-aos="flip-left"
-          className="card col-12 col-md-4 col-lg-3 py-3 justify-content-center align-items-center card__course-item"
-        >
-          <img
-            src={require("../../../assets/img/CSS3_logo_and_wordmark.svg.png")}
-            className="card-img-top img-fluid"
-            alt="..."
-          />
-          <div className="card-body">
-            <h5 className="card-title">CSS từ Zero đến Hero</h5>
-            <p className="card-text">Giá : 2.000.000 VNĐ</p>
-            <Rating name="read-only" value={5} readOnly />
-            <div className="card__layer">
-              <div>
-                <Link to="/" className="btn btn-primary">
-                  Xem khóa học
-                </Link>
+        {listHotCourse?.map((course) => (
+          <div
+            data-aos="flip-left"
+            key={course.id}
+            className="card col-12 col-md-4 col-lg-3 py-3 d-flex justify-content-center align-items-center card__course-item"
+          >
+            <img
+              src={require("../../../assets/img/CSS3_logo_and_wordmark.svg.png")}
+              className="card-img-top img-fluid mb-2"
+              alt="..."
+            />
+            <h5 className="card-title text-center mb-2">{course.name}</h5>
+            <div className="card-body">
+              <div className="d-flex justify-content-center gap-1 mb-2">
+                <div className="card-language ">
+                  Language: {course ? course.language : ""}
+                </div>
+                <div className="card-language">
+                  Số lượng học sinh: {course ? course.numStudents : ""}
+                </div>
+              </div>
+              <div className="d-flex justify-content-center gap-1">
+                <p className="card-text">
+                  Giá : <span>{course.price} VNĐ</span>
+                </p>
+                <Rating name="read-only" value={5} size="small" readOnly />
+              </div>
+
+              <div className="card__layer">
+                <div>
+                  <Link
+                    to={`/courses/${course.id}`}
+                    className="btn btn-primary"
+                  >
+                    Xem khóa học
+                  </Link>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          data-aos="flip-left"
-          className="card col-12 col-md-4 col-lg-3 py-3 justify-content-center align-items-center card__course-item"
-        >
-          <img
-            src={require("../../../assets/img/CSS3_logo_and_wordmark.svg.png")}
-            className="card-img-top img-fluid"
-            alt="..."
-          />
-          <div className="card-body">
-            <h5 className="card-title">CSS từ Zero đến Hero</h5>
-            <p className="card-text">Giá : 2.000.000 VNĐ</p>
-            <Rating name="read-only" value={5} readOnly />
-            <div className="card__layer">
-              <div>
-                <Link to="/" className="btn btn-primary">
-                  Xem khóa học
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          data-aos="flip-left"
-          className="card col-12 col-md-4 col-lg-3 py-3 justify-content-center align-items-center card__course-item"
-        >
-          <img
-            src={require("../../../assets/img/CSS3_logo_and_wordmark.svg.png")}
-            className="card-img-top img-fluid"
-            alt="..."
-          />
-          <div className="card-body">
-            <h5 className="card-title">CSS từ Zero đến Hero</h5>
-            <p className="card-text">Giá : 2.000.000 VNĐ</p>
-            <Rating name="read-only" value={5} readOnly />
-            <div className="card__layer">
-              <div>
-                <Link to="/" className="btn btn-primary">
-                  Xem khóa học
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div
-          data-aos="flip-left"
-          className="card col-12 col-md-4 col-lg-3 py-3 justify-content-center align-items-center card__course-item"
-        >
-          <img
-            src={require("../../../assets/img/CSS3_logo_and_wordmark.svg.png")}
-            className="card-img-top img-fluid"
-            alt="..."
-          />
-          <div className="card-body">
-            <h5 className="card-title">CSS từ Zero đến Hero</h5>
-            <p className="card-text">Giá : 2.000.000 VNĐ</p>
-            <Rating name="read-only" value={5} readOnly />
-            <div className="card__layer">
-              <div>
-                <Link to="/" className="btn btn-primary">
-                  Xem khóa học
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   );

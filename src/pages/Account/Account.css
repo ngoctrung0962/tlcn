@@ -164,7 +164,7 @@
   padding: 5px 10px;
   background-color: #fdfefe;
 }
-.form-control,
+.form-control:focus,
 .form-select:focus {
   box-shadow: none !important;
 }

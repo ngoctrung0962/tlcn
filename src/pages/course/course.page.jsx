@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleAddtoCart } from "../../redux/cartRedux";
 const CoursePage = (props) => {
   const user = useSelector((state) => state.user.currentUser);
-  const {listCart} = useSelector((state) => state.cart);
+  const { listCart } = useSelector((state) => state.cart);
   const courseId = useLocation().pathname.split("/")[2];
   const [course, setCourse] = useState();
   const [listReviews, setListReviews] = useState();
@@ -126,6 +126,7 @@ const CoursePage = (props) => {
                 title={`Đánh giá (${listReviews ? listReviews.length : "0"})`}
               >
                 <ReviewForm
+                  wasBought={wasBought}
                   listReviews={listReviews}
                   setListReviews={setListReviews}
                   courseId={courseId}

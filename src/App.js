@@ -14,6 +14,12 @@ import userApi from "./api/userApi";
 import cartApi from "./api/cartApi";
 import { getListCart } from "./redux/cartRedux";
 import Account from "./pages/Account/Account.page";
+import SuccessPage from "./pages/ResultPurchar/Success.page";
+import FailPage from "./pages/ResultPurchar/Fail.page";
+import { useState } from "react";
+import ContactPage from "./pages/Contact/Contact.page";
+import ForgotPass from "./pages/auth/ForgotPass/ForgotPass.page";
+
 function App() {
   const dispatch = useDispatch();
 
@@ -52,8 +58,11 @@ function App() {
     };
     getUser();
   }, [dispatch]);
-  window.addEventListener("online", () => console.log("Became online"));
-  window.addEventListener("offline", () => console.log("Became offline"));
+  const [isOnline, setIsOnline] = useState(false);
+
+  window.addEventListener("online", () => setIsOnline(true));
+  window.addEventListener("offline", () => setIsOnline(false));
+  console.log(isOnline);
   return (
     <div className="App">
       <BrowserRouter>
@@ -68,15 +77,14 @@ function App() {
             path="/signup"
             element={user ? <Navigate to="/" /> : <SignUp />}
           />
-
           <Route
-            path="/learn/:id"
-            element={user ? <LearnPage /> : <SignIn />}
+            path="/forgotpass"
+            element={user ? <Navigate to="/" /> : <ForgotPass />}
           />
 
           <Route
-            path="/account/:id"
-            element={user ? <Account /> : <SignIn />}
+            path="/learn/:id"
+            element={!user ? <Navigate to="/signin" /> : <LearnPage />}
           />
         </Routes>
       </BrowserRouter>

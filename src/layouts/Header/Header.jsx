@@ -45,7 +45,7 @@ function Header() {
       title: "Bạn chắc chắn muốn đăng xuất?",
       denyButtonText: "Hủy",
       showDenyButton: true,
-      confirmButtonText: `Đăng`,
+      confirmButtonText: `Đăng xuất`,
     }).then(async (result) => {
       if (result.isConfirmed) {
         await Cookies.remove("token");
@@ -193,11 +193,17 @@ function Header() {
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-basic"
-                style={{ backgroundColor: "transparent", border: "none" }}
+                style={{
+                  backgroundColor: "transparent",
+                  border: "none",
+                  cursor: "pointer",
+                  margin: "0px",
+                  padding: "0px",
+                }}
               >
                 <i
-                  className="bx bx-user-circle me-3"
-                  style={{ cursor: "pointer" }}
+                  className="bx bx-user-circle"
+                  style={{ cursor: "pointer", margin: "0px", padding: "0px" }}
                 ></i>
               </Dropdown.Toggle>
               <Dropdown.Menu className="drop__menu">

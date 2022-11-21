@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import reviewApi from "../../../api/reviewApi";
 import { formatDateDisplay } from "../../../utils/MyUtils";
-
+import { MdOutlineDelete } from "react-icons/md";
 const ReviewForm = (props) => {
   const {
     register,
@@ -18,32 +18,59 @@ const ReviewForm = (props) => {
   } = useForm({});
   const { currentUser } = useSelector((state) => state.user);
   const [rating, setRating] = useState(0);
-  const onSubmit = async (data) => {
-    data.rate = rating;
-    data.courseId = props.courseId;
-    data.username = currentUser.username;
+  const handleDeleteReview = async (reviewId) => {
     try {
-      const res = await reviewApi.add(data);
+      const res = await reviewApi.remove(reviewId);
       if (res.errorCode === "") {
         Swal.fire({
           icon: "success",
-          title: "Đánh giá thành công",
-          text: "Cảm ơn bạn đã đánh giá khóa học",
-          allowOutsideClick: true,
+          title: "Xóa bình luận thành công",
+          showConfirmButton: false,
+          timer: 1500,
         });
-        setValue("content", "");
-        setRating(0);
-        props.setListReviews([...props.listReviews, res.data]);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Đánh giá thất bại",
-          text: "Vui lòng thử lại",
-          allowOutsideClick: true,
-        });
+        props.setListReviews(
+          props.listReviews.filter((item) => item.id !== reviewId)
+        );
       }
     } catch (error) {
       console.log(error);
+    }
+  };
+  const onSubmit = async (data) => {
+    if (props.wasBought) {
+      data.rate = rating;
+      data.courseId = props.courseId;
+      data.username = currentUser.username;
+      try {
+        const res = await reviewApi.add(data);
+        if (res.errorCode === "") {
+          Swal.fire({
+            icon: "success",
+            title: "Đánh giá thành công",
+            text: "Cảm ơn bạn đã đánh giá khóa học",
+            allowOutsideClick: true,
+          });
+          setValue("content", "");
+          setRating(0);
+          props.setListReviews([...props.listReviews, res.data]);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Đánh giá thất bại",
+            text: "Vui lòng thử lại",
+            allowOutsideClick: true,
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      Swal.fire({
+        icon: "error",
+        title: "Đánh giá thất bại",
+        text: "Bạn chưa mua khóa học này",
+        allowOutsideClick: true,
+      });
     }
   };
   return (
@@ -100,22 +127,39 @@ const ReviewForm = (props) => {
       </Form>
 
       {props?.listReviews?.map((item, index) => (
-        <div key={index} className="rating__container ">
-          <div className="rating__item row mx-2 w-100">
-            <div className="col-12 col-md-3 rating__avt d-flex justify-content-center align-items-center">
-              <img alt="avt" src={require("../../../assets/img/member.jpg")} />
-              <div className="d-flex flex-column">
-                <span className="name_user">{item?.username}</span>
-                <div className=" rating__time">
-                  <span>{formatDateDisplay(item?.createDate)}</span>
+        <div key={index}>
+          <div className="rating__container ">
+            <div className="rating__item row mx-2 w-100">
+              <div className="col-12 col-md-3 rating__avt d-flex justify-content-center align-items-center">
+                <img
+                  alt="avt"
+                  src={require("../../../assets/img/member.jpg")}
+                />
+                <div className="d-flex flex-column">
+                  <span className="name_user">{item?.username}</span>
+                  <div className=" rating__time">
+                    <span>{formatDateDisplay(item?.createDate)}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-12 col-md-9 rating__content">
-              <div className="rating__star">
-                <Rating name="read-only" value={Number(item?.rate)} readOnly />
+              <div className="col-12 col-md-9 rating__content">
+                <div className="rating__star">
+                  <Rating
+                    name="read-only"
+                    value={Number(item?.rate)}
+                    readOnly
+                  />
+                </div>
+                <p>{item?.content}</p>{" "}
+                {item?.username === currentUser.username && (
+                  <div
+                    className="rating__delete"
+                    onClick={() => handleDeleteReview(item.id)}
+                  >
+                    <MdOutlineDelete />
+                  </div>
+                )}
               </div>
-              <p>{item?.content}</p>
             </div>
           </div>
         </div>

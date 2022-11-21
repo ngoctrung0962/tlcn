@@ -1,42 +1,36 @@
 import axiosClient from "./axiosClient";
-import axios from "axios";
 
-const coursesApi = {
+const categoriescoursesApi = {
   getAll(params) {
-    const url = `/courses?page=${params}`;
+    const url = `/categories?page=${params}`;
     return axiosClient.get(url);
   },
   // get course by id
   get(id) {
-    const url = `/course/${id}`;
+    const url = `/categories/${id}`;
     return axiosClient.get(url);
   },
   add(data) {
-    const url = `/course/add`;
+    const url = `/category/add`;
     return axiosClient.post(url, data);
   },
 
-  update(data) {
-    const url = `/products/${data.id}`;
-    return axiosClient.patch(url, data);
+  update(categoryId,data) {
+    const url = `/category/update/${categoryId}`;
+    return axiosClient.put(url, data);
   },
 
   remove(id) {
-    const url = `/products/${id}`;
+    const url = `/category/delete/${id}`;
     return axiosClient.delete(url);
   },
-  checkisPurchaseCourse(courseId, username) {
-    const url = `/isPurchaseCourse/${username}/${courseId}`;
+  getproductbybrandId(brandId, quantity) {
+    const url = `/products/brand/${brandId}/${quantity}`;
     return axiosClient.get(url);
   },
   //get top 8 products newest
-  //get top 4 courses newest
-  getTop4CoursesNewest(limit) {
-    const url = `/courses/newest?limit=${limit}`;
-    return axiosClient.get(url);
-  },
-  getTop4CoursesHot(limit) {
-    const url = `/courses/topNumStudents?limit=${limit}`;
+  getTop8ProductsNewest() {
+    const url = `/products/newest/8`;
     return axiosClient.get(url);
   },
   //get min price
@@ -66,4 +60,4 @@ const coursesApi = {
   },
 };
 
-export default coursesApi;
+export default categoriescoursesApi;

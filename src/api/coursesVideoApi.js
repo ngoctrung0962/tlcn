@@ -29,9 +29,9 @@ const coursesVideoApi = {
     const url = `/isPurchaseCourse/${username}/${courseId}`;
     return axiosClient.get(url);
   },
-  //get top 8 products newest
-  getTop8ProductsNewest() {
-    const url = `/products/newest/8`;
+  //get top 4 courses newest
+  getTop4CoursesNewest(limit) {
+    const url = `/courses/newest?limit=${limit}`;
     return axiosClient.get(url);
   },
   //get min price

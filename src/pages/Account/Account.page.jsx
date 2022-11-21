@@ -1,10 +1,14 @@
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { BiLogOut } from "react-icons/bi";
 import { BsArrowLeftShort } from "react-icons/bs";
 
 import { MdDownload } from "react-icons/md";
+import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import Swal from "sweetalert2";
 import userApi from "../../api/userApi";
+import { deleteDetailUser } from "../../redux/userRedux";
 import "./Account.css";
 import AccountChangePass from "./components/AccountChangePass";
 import AccountHistoryPurchase from "./components/AccountHistoryPurchase";
@@ -25,6 +29,23 @@ const Account = () => {
     };
     fetchUser();
   }, [username]);
+
+  const dispatch = useDispatch();
+  const handleLogout = async () => {
+    Swal.fire({
+      title: "Bạn chắc chắn muốn đăng xuất?",
+      denyButtonText: "Hủy",
+      showDenyButton: true,
+      confirmButtonText: `Đăng xuất`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await Cookies.remove("token");
+        await Cookies.remove("username");
+        await dispatch(deleteDetailUser());
+        Swal.fire("Đăng xuất thành công!", "", "success");
+      }
+    });
+  };
   return (
     <div className="account">
       <header className="account__header position-sticky top-0">
@@ -62,7 +83,7 @@ const Account = () => {
                 </p>
               </div>
               <div className="account__left__button">
-                <button className="">
+                <button className="" onClick={handleLogout}>
                   <BiLogOut className="me-2" /> Đăng xuất
                 </button>
                 <button className="">

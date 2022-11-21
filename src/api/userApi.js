@@ -26,8 +26,8 @@ const userApi = {
     const url = `/login`;
     return axiosClient.post(url, data);
   },
-  changepassword(username, data) {
-    const url = `/change-password/${username}`;
+  changepassword(data) {
+    const url = `/account/changePassword`;
     return axiosClient.post(url, data);
   },
   forgotPassword(username, email) {

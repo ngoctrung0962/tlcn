@@ -16,9 +16,7 @@ export default function SignIn() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm(
-    
-  );
+  } = useForm();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
@@ -37,7 +35,7 @@ export default function SignIn() {
             icon: "success",
             iconHtml: "👍",
             title: "Đăng nhập thành công",
-            text: "Chào mừng bạn đến với trang quản lý của chúng tôi",
+            text: "Chào mừng bạn đến với trang web của chúng tôi",
           });
           navigate("/");
         }
@@ -102,13 +100,14 @@ export default function SignIn() {
                 <Link className="link_to_signup" to="/signup">
                   Bạn chưa có tài khoản? Đăng kí ngay
                 </Link>
-                <Link className="link_to_signup" to="/signup">
+                <Link className="link_to_signup" to="/forgotpass">
                   Quên mật khẩu
                 </Link>
               </div>
               <Button
                 className="btn_login mt-3"
                 variant="outlined"
+                type="submit"
                 onClick={handleSubmit(onSubmit)}
               >
                 Đăng nhập
@@ -116,11 +115,13 @@ export default function SignIn() {
             </Form>
           </div>
           <div className="col-12 col-md-6 d-none d-md-block ">
-            <img
-              className="img-fluid"
-              src={require("../../../assets/img/65012-learning-concept.gif")}
-              alt=""
-            />
+            <lottie-player
+              src="https://assets3.lottiefiles.com/private_files/lf30_sxw84pnl.json"
+              background="transparent"
+              speed="1"
+              loop
+              autoplay
+            ></lottie-player>
           </div>
         </div>
       </div>

@@ -14,9 +14,9 @@ const reviewApi = {
     const url = `/reviews/course/${id}`;
     return axiosClient.get(url);
   },
-  add( data) {
+  add(data) {
     const url = `/review/add`;
-    return axiosClient.post(url,data);
+    return axiosClient.post(url, data);
   },
 
   update(data, id, username) {
@@ -24,8 +24,8 @@ const reviewApi = {
     return axiosClient.put(url, data);
   },
 
-  remove(username, id) {
-    const url = `/reviews/${username}/${id}`;
+  remove(id) {
+    const url = `/review/delete/${id}`;
     return axiosClient.delete(url);
   },
   getreviewbyproductId(productId) {

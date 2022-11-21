@@ -14,12 +14,10 @@ import coursesVideoApi from "../../api/coursesVideoApi";
 
 const LearnPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  console.log(searchParams.get("id"));
   const location = useLocation();
   const courseId = location.pathname.split("/")[2];
   const [listVideo, setListVideo] = useState([]);
   const currentVideoId = listVideo[2]?.id;
-  console.log("listVideo", listVideo);
   //Get video course by courseId
   useEffect(() => {
     const getVideoCourse = async () => {
@@ -43,11 +41,9 @@ const LearnPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [srcVideo, setSrcVideo] = useState(
-    "https://toannpt-onlinecourses.s3.amazonaws.com/trung-C_02-Introduce%20Spring%20boot-1"
-  );
+  const [srcVideo, setSrcVideo] = useState();
   const nav = useNavigate();
-  const [title, setTitle] = useState("Learn ReactJS");
+  const [title, setTitle] = useState("");
   const [des, setDes] = useState("");
 
   // Kiểm tra khóa học đã được đăng ký hay chưa
@@ -68,6 +64,36 @@ const LearnPage = () => {
     };
     checkRegistered();
   }, [courseId, user?.username]);
+
+  //Get video by videoId
+  useEffect(() => {
+    const getVideo = async () => {
+      try {
+        const res = await coursesVideoApi.getById(searchParams.get("id"));
+        setSrcVideo(res.data.video);
+        setTitle(res.data.title);
+        setDes(res.data.description);
+        console.log("A");
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getVideo();
+  }, [searchParams.get("id")]);
+  //Handle next video
+  const handleNextVideo = () => {
+    const nextVideo = listVideo.find((item) => item.id > currentVideoId);
+    if (nextVideo) {
+      nav(`/learn/${courseId}?id=${nextVideo.id}`);
+    }
+  };
+  //Handle prev video
+  const handlePrevVideo = () => {
+    const prevVideo = listVideo.find((item) => item.id < currentVideoId);
+    if (prevVideo) {
+      nav(`/learn/${courseId}?id=${prevVideo.id}`);
+    }
+  };
   return wasBought ? (
     <div>
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
@@ -171,12 +197,12 @@ const LearnPage = () => {
       </div>
       <div className="row footer__tool d-flex flex-row justify-content-center align-items-center fixed-bottom">
         <div className="tool__container d-flex flex-row justify-content-center align-items-center gap-4 my-2">
-          <span>
+          <span onClick={handleNextVideo}>
             <MdKeyboardArrowLeft size={30} color={"#e6c511"} />
             Bài học trước
           </span>
 
-          <span>
+          <span onClick={handlePrevVideo}>
             Bài học kế tiếp
             <MdKeyboardArrowRight size={30} color={"#e6c511"} />
           </span>
