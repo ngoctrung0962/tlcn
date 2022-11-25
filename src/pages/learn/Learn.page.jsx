@@ -41,7 +41,9 @@ const LearnPage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const [srcVideo, setSrcVideo] = useState();
+  const [srcVideo, setSrcVideo] = useState(
+    "https://toannpt-onlinecourses.s3.amazonaws.com/toanpt-C_01-Introduce%20Spring%20boot-How%20to%20learn%20Spring%20Boot%20fast%20and%20deep%3F"
+  );
   const nav = useNavigate();
   const [title, setTitle] = useState("");
   const [des, setDes] = useState("");
@@ -50,6 +52,7 @@ const LearnPage = () => {
   const user = useSelector((state) => state.user.currentUser);
 
   const [wasBought, setWasBought] = useState(false);
+  const [isPublicCourse, setIsPublicCourse] = useState(false);
   useEffect(() => {
     const checkRegistered = async () => {
       try {
@@ -57,6 +60,9 @@ const LearnPage = () => {
           courseId,
           user?.username
         );
+        const resCourse = await coursesApi.get(courseId);
+        console.log(resCourse, "hahahah");
+        setIsPublicCourse(resCourse.data?.public);
         setWasBought(res.data);
       } catch (error) {
         console.log(error);
@@ -94,7 +100,7 @@ const LearnPage = () => {
       nav(`/learn/${courseId}?id=${prevVideo.id}`);
     }
   };
-  return wasBought ? (
+  return wasBought || isPublicCourse ? (
     <div>
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
         <div className="tool__container d-flex flex-row justify-content-between align-items-center gap-4 my-2">
@@ -108,7 +114,7 @@ const LearnPage = () => {
               <MdKeyboardArrowLeft
                 cursor="pointer"
                 size={30}
-                color={"#ff3f3f"}
+                color={"#005fb7"}
               />
               <img
                 src={require("../../assets/img/112-book-morph-outline.gif")}
@@ -118,7 +124,7 @@ const LearnPage = () => {
               />
               <span
                 style={{
-                  color: "#ff3f3f",
+                  color: "#005fb7",
                   fontSize: "14px",
                   fontWeight: "bold",
                 }}

@@ -26,7 +26,7 @@ const MainRoute = () => {
       <Route path="*" element={<>Not Found</>} />
 
 
-      <Route path="/account/:id" element={<Account />} />
+     
 
       <Route path="/purcharse/success" element={<SuccessPage />} />
       <Route path="/purcharse/fail" element={<FailPage />} />

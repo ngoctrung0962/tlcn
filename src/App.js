@@ -19,10 +19,12 @@ import FailPage from "./pages/ResultPurchar/Fail.page";
 import { useState } from "react";
 import ContactPage from "./pages/Contact/Contact.page";
 import ForgotPass from "./pages/auth/ForgotPass/ForgotPass.page";
+import MyLearning from "./pages/MyLearning/MyLearning.page";
+import Loading from "./components/Loading/Loading";
 
 function App() {
   const dispatch = useDispatch();
-
+  const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user.currentUser);
   //get list courses in cart
 
@@ -39,6 +41,7 @@ function App() {
   }, [dispatch, user]);
 
   useEffect(() => {
+    setLoading(true);
     const getUser = async () => {
       const token = await Cookies.get("token");
       const username = await Cookies.get("username");
@@ -55,14 +58,15 @@ function App() {
       } catch (err) {
         console.log(err);
       }
+      setLoading(false);
     };
     getUser();
   }, [dispatch]);
-  const [isOnline, setIsOnline] = useState(false);
 
-  window.addEventListener("online", () => setIsOnline(true));
-  window.addEventListener("offline", () => setIsOnline(false));
-  console.log(isOnline);
+  if (loading) {
+    return <Loading />;
+  }
+
   return (
     <div className="App">
       <BrowserRouter>
@@ -81,7 +85,14 @@ function App() {
             path="/forgotpass"
             element={user ? <Navigate to="/" /> : <ForgotPass />}
           />
-
+          <Route
+            path="/account/:id"
+            element={user ? <Account /> : <SignIn />}
+          />
+          <Route
+            path="/mylearning/:id"
+            element={user ? <MyLearning /> : <SignIn />}
+          />
           <Route
             path="/learn/:id"
             element={!user ? <Navigate to="/signin" /> : <LearnPage />}

@@ -57,13 +57,6 @@ export default function SignIn() {
       <div className="row m-0 signin__page d-flex justify-content-center align-items-center">
         <div className="col-12 signin__page-inner d-flex  justify-content-center align-items-center">
           <div className="col-12 col-md-6 d-flex  flex-column justify-content-center align-items-center">
-            <img
-              src={require("../../../assets/img/logo.gif")}
-              width={"auto"}
-              height={100}
-              alt=""
-              className="mb-2"
-            />
             <h1 className="login__title mb-5 text-center">ĐĂNG NHẬP</h1>
             <Form
               onSubmit={handleSubmit(onSubmit)}

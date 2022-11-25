@@ -33,42 +33,54 @@ export default function NewCourse() {
         </h1>
       </div>
       <div className="row d-flex flex-column flex-md-row justify-content-between gap-3 flex-wrap align-items-center">
-        {listnewWestCourse?.map((course) => (
+        {listnewWestCourse?.map((item) => (
           <div
             data-aos="flip-left"
-            key={course.id}
-            className="card col-12 col-md-4 col-lg-3 py-3 d-flex justify-content-center align-items-center card__course-item"
+            key={item.id}
+            className="card col-12 col-md-5 py-3 d-flex flex-md-row flex-column  align-items-center card__course-item"
           >
             <img
-              src={require("../../../assets/img/CSS3_logo_and_wordmark.svg.png")}
+              src={
+                item.avatar
+                  ? item.avatar
+                  : require("../../../assets/img/no-image-1771002-1505134.png")
+              }
               className="card-img-top img-fluid mb-2"
               alt="..."
             />
-            <h5 className="card-title text-center mb-2">{course.name}</h5>
-            <div className="card-body">
-              <div className="d-flex justify-content-center gap-1 mb-2">
-                <div className="card-language ">
-                  Language: {course ? course.language : ""}
+            <div>
+              <div className="card-body">
+                <h5 className="card-title mb-2">{item.name}</h5>
+                <div className="d-flex flex-wrap  gap-1 mb-2">
+                  <div className="card-language ">
+                    Language: {item ? item.language : ""}
+                  </div>
+                  <div className="card-language">
+                    Số lượng học sinh: {item ? item.numStudents : ""}
+                  </div>
                 </div>
-                <div className="card-language">
-                  Số lượng học sinh: {course ? course.numStudents : ""}
+                <div className="d-flex gap-1 align-items-center">
+                  <p className="card-text m-0">
+                    Giá :{" "}
+                    <span>
+                      {item.price.toLocaleString("vi", {
+                        currency: "VND",
+                      })}{" "}
+                      VNĐ
+                    </span>
+                  </p>
+                  <Rating name="read-only" value={5} size="small" readOnly />
                 </div>
-              </div>
-              <div className="d-flex justify-content-center gap-1">
-                <p className="card-text">
-                  Giá : <span>{course.price} VNĐ</span>
-                </p>
-                <Rating name="read-only" value={5} size="small" readOnly />
-              </div>
 
-              <div className="card__layer">
-                <div>
-                  <Link
-                    to={`/courses/${course.id}`}
-                    className="btn btn-primary"
-                  >
-                    Xem khóa học
-                  </Link>
+                <div className="card__layer">
+                  <div>
+                    <Link
+                      to={`/courses/${item.id}`}
+                      className="btn btn-primary"
+                    >
+                      Xem khóa học
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

@@ -14,7 +14,7 @@ export default function Footer() {
                   className="mb-4 footer__logo"
                   style={{ color: "#2d3748", fontSize: "30px" }}
                 >
-                  <span style={{ color: "#ff3f3f", fontSize: "30px" }}>Le</span>
+                  <span style={{ color: "#005fb7", fontSize: "30px" }}>Le</span>
                   gacy
                 </h5>
               </Link>
@@ -56,23 +56,23 @@ export default function Footer() {
             </div>
           </div>
           <div className="d-flex flex-column flex-sm-row justify-content-between pt-4 my-1 border-top">
-            <p style={{ color: "#ff3f3f" }}>
+            <p style={{ color: "#005fb7" }}>
               © 2022 Company, Inc. All rights reserved.
             </p>
             <ul className="list-unstyled d-flex">
               <li className="ms-3">
                 <Link className="link-dark" to="/">
-                  <BsInstagram style={{ fontSize: "30px", color: "#ff3f3f" }} />
+                  <BsInstagram style={{ fontSize: "30px", color: "#005fb7" }} />
                 </Link>
               </li>
               <li className="ms-3">
                 <Link className="link-dark" to="/">
-                  <BsYoutube style={{ fontSize: "30px", color: "#ff3f3f" }} />
+                  <BsYoutube style={{ fontSize: "30px", color: "#005fb7" }} />
                 </Link>
               </li>
               <li className="ms-3">
                 <Link className="link-dark" to="/">
-                  <BsFacebook style={{ fontSize: "30px", color: "#ff3f3f" }} />
+                  <BsFacebook style={{ fontSize: "30px", color: "#005fb7" }} />
                 </Link>
               </li>
             </ul>

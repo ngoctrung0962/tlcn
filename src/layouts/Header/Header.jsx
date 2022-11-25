@@ -63,17 +63,17 @@ function Header() {
     >
       <div className="container align-items-center">
         <Link
-          data-aos="flip-right"
           className="navbar-brand  justify-content-center align-items-center d-flex"
           to="/"
         >
-          <img
+          {/* <img
             src={require("../../assets/img/112-book-morph-outline.gif")}
             width={"auto"}
             height={40}
             alt=""
-          />
-          <span style={{ color: "#ff5336" }}>Le</span>gacy
+          /> */}
+          <div style={{ height: "40px" }}></div>
+          <span style={{ color: "#005fb7" }}>Le</span>gacy
         </Link>
 
         <button
@@ -210,6 +210,11 @@ function Header() {
                 <Dropdown.Item>
                   <Link to={`/account/${user.username}`}>Profile</Link>{" "}
                 </Dropdown.Item>
+                <Dropdown.Item>
+                  <Link to={`/mylearning/${user.username}`}>
+                    Khóa học của tôi
+                  </Link>
+                </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() => {
                     handleClose();
@@ -227,7 +232,7 @@ function Header() {
                 href="#offcanvasExample"
                 role="button"
                 aria-controls="offcanvasExample"
-                color="#ff5336"
+                color="#005fb7"
                 size={20}
               />
             </Badge>

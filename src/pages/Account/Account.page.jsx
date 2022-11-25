@@ -13,6 +13,7 @@ import "./Account.css";
 import AccountChangePass from "./components/AccountChangePass";
 import AccountHistoryPurchase from "./components/AccountHistoryPurchase";
 import AccountInfo from "./components/AccountInfo";
+import ModalRequestBecomeTeacher from "./components/ModalRequestBecomeTeacher";
 const Account = () => {
   const username = useLocation().pathname.split("/")[2];
   const [userDetail, setUserDetail] = useState();
@@ -46,8 +47,16 @@ const Account = () => {
       }
     });
   };
+  const [showModalRequestBecomeTeacher, setShowModalRequestBecomeTeacher] =
+    useState(false);
   return (
     <div className="account">
+      {showModalRequestBecomeTeacher && (
+        <ModalRequestBecomeTeacher
+          show={showModalRequestBecomeTeacher}
+          onHide={() => setShowModalRequestBecomeTeacher(false)}
+        />
+      )}
       <header className="account__header position-sticky top-0">
         <div className="account__header__container container-fluid d-flex justify-content-between">
           <Link to="/">
@@ -86,7 +95,12 @@ const Account = () => {
                 <button className="" onClick={handleLogout}>
                   <BiLogOut className="me-2" /> Đăng xuất
                 </button>
-                <button className="">
+                <button
+                  className=""
+                  onClick={() => {
+                    setShowModalRequestBecomeTeacher(true);
+                  }}
+                >
                   <MdDownload className="me-2" /> Yêu cầu trở thành giảng viên
                 </button>
               </div>

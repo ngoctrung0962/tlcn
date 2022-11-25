@@ -41,10 +41,11 @@ export default function CoursesPage() {
     };
     getListCourses();
   }, [paginate]);
+  console.log(listCourses);
   return (
     <div className="container-fluid">
       <div className="row">
-        <div className="col-12 col-lg-2">
+        <div className="col-12 col-lg-2 ">
           <div
             style={{ height: "500px" }}
             className="filter__courses  mx-1 my-3"
@@ -87,49 +88,62 @@ export default function CoursesPage() {
             style={{ minHeight: "500px" }}
             className="courses__container mx-1 my-3 "
           >
-            <div className="  d-flex justify-content-evenly flex-wrap gap-5 align-items-center w-100">
+            <div className="  d-flex justify-content-evenly flex-wrap  align-items-center ">
               {listCourses?.map((item) => {
                 return (
                   <div
                     data-aos="flip-left"
                     key={item.id}
-                    className="card col-12 col-md-4 col-lg-3 py-3 d-flex justify-content-center align-items-center card__course-item"
+                    className="card col-12 col-md-5 py-3 d-flex flex-md-row flex-column  align-items-center card__course-item"
                   >
                     <img
-                      src={require("../../assets/img/CSS3_logo_and_wordmark.svg.png")}
+                      src={
+                        item.avatar
+                          ? item.avatar
+                          : require("../../assets/img/no-image-1771002-1505134.png")
+                      }
                       className="card-img-top img-fluid mb-2"
                       alt="..."
                     />
-                    <h5 className="card-title text-center mb-2">{item.name}</h5>
-                    <div className="card-body">
-                      <div className="d-flex justify-content-center gap-1 mb-2">
-                        <div className="card-language ">
-                          Language: {item ? item.language : ""}
+                    <div>
+                      <div className="card-body">
+                        <h5 className="card-title mb-2">{item.name}</h5>
+                        <div className="d-flex flex-wrap  gap-1 mb-2">
+                          <div className="card-language ">
+                            Language: {item ? item.language : ""}
+                          </div>
+                          <div className="card-language">
+                            Số lượng học sinh: {item ? item.numStudents : ""}
+                          </div>
                         </div>
-                        <div className="card-language">
-                          Số lượng học sinh: {item ? item.numStudents : ""}
+                        <div className="d-flex gap-1 align-items-center">
+                          <p className="card-text m-0">
+                            Giá :{" "}
+                            <span>
+                              {item.price === 0
+                                ? "Miễn phí"
+                                : item.price.toLocaleString("vi", {
+                                    currency: "VND",
+                                  }) + " VND"}
+                            </span>
+                          </p>
+                          <Rating
+                            name="read-only"
+                            value={5}
+                            size="small"
+                            readOnly
+                          />
                         </div>
-                      </div>
-                      <div className="d-flex justify-content-center gap-1">
-                        <p className="card-text">
-                          Giá : <span>{item.price} VNĐ</span>
-                        </p>
-                        <Rating
-                          name="read-only"
-                          value={5}
-                          size="small"
-                          readOnly
-                        />
-                      </div>
 
-                      <div className="card__layer">
-                        <div>
-                          <Link
-                            to={`/courses/${item.id}`}
-                            className="btn btn-primary"
-                          >
-                            Xem khóa học
-                          </Link>
+                        <div className="card__layer">
+                          <div>
+                            <Link
+                              to={`/courses/${item.id}`}
+                              className="btn btn-primary"
+                            >
+                              Xem khóa học
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     </div>

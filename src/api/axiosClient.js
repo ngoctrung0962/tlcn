@@ -3,9 +3,6 @@ import Cookies from "js-cookie";
 
 const axiosClient = axios.create({
   baseURL: "http://localhost:8080/api/v1",
-  headers: {
-    "Content-type": "application/json",
-  },
 });
 
 // Add a request interceptor
@@ -13,10 +10,9 @@ axiosClient.interceptors.request.use(
   function (config) {
     // Do something before request is sent
     const token = Cookies.get("token");
-    config.headers = {
-      ...config.headers,
-      Authorization: `Bearer ${token}`,
-    };
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
     return config;
   },
   function (error) {

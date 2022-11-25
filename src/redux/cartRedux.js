@@ -13,15 +13,14 @@ const cartSlice = createSlice({
   reducers: {
     getListCart: (state, action) => {
       state.listCart = action.payload.cartDetailList;
-
       state.totalPrice = action.payload.totalPrice;
     },
     deleteCart: (state, action) => {
-      console.log(action.payload);
       state.listCart = state.listCart.filter(
-        (item) => item.id !== action.payload
+        (item) => item.id !== action.payload.id
       );
       state.totalQuantity = state.totalQuantity - 1;
+      state.totalPrice = state.totalPrice - action.payload.price;
     },
     insertCart: (state, action) => {
       state.listCart.push(action.payload);
@@ -42,8 +41,8 @@ export const handleAddtoCart = async (
   if (checkCart) {
     Swal.fire({
       icon: "error",
-      title: "Oops...",
-      text: "This course is already in your cart!",
+      title: "Khóa học này đã có ở giỏ hàng",
+      text: "",
     });
   } else {
     const res = await cartApi.AddToCartAction(courseId, username);
@@ -72,8 +71,9 @@ export const handleDeleteFromCart = async (
   dispatch
 ) => {
   const res = await cartApi.DeleteFormCart(cartDetailId, username);
+
   if (res.errorCode === "") {
-    dispatch(deleteCart(res.data.id));
+    dispatch(deleteCart(res.data));
     Swal.fire({
       icon: "success",
       title: "Xóa khỏi giỏ hàng thành công",

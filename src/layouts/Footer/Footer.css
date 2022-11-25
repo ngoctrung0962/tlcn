@@ -1,7 +1,7 @@
 @import url(../../App.css);
 .footer {
   background-color: #fff;
-  color: var(--orange);
+  color: var(--blue);
   font-weight: 900;
   position: relative;
   bottom: 0;

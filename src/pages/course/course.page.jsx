@@ -11,6 +11,7 @@ import ReviewForm from "./reviewForm/reviewForm";
 import { FaShoppingCart, FaRegRegistered } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddtoCart } from "../../redux/cartRedux";
+import { formatVND } from "../../utils/MyUtils";
 const CoursePage = (props) => {
   const user = useSelector((state) => state.user.currentUser);
   const { listCart } = useSelector((state) => state.cart);
@@ -71,11 +72,21 @@ const CoursePage = (props) => {
                   Đang có {course ? course.numStudents : ""} học viên tham gia
                 </p>
               </div>
-              <img
+              <div className="course__img">
+                <lottie-player
+                  src="https://assets2.lottiefiles.com/packages/lf20_fq7pwzey.json"
+                  background="transparent"
+                  speed="1"
+                  loop
+                  autoplay
+                ></lottie-player>
+              </div>
+
+              {/* <img
                 className="img-fluid course__img"
                 src={require("../../assets/img/course.webp")}
                 alt=""
-              />
+              /> */}
             </div>
             <div className="course__left__image "></div>
           </div>
@@ -167,10 +178,16 @@ const CoursePage = (props) => {
             />
 
             <p className="text-center mt-3 course__price">
-              <span> Chỉ</span> {course ? course.price : ""} <span>VNĐ</span>{" "}
+              <span> Chỉ</span>{" "}
+              {course
+                ? course.price.toLocaleString("vi", {
+                    currency: "VND",
+                  })
+                : ""}{" "}
+              <span>VNĐ</span>{" "}
             </p>
 
-            {wasBought ? (
+            {wasBought || course?.public === true ? (
               <div className="d-flex justify-content-center mt-3 gap-2">
                 <Link className="  btn-dkkh" to={`/learn/${courseId}`}>
                   Học ngay

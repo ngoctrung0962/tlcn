@@ -1,7 +1,7 @@
 .carousel {
   border-radius: 16px;
   overflow: hidden;
-  border: 3px solid #ff5336;
+  border: 3px solid #005fb7;
 }
 /* .carousel-item img {
 }
@@ -32,17 +32,17 @@
 .carousel-control-prev i {
   position: absolute;
   left: 0;
-  background-color: #ff3f3f;
+  background-color: #005fb7;
   color: #fff;
 }
 .carousel-control-next i {
   position: absolute;
   right: 0;
-  background-color: #ff3f3f;
+  background-color: #005fb7;
   color: #fff;
 }
 .banner__link {
-  background-color: #ff5336 !important;
+  background-color: #005fb7 !important;
   font-size: 13px;
   color: #fff;
   border-radius: 30px;
@@ -51,7 +51,7 @@
   font-weight: 600;
   background-color: transparent;
   max-width: 300px;
-  border: 2px solid #ff5336;
+  border: 2px solid #005fb7;
   box-shadow: 0 2px 12px 0 rgba(217, 106, 38, 0.28);
 }
 .banner__link:hover {
@@ -59,7 +59,7 @@
   transition: 0.4s;
   transform: scale(1.1);
   background-color: #fff !important;
-  color: #ff5336 !important;
+  color: #005fb7 !important;
   transition: 0.4s;
 }
 .carousel-inner button {
