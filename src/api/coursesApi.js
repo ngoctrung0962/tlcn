@@ -16,15 +16,7 @@ const coursesApi = {
     return axiosClient.post(url, data);
   },
 
-  update(data) {
-    const url = `/products/${data.id}`;
-    return axiosClient.patch(url, data);
-  },
-
-  remove(id) {
-    const url = `/products/${id}`;
-    return axiosClient.delete(url);
-  },
+  
   checkisPurchaseCourse(courseId, username) {
     const url = `/isPurchaseCourse/${username}/${courseId}`;
     return axiosClient.get(url);
@@ -39,31 +31,14 @@ const coursesApi = {
     const url = `/courses/topNumStudents?limit=${limit}`;
     return axiosClient.get(url);
   },
-  //get min price
-  getMinPrice() {
-    const url = `/products/price/min`;
-    return axiosClient.get(url);
+  searchCourse(data,page) {
+    const url = `/courses/search?page=${page}`;
+    return axiosClient.post(url, data);
   },
-  //get max price
-  getMaxPrice() {
-    const url = `/products/price/max`;
+  getlistpurchased(username) {
+    const url = `listPurchasedCourses/${username}`;
     return axiosClient.get(url);
-  },
-  //get top seller
-  getTopSeller() {
-    const url = `/products/topseller`;
-    return axiosClient.get(url);
-  },
-  //get top featured
-  getTopFeatured() {
-    const url = `/products/topfeature`;
-    return axiosClient.get(url);
-  },
-  //get hot trend
-  getHotTrend() {
-    const url = `/products/hottrend`;
-    return axiosClient.get(url);
-  },
+  }
 };
 
 export default coursesApi;

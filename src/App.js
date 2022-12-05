@@ -1,6 +1,12 @@
 import "./App.css";
 import React from "react";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 
 import CustomLayout from "./CustomLayout/CustomLayout";
 import SignIn from "./pages/auth/signin/SignIn.page";
@@ -63,42 +69,43 @@ function App() {
     getUser();
   }, [dispatch]);
 
+  // Bắt sự kiện đổi route
+  const location = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location.pathname]);
+
   if (loading) {
     return <Loading />;
   }
 
   return (
     <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/*" element={user ? <CustomLayout /> : <SignIn />} />
+      <Routes>
+        <Route path="/*" exact element={user ? <CustomLayout /> : <SignIn />} />
 
-          <Route
-            path="/signin"
-            element={user ? <Navigate to="/" /> : <SignIn />}
-          />
-          <Route
-            path="/signup"
-            element={user ? <Navigate to="/" /> : <SignUp />}
-          />
-          <Route
-            path="/forgotpass"
-            element={user ? <Navigate to="/" /> : <ForgotPass />}
-          />
-          <Route
-            path="/account/:id"
-            element={user ? <Account /> : <SignIn />}
-          />
-          <Route
-            path="/mylearning/:id"
-            element={user ? <MyLearning /> : <SignIn />}
-          />
-          <Route
-            path="/learn/:id"
-            element={!user ? <Navigate to="/signin" /> : <LearnPage />}
-          />
-        </Routes>
-      </BrowserRouter>
+        <Route
+          path="/signin"
+          element={user ? <Navigate to="/" /> : <SignIn />}
+        />
+        <Route
+          path="/signup"
+          element={user ? <Navigate to="/" /> : <SignUp />}
+        />
+        <Route
+          path="/forgotpass"
+          element={user ? <Navigate to="/" /> : <ForgotPass />}
+        />
+        <Route path="/account/:id" element={user ? <Account /> : <SignIn />} />
+        <Route
+          path="/mylearning/:id"
+          element={user ? <MyLearning /> : <SignIn />}
+        />
+        <Route
+          path="/learn/:id"
+          element={!user ? <Navigate to="/signin" /> : <LearnPage />}
+        />
+      </Routes>
     </div>
   );
 }

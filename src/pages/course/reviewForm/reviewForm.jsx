@@ -75,7 +75,7 @@ const ReviewForm = (props) => {
   };
   return (
     <div className="course__content__item">
-      <h4 className="course__content__title">Đánh giá (3)</h4>
+      <h4 className="course__content__title p-2">Đánh giá </h4>
 
       <Form
         className=" my-5 form__rating mx-4 "

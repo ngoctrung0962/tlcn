@@ -494,6 +494,7 @@ a {
   margin-bottom: 30px;
 }
 .card__course-item {
+  overflow: hidden;
   margin: 10px;
   border-radius: 10px;
   border: none;
@@ -530,10 +531,7 @@ a {
   transition: 0.3s;
 }
 .card__layer:hover {
-  background-image: linear-gradient(
-    rgba(98, 102, 232, 0.725),
-    rgba(228, 219, 219, 0.741)
-  );
+  background-image: linear-gradient(rgba(228, 219, 219, 0.741), #005fb7);
   cursor: pointer;
 }
 .card__layer a {
@@ -581,7 +579,7 @@ a {
 }
 .card-language {
   font-size: 10px;
-  font-weight: 500;
+  font-weight: 700;
   color: #191919;
   margin-bottom: 10px;
 }
@@ -591,12 +589,13 @@ a {
 }
 .card-language,
 .card__star {
-  border-radius: 40px;
-  background-color: #fff;
+  border-radius: 30px;
+  background-color: #005fb7;
   border: 1px solid #eee;
-  padding: 10px;
+  padding: 7px;
   white-space: nowrap;
   box-shadow: 0 2px 8px 0 rgb(20 20 43 / 6%);
+  color: #fff;
 }
 .card__star {
   margin-bottom: 10px;
@@ -789,6 +788,7 @@ a {
   letter-spacing: 1px;
 }
 .filter__courses {
+  height: auto;
   background: #fff;
   padding: 30px 20px;
   width: 100%;
@@ -797,18 +797,21 @@ a {
   position: sticky;
   top: 100px;
   left: 0;
+  overflow: hidden;
+  transition: 0.4s;
+}
+.filter__courses.show-full {
+  height: 100%;
 }
 .mylearning .nav-tabs {
   border: none;
 }
 .mylearning .tab-content {
-  left: 50%;
-  transform: translateX(-50%);
   position: relative;
   background: white;
-  padding: 50px;
+
   padding-bottom: 80px;
-  width: 90%;
+  width: 100%;
   height: 80vh;
   box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
   border-radius: 5px;
@@ -855,4 +858,47 @@ a {
   background: var(--blue);
   transition: all 0.3s ease-in-out;
   margin: 0 auto;
+}
+.filter__title {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.filter__type {
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.value__filter {
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+  text-transform: uppercase;
+}
+.filter__option {
+  font-size: 0.3rem !important;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.filter__courses .MuiFormControlLabel-label {
+  font-size: 0.7rem !important;
+  font-weight: 700;
+  line-height: 1.6;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+.filter__courses .PrivateSwitchBase-input {
+  width: 20px;
+  height: 20px;
+  border-radius: 20%;
 }

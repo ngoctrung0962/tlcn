@@ -116,12 +116,6 @@ const LearnPage = () => {
                 size={30}
                 color={"#005fb7"}
               />
-              <img
-                src={require("../../assets/img/112-book-morph-outline.gif")}
-                width={"auto"}
-                height={30}
-                alt=""
-              />
               <span
                 style={{
                   color: "#005fb7",
