@@ -29,7 +29,7 @@ export default function NewCourse() {
     <div data-aos="fade-up" className="d-flex flex-column mb-5 new__course">
       <div className="row">
         <h1 className="new__course-title">
-          Khóa học mới nhất <span>Mới</span>
+          Khóa học mới nhất <span>NEW</span>
         </h1>
       </div>
       <div className="row d-flex flex-column flex-md-row justify-content-between gap-3 flex-wrap align-items-center">
@@ -49,8 +49,8 @@ export default function NewCourse() {
               alt="..."
             />
             <div>
-              <div className="card-body">
-                <h5 className="card-title mb-2">{item.name}</h5>
+              <div className="card-body w-100 d-flex flex-column ">
+                <h5 className="card-title mb-2 w-100">{item.name}</h5>
                 <div className="d-flex flex-wrap  gap-1 mb-2">
                   <div className="card-language ">
                     Language: {item ? item.language : ""}

@@ -15,6 +15,24 @@ import { useForm } from "react-hook-form";
 import { Radio, RadioGroup } from "@mui/material";
 import { FaAngleDoubleDown } from "react-icons/fa";
 export default function CoursesPage() {
+  //Text search
+  const [searchText, setSearchText] = useState({
+    language: {
+      key: "language",
+      value: "",
+      operation: "EQUAL",
+    },
+    category: {
+      key: "category",
+      value: "",
+      operation: "EQUAL",
+    },
+    price: {
+      key: "price",
+      value: "",
+      operation: "BETWEEN",
+    },
+  });
   // use hook form
   const {
     register,
@@ -23,38 +41,23 @@ export default function CoursesPage() {
     setValue,
     getValues,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      language: {
-        key: "language",
-        value: "Vietnamese",
-        operation: "EQUAL",
-      },
-      category: {
-        key: "category",
-        value: "",
-        operation: "EQUAL",
-      },
-      price: {
-        key: "price",
-        value: "",
-        operation: "BETWEEN",
-      },
-    },
-  });
+  } = useForm({ searchText });
   var btnLoadmore = document.getElementById("btn__loadmore");
 
   //Handle search start
   const onSubmit = async (data) => {
+    console.log("searchText", searchText);
+    console.log("submit");
     if (paginate.page !== 0) {
       setPaginate({
         page: 0,
       });
     }
     data = Object.values(data);
+    const temp = Object.values(searchText);
     console.log(data);
     try {
-      const res = await coursesApi.searchCourse(data, paginate.page);
+      const res = await coursesApi.searchCourse(temp, paginate.page);
       console.log(res.data);
       setListCourses(res.data.content);
     } catch (error) {
@@ -66,6 +69,14 @@ export default function CoursesPage() {
   const [outOfStock, setOutOfStock] = useState(false);
   const handleChange = (event, newValue) => {
     setPriceRange(newValue);
+    setSearchText({
+      ...searchText,
+      price: {
+        key: "price",
+        value: newValue.join(","),
+        operation: "BETWEEN",
+      },
+    });
     setValue("price.value", newValue.join(","));
   };
   //Handle search end
@@ -78,7 +89,10 @@ export default function CoursesPage() {
   useEffect(() => {
     const getListCourses = async () => {
       try {
-        const res = await coursesApi.searchCourse([], paginate.page);
+        const res = await coursesApi.searchCourse(
+          Object.values(searchText),
+          paginate.page
+        );
         if (res.data.content.length > 0) {
           setListCourses([...listCourses, ...res.data.content]);
           if (res.data.content.length < 10) {
@@ -133,6 +147,32 @@ export default function CoursesPage() {
   let filterCourse = document.getElementById("filter__courses");
   const toggleFilter = () => {
     filterCourse.classList.toggle("show-full");
+  };
+
+  const handleResetFilter = async () => {
+    const defaultSearchText = {
+      language: {
+        key: "language",
+        value: "",
+        operation: "EQUAL",
+      },
+      category: {
+        key: "category",
+        value: "",
+        operation: "EQUAL",
+      },
+      price: {
+        key: "price",
+        value: "",
+        operation: "BETWEEN",
+      },
+    };
+    const temp = Object.values(defaultSearchText);
+    try {
+      const res = await coursesApi.searchCourse(temp, 0);
+      console.log(res.data);
+      setListCourses(res.data.content);
+    } catch (error) {}
   };
   return (
     <div className="container-fluid">
@@ -201,11 +241,40 @@ export default function CoursesPage() {
                         const oldValue = watch("category.value");
                         console.log(oldValue);
                         if (e.target.checked) {
-                          const newValue = oldValue + item.id + ",";
-                          setValue("...category.value", newValue);
+                          if (oldValue === undefined) {
+                            const newValue = item.id + ",";
+                            setValue("category.value", newValue);
+                            setSearchText({
+                              ...searchText,
+                              category: {
+                                key: "category",
+                                value: newValue,
+                                operation: "EQUAL",
+                              },
+                            });
+                          } else {
+                            const newValue = oldValue + item.id + ",";
+                            setValue("category.value", newValue);
+                            setSearchText({
+                              ...searchText,
+                              category: {
+                                key: "category",
+                                value: newValue,
+                                operation: "EQUAL",
+                              },
+                            });
+                          }
                         } else {
                           const newValue = oldValue.replace(item.id + ",", "");
-                          setValue("...category.value", newValue);
+                          setValue("category.value", newValue);
+                          setSearchText({
+                            ...searchText,
+                            category: {
+                              key: "category",
+                              value: newValue,
+                              operation: "EQUAL",
+                            },
+                          });
                         }
                       }}
                     />
@@ -229,16 +298,43 @@ export default function CoursesPage() {
                       control={<Radio />}
                       label={item.name}
                       onChange={(e) => {
-                        setValue("...language.value", item.value);
+                        // setValue("...language.value", item.value);
+                        setSearchText({
+                          ...searchText,
+                          language: {
+                            key: "language",
+                            value: item.value,
+                            operation: "EQUAL",
+                          },
+                        });
                       }}
                     />
                   );
                 })}
               </RadioGroup>
             </Box>
-            <Box sx={{ width: "90%", marginBottom: "20px" }}>
-              <button type="submit" className="main__btn w-100">
+            <Box
+              sx={{
+                width: "100%",
+                marginBottom: "20px",
+                display: "flex",
+                justifyContent: "space-evenly",
+              }}
+            >
+              <button
+                onClick={handleSubmit(onSubmit)}
+                className="main__btn "
+                style={{}}
+              >
                 Lọc
+              </button>
+              <button
+                onClick={handleResetFilter}
+                className="main__btn "
+                style={{}}
+                type="button"
+              >
+                Mặc định
               </button>
             </Box>
           </form>
@@ -248,14 +344,14 @@ export default function CoursesPage() {
             style={{ minHeight: "500px" }}
             className="courses__container mx-1 my-3 "
           >
-            <div className="  d-flex justify-content-evenly flex-wrap  align-items-center ">
+            <div className="d-flex justify-content-evenly flex-wrap  align-items-center ">
               {listCourses
                 ? listCourses?.map((item, index) => {
                     return (
                       <div
                         data-aos="flip-left"
                         key={index}
-                        className="card col-12 col-md-5 py-3 d-flex flex-xl-row flex-column  align-items-center card__course-item"
+                        className="card col-12 col-md-5 py-3 d-flex flex-xl-row flex-column align-items-center  card__course-item"
                       >
                         <img
                           src={
@@ -266,46 +362,44 @@ export default function CoursesPage() {
                           className="card-img-top img-fluid mb-2"
                           alt="..."
                         />
-                        <div>
-                          <div className="card-body d-flex flex-column justify-content-center ">
-                            <h5 className="card-title mb-2">{item.name}</h5>
-                            <div className="d-flex   mb-2">
-                              <div className="card-language me-1">
-                                Language: {item ? item.language : ""}
-                              </div>
-                              <div className="card-language">
-                                Số lượng học sinh:{" "}
-                                {item ? item.numStudents : ""}
-                              </div>
-                            </div>
-                            <div className="d-flex gap-1 align-items-center">
-                              <p className="card-text m-0">
-                                Giá :{" "}
-                                <span>
-                                  {item.price === 0
-                                    ? "Miễn phí"
-                                    : item.price.toLocaleString("vi", {
-                                        currency: "VND",
-                                      }) + " VND"}
-                                </span>
-                              </p>
-                              <Rating
-                                name="read-only"
-                                value={5}
-                                size="small"
-                                readOnly
-                              />
-                            </div>
 
-                            <div className="card__layer">
-                              <div>
-                                <Link
-                                  to={`/courses/${item.id}`}
-                                  className="btn btn-primary"
-                                >
-                                  Xem khóa học
-                                </Link>
-                              </div>
+                        <div className="card-body w-100 d-flex flex-column align-items-center  align-items-md-start">
+                          <h5 className="card-title mb-2 ">{item.name}</h5>
+                          <div className="d-flex   mb-2">
+                            <div className="card-language me-1">
+                              Language: {item ? item.language : ""}
+                            </div>
+                            <div className="card-language">
+                              Số lượng học sinh: {item ? item.numStudents : ""}
+                            </div>
+                          </div>
+                          <div className="d-flex gap-1 align-items-center">
+                            <p className="card-text m-0">
+                              Giá :{" "}
+                              <span>
+                                {item.price === 0
+                                  ? "Miễn phí"
+                                  : item.price.toLocaleString("vi", {
+                                      currency: "VND",
+                                    }) + " VND"}
+                              </span>
+                            </p>
+                            <Rating
+                              name="read-only"
+                              value={5}
+                              size="small"
+                              readOnly
+                            />
+                          </div>
+
+                          <div className="card__layer">
+                            <div>
+                              <Link
+                                to={`/courses/${item.id}`}
+                                className="btn btn-primary"
+                              >
+                                Xem khóa học
+                              </Link>
                             </div>
                           </div>
                         </div>

@@ -34,29 +34,8 @@ const coursesVideoApi = {
     const url = `/courses/newest?limit=${limit}`;
     return axiosClient.get(url);
   },
-  //get min price
-  getMinPrice() {
-    const url = `/products/price/min`;
-    return axiosClient.get(url);
-  },
-  //get max price
-  getMaxPrice() {
-    const url = `/products/price/max`;
-    return axiosClient.get(url);
-  },
-  //get top seller
-  getTopSeller() {
-    const url = `/products/topseller`;
-    return axiosClient.get(url);
-  },
-  //get top featured
-  getTopFeatured() {
-    const url = `/products/topfeature`;
-    return axiosClient.get(url);
-  },
-  //get hot trend
-  getHotTrend() {
-    const url = `/products/hottrend`;
+  getbyId(id) {
+    const url = `/course-video/video/${id}`;
     return axiosClient.get(url);
   },
 };

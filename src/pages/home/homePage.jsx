@@ -1,12 +1,11 @@
 import React from "react";
 import Banner from "../../components/Banner/Banner";
-import Footer from "../../layouts/Footer/Footer";
-import Header from "../../layouts/Header/Header";
-import MainRoute from "../../MainRoute/MainRoute";
 import HotCourse from "./HotCourse/NewCourse";
 import NewCourse from "./NewCourse/NewCourse";
 
 export default function HomePage() {
+  //Hàm hiển thị nút back to top khi scroll
+
   return (
     <>
       <div className="container-fluid">
@@ -14,6 +13,49 @@ export default function HomePage() {
         <div className="container">
           <NewCourse />
           <HotCourse />
+          <section className="user__created">
+            <div className="user__created__title">
+              <h2>Người tạo website</h2>
+            </div>
+            <div className="row">
+              <div className="col-12 col-md-6">
+                <div className="user__created__box p-5">
+                  <img
+                    src={require("../../assets/img/garden-model.png")}
+                    alt=""
+                    className="user__avt"
+                  />
+                  <div className="user__created__info">
+                    <h3 className="user__created__name">Nguyễn Ngọc Trung</h3>
+                    <p className="user__created__job">Front-end Developer</p>
+                    <p className="user__created__desc">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Quisquam, quod.
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div className="col-12 col-md-6">
+                <div className="user__created__box p-5">
+                  <img
+                    src={require("../../assets/img/garden-model.png")}
+                    alt=""
+                    className="user__avt"
+                  />
+                  <div className="user__created__info">
+                    <h3 className="user__created__name">
+                      Nguyễn Phúc Thanh Toàn
+                    </h3>
+                    <p className="user__created__jobBE">Back-end Developer</p>
+                    <p className="user__created__desc">
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Quisquam, quod.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
         </div>
       </div>
     </>

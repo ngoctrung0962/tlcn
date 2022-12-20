@@ -11,7 +11,7 @@ import ReviewForm from "./reviewForm/reviewForm";
 import { FaShoppingCart, FaRegRegistered } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddtoCart } from "../../redux/cartRedux";
-import { formatVND } from "../../utils/MyUtils";
+import Swal from "sweetalert2";
 const CoursePage = (props) => {
   const user = useSelector((state) => state.user.currentUser);
   const { listCart } = useSelector((state) => state.cart);
@@ -52,6 +52,31 @@ const CoursePage = (props) => {
     };
     checkRegistered();
   }, [courseId, user?.username]);
+
+  //Hàm đăng kí khóa học public
+  const handleRegisterFreeCourse = async () => {
+    try {
+      const res = await coursesApi.purcharPublicCourse(courseId);
+      if (res.errorCode === "") {
+        Swal.fire({
+          icon: "success",
+          title: "Đăng kí khóa học thành công",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        setWasBought(true);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Đăng kí khóa học thất bại",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="container course__page">
       <div className="row d-flex flex-row">
@@ -79,6 +104,7 @@ const CoursePage = (props) => {
                   speed="1"
                   loop
                   autoplay
+                  style={{ height: "65vh" }}
                 ></lottie-player>
               </div>
 
@@ -173,8 +199,12 @@ const CoursePage = (props) => {
             </div>
             <img
               className="img-fluid course__img"
-              src={require("../../assets/img/course.webp")}
-              alt=""
+              src={
+                course?.avatar
+                  ? course?.avatar
+                  : require("../../assets/img/course.webp")
+              }
+              alt="avatarcourse"
             />
 
             <p className="text-center mt-3 course__price">
@@ -187,7 +217,7 @@ const CoursePage = (props) => {
               <span>VNĐ</span>{" "}
             </p>
 
-            {wasBought || course?.public === true ? (
+            {wasBought ? (
               <div className="d-flex justify-content-center mt-3 gap-2">
                 <Link className="  btn-dkkh" to={`/learn/${courseId}`}>
                   Học ngay
@@ -195,9 +225,15 @@ const CoursePage = (props) => {
               </div>
             ) : (
               <div className="d-flex justify-content-center mt-3 gap-2">
-                <button className="  btn-dkkh">
-                  Đăng kí ngay <FaRegRegistered />
-                </button>
+                {course?.public === true && (
+                  <button
+                    className="  btn-dkkh"
+                    onClick={handleRegisterFreeCourse}
+                  >
+                    Đăng kí ngay <FaRegRegistered />
+                  </button>
+                )}
+
                 <button
                   className="  btn-dkkh"
                   onClick={() => handleSubmitAddtoCart(course?.id)}

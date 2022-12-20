@@ -1,20 +1,21 @@
-import { Link, matchPath, useLocation } from "react-router-dom";
-import "./Header.css";
+import { Badge, FormControlLabel } from "@mui/material";
+import Checkbox from "@mui/material/Checkbox";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { useEffect } from "react";
-import { FaShoppingCart } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { Badge, Menu, MenuItem } from "@mui/material";
-import { handleDeleteFromCart } from "../../redux/cartRedux";
-import { AiFillEye, AiFillDelete } from "react-icons/ai";
-import { BiHistory } from "react-icons/bi";
-import { useState } from "react";
-import { deleteDetailUser } from "../../redux/userRedux";
+import axios from "axios";
 import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { Dropdown, Form } from "react-bootstrap";
+import { useForm } from "react-hook-form";
+import { FaShoppingCart } from "react-icons/fa";
+import { MdOutlineContactMail } from "react-icons/md";
+import { SiBloglovin } from "react-icons/si";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, matchPath, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
-import { Dropdown } from "react-bootstrap";
-
+import { handleDeleteFromCart } from "../../redux/cartRedux";
+import { deleteDetailUser } from "../../redux/userRedux";
+import "./Header.css";
 function Header() {
   useEffect(() => {
     AOS.init({
@@ -27,6 +28,40 @@ function Header() {
     (state) => state.cart
   );
   const user = useSelector((state) => state.user.currentUser);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    control,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      username: user.username,
+    },
+  });
+
+  const [dataPost, setDataPost] = useState({
+    username: user.username,
+    couponCode: "",
+    paymentId: "01",
+    orderDetailList: [],
+  });
+  const [tongTien, setTongTien] = useState(0);
+
+  const handleCheckOut = async () => {
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/api/v1/vnpay/request-pay",
+        dataPost
+      );
+      const linkRes = res.data.data;
+      window.open(linkRes, "_self");
+    } catch (error) {
+      console.log(error);
+    }
+    await console.log("checkout");
+  };
   const dispatch = useDispatch();
   const handleSubmitDeleteFromCart = async (courseId) => {
     await handleDeleteFromCart(courseId, user?.username, dispatch);
@@ -55,7 +90,7 @@ function Header() {
       }
     });
   };
-
+  const [showModalCheckOut, setShowModalCheckOut] = useState(false);
   return (
     <nav
       className="navbar navbar-expand-lg fixed-top position-sticky"
@@ -128,7 +163,8 @@ function Header() {
                 to="/blog"
               >
                 <div className="d-flex flex-column align-items-center">
-                  <i className="bx bxl-blogger"></i>
+                  {/* <i className="bx bxl-blogger"></i> */}
+                  <SiBloglovin />
                   <span>Blogs</span>
                 </div>
               </Link>
@@ -143,7 +179,8 @@ function Header() {
                 to="/contact"
               >
                 <div className="d-flex flex-column align-items-center">
-                  <i className="bx bxs-contact"></i>
+                  {/* <i className="bx bxs-contact"></i> */}
+                  <MdOutlineContactMail />
                   <span>Contact Us</span>
                 </div>
               </Link>
@@ -256,44 +293,105 @@ function Header() {
               </div>
               <div className="offcanvas-body">
                 <div className="container">
-                  {listCart?.map((item, index) => (
-                    <div
-                      key={index}
-                      className="row cart__item d-flex justify-content-between align-items-center"
-                    >
-                      <div className="col-3 justify-content-center align-items-center d-flex flex-column">
-                        <img
-                          src={require("../../assets/img/backgroundLogin.gif")}
-                          alt="product"
-                          className="img-fluid cart__item-img"
-                        />
-                      </div>
-                      <div className="col-7 justify-content-center  d-flex flex-column">
-                        <div className="cart__item__title">
-                          <h5>{item?.name}</h5>
+                  <Form>
+                    {listCart?.map((item, index) => {
+                      return (
+                        <div
+                          key={index}
+                          className="row cart__item d-flex justify-content-between align-items-center"
+                        >
+                          <div className="col-3 justify-content-center align-items-center d-flex flex-row">
+                            <FormControlLabel
+                              key={index}
+                              control={
+                                <Checkbox
+                                  onChange={(e) => {
+                                    console.log(e.target.checked);
+                                    if (e.target.checked === true) {
+                                      setDataPost({
+                                        ...dataPost,
+                                        orderDetailList: [
+                                          ...dataPost.orderDetailList,
+                                          `${item.id}`,
+                                        ],
+                                      });
+                                      setTongTien(tongTien + item.price);
+                                    } else {
+                                      setDataPost({
+                                        ...dataPost,
+                                        orderDetailList:
+                                          dataPost.orderDetailList.filter(
+                                            (i) => i !== `${item.id}`
+                                          ),
+                                      });
+                                      setTongTien(tongTien - item.price);
+                                    }
+                                  }}
+                                />
+                              }
+                            />
+                            <img
+                              src={require("../../assets/img/backgroundLogin.gif")}
+                              alt="product"
+                              className="img-fluid cart__item-img"
+                            />
+                          </div>
+                          <div className="col-7 justify-content-center  d-flex flex-column">
+                            <div className="cart__item__title">
+                              <h5>{item?.name}</h5>
+                            </div>
+                            <div className="cart__item__price">
+                              <p className="m-0">
+                                {item?.price.toLocaleString("vi", {
+                                  currency: "VND",
+                                })}{" "}
+                                <span>VNĐ</span>
+                              </p>
+                            </div>
+                          </div>
+                          <div className="col-2 cart__item__delete">
+                            <i
+                              className="bx bx-trash btn__delete__cart"
+                              onClick={() =>
+                                handleSubmitDeleteFromCart(item?.id)
+                              }
+                            ></i>
+                          </div>
                         </div>
-                        <div className="cart__item__price">
-                          <p className="m-0">
-                            {item?.price} <span>VNĐ</span>
-                          </p>
-                        </div>
-                      </div>
-                      <div className="col-2 cart__item__delete">
-                        <i
-                          className="bx bx-trash btn__delete__cart"
-                          onClick={() => handleSubmitDeleteFromCart(item?.id)}
-                        ></i>
-                      </div>
-                    </div>
-                  ))}
+                      );
+                    })}
+                  </Form>
+                  {/* Apply coupon */}
                 </div>
               </div>
-              <div className="offcanvas-footer px-3 d-flex justify-content-between align-items-center pb-4 cart__total_price">
-                <p>
-                  Tổng cộng:{" "}
-                  <span className="total__price">{totalPrice} VNĐ</span>
-                </p>
-                <button className="main__btn">Check out</button>
+              <div className="offcanvas-footer px-3 d-flex flex-column justify-content-between align-items-center pb-4 cart__total_price">
+                <div className="d-flex justify-content-between align-items-center w-100 mb-3">
+                  <input
+                    type="text"
+                    placeholder="Mã giảm giá"
+                    className="form-control"
+                  />
+                </div>
+                <div className="d-flex justify-content-between align-items-center w-100">
+                  <p className="p-0 m-0">
+                    Tổng cộng:{" "}
+                    <span className="total__price">
+                      {tongTien.toLocaleString("vi", {
+                        currency: "VND",
+                      })}{" "}
+                      VNĐ
+                    </span>
+                  </p>
+                  <button
+                    className="main__btn"
+                    onClick={handleCheckOut}
+                    disabled={
+                      dataPost.orderDetailList?.length === 0 ? true : false
+                    }
+                  >
+                    Thanh toán ({dataPost.orderDetailList?.length})
+                  </button>
+                </div>
               </div>
             </div>
           </div>

@@ -10,6 +10,7 @@
   font-weight: 900;
   color: var(--black);
   letter-spacing: 1px;
+  font-weight: bold;
 }
 .navbar-brand:hover {
   color: #005fb7;
@@ -52,6 +53,10 @@
   padding: 5px 30px;
 }
 .nav-item i {
+  font-size: 18px;
+  color: var(--blue);
+}
+.nav-item svg {
   font-size: 18px;
   color: var(--blue);
 }
@@ -121,7 +126,7 @@ input::-webkit-input-placeholder {
   font-weight: 700;
   color: var(--black);
 }
-.cart__total_price p {
+.cart__total_price div p {
   font-size: 14px;
   font-weight: 700;
   color: var(--black);

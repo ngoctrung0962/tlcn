@@ -16,12 +16,10 @@ const coursesApi = {
     return axiosClient.post(url, data);
   },
 
-  
   checkisPurchaseCourse(courseId, username) {
     const url = `/isPurchaseCourse/${username}/${courseId}`;
     return axiosClient.get(url);
   },
-  //get top 8 products newest
   //get top 4 courses newest
   getTop4CoursesNewest(limit) {
     const url = `/courses/newest?limit=${limit}`;
@@ -31,14 +29,18 @@ const coursesApi = {
     const url = `/courses/topNumStudents?limit=${limit}`;
     return axiosClient.get(url);
   },
-  searchCourse(data,page) {
+  searchCourse(data, page) {
     const url = `/courses/search?page=${page}`;
     return axiosClient.post(url, data);
   },
   getlistpurchased(username) {
     const url = `listPurchasedCourses/${username}`;
     return axiosClient.get(url);
-  }
+  },
+  purcharPublicCourse(courseId) {
+    const url = `/courses/${courseId}/enroll-publiccourse`;
+    return axiosClient.post(url);
+  },
 };
 
 export default coursesApi;

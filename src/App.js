@@ -103,7 +103,7 @@ function App() {
         />
         <Route
           path="/learn/:id"
-          element={!user ? <Navigate to="/signin" /> : <LearnPage />}
+          element={user ? <LearnPage /> : <Navigate to="/signin" />}
         />
       </Routes>
     </div>

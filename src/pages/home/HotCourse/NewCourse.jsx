@@ -49,8 +49,8 @@ export default function HotCourse() {
               alt="..."
             />
             <div>
-              <div className="card-body">
-                <h5 className="card-title mb-2">{item.name}</h5>
+              <div className="card-body w-100 d-flex flex-column ">
+                <h5 className="card-title mb-2 100">{item.name}</h5>
                 <div className="d-flex flex-wrap  gap-1 mb-2">
                   <div className="card-language ">
                     Language: {item ? item.language : ""}

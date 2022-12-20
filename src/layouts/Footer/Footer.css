@@ -1,45 +1,27 @@
-@import url(../../App.css);
 .footer {
-  background-color: #fff;
-  color: var(--blue);
+  color: #005fb7;
   font-weight: 900;
   position: relative;
   bottom: 0;
-  /* background: url("../../assets/img/footer-background.24475349.png");
-  background-size: cover;
+  padding: 8rem 0;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.725), rgba(0, 0, 0, 0.7)),
+    url("https://utex.hcmute.edu.vn/pluginfile.php/1/theme_maker/loginbgimage/1634220818/57f4e15cb6bc4be212ad.jpg");
   background-repeat: no-repeat;
-  background-position: center; */
-  border-top: 1px solid #eee;
+  background-size: cover;
 }
-.footer__logo {
-  font-weight: 900;
-  color: var(--black);
-  font-size: 22px;
+.footer__brand {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 1px;
+  padding: 5px 20px;
+  border-radius: 10px;
+  background: transparent;
+  border: 2px solid #fff;
+  transition: 0.4s;
 }
-
-.about__text p {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--black);
-}
-.footer__sendEmail {
-  margin-bottom: 0px;
-  padding: 10px 24px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: #eee;
-  border-radius: 100px;
-  background-color: #fff;
-  box-shadow: 0 2px 12px 0 rgb(20 20 43 / 8%);
-  -webkit-transition: box-shadow 300ms ease, color 300ms ease,
-    border-color 300ms ease;
-  transition: box-shadow 300ms ease, color 300ms ease, border-color 300ms ease;
-  font-size: 16px;
-  line-height: 18px;
-}
-.link-dark {
-  box-shadow: 0 2px 6px 0 rgb(20 20 43 / 6%);
-  border: 1px solid #eee;
-  padding: 10px;
-  border-radius: 100%;
+.footer__brand:hover {
+  background: #fff;
+  color: #000;
+  transition: 0.4s;
 }
