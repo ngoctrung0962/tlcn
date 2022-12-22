@@ -1,9 +1,18 @@
 @import "../../App.css";
 
 .navbar {
-  transition: 0.4s;
+  transition: 0.7s;
   background: #fff;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
+}
+.color-nav {
+  background: #00693e !important;
+}
+.color-logo {
+  color: #fff !important;
+}
+.color-logo1 {
+  color: #fff !important;
 }
 .navbar-brand {
   font-size: 1.2rem;
@@ -13,7 +22,7 @@
   font-weight: bold;
 }
 .navbar-brand:hover {
-  color: #005fb7;
+  color: #00693e;
   transform: scale(1.1);
   transition: 0.4s !important;
 }
@@ -22,7 +31,7 @@
 }
 
 .nav-link:hover {
-  color: #005fb7 !important;
+  color: #00693e !important;
 }
 
 .nav-link::after {
@@ -37,12 +46,25 @@
   width: 100%;
 }
 
+.color-nav-link:hover::after {
+  width: 100%;
+  background: #fff !important;
+}
 .nav-item .active::after {
   content: "";
   display: block;
   width: 100%;
   height: 2px;
   background: var(--blue);
+  transition: all 0.3s ease-in-out;
+}
+
+.color-nav-item .active::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: #fff !important;
   transition: all 0.3s ease-in-out;
 }
 
@@ -67,12 +89,23 @@
   color: var(--black);
   font-size: 10px;
 }
+.color-nav-item span {
+  color: #fff !important;
+}
+
+.color-nav-item svg {
+  color: #fff !important;
+}
+.color-nav-item i {
+  color: #fff !important;
+}
 .form__search {
   position: relative;
 }
 .nav__tool-user i {
   font-size: 18px;
   color: var(--blue);
+  margin-right: 10px;
 }
 .nav__search {
   padding-left: 20px;
@@ -85,7 +118,7 @@
   box-shadow: 0 2px 12px 0 rgb(20 20 43 / 8%);
 }
 .nav__search:focus {
-  border-color: var(--pink) !important;
+  border-color: var(--blue) !important;
   border: 1px solid var(--blue);
   box-shadow: none;
 }
@@ -144,4 +177,20 @@ input::-webkit-input-placeholder {
 }
 .dropdown-toggle:focus {
   box-shadow: none !important;
+}
+.color-cart-icon {
+  color: #fff !important;
+}
+.color-user-icon {
+  color: #fff !important;
+}
+#header .dropdown-toggle::after {
+  display: none;
+}
+#header .dropdown {
+  margin-right: 20px;
+}
+#header .dropdown-item:hover {
+  background: #00693e !important;
+  color: #fff !important;
 }

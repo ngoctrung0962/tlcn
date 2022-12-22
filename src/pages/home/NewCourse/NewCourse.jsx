@@ -63,10 +63,11 @@ export default function NewCourse() {
                   <p className="card-text m-0">
                     Giá :{" "}
                     <span>
-                      {item.price.toLocaleString("vi", {
-                        currency: "VND",
-                      })}{" "}
-                      VNĐ
+                      {item.price === 0
+                        ? "Miễn phí"
+                        : item.price.toLocaleString("vi", {
+                            currency: "VND",
+                          }) + "VNĐ"}
                     </span>
                   </p>
                   <Rating name="read-only" value={5} size="small" readOnly />

@@ -113,7 +113,6 @@ const Account = () => {
                 setUserDetail={setUserDetail}
               />
               <AccountChangePass />
-              <AccountHistoryPurchase />
             </div>
           </div>
         </div>

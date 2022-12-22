@@ -13,12 +13,12 @@ import chapterApi from "../../api/chapterApi";
 import coursesApi from "../../api/coursesApi";
 import coursesVideoApi from "../../api/coursesVideoApi";
 import Accordion from "react-bootstrap/Accordion";
+import BackToTop from "../../components/BackToTop/BackToTop";
 
 const LearnPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const courseId = location.pathname.split("/")[2];
-  console.log(courseId);
   const [course, setCourse] = useState();
   const [listVideo, setListVideo] = useState([]);
   const [listChapters, setListChapters] = useState([]);
@@ -34,29 +34,25 @@ const LearnPage = () => {
         setListVideo(res.data);
         setListChapters(resChapter.data);
         setCourse(resCourse.data);
-        setCurrenPicker({
-          ...currentPicker,
-          srcVideo: resCourse.data[0]?.avatar,
-        });
       } catch (error) {
         console.log(error);
       }
     };
     getData();
   }, [courseId]);
-  useEffect(() => {
-    if (!searchParams.get("id")) {
-      setSearchParams(
-        { id: currentVideoId ? currentVideoId : 1 },
-        { replace: true }
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   if (!searchParams.get("id")) {
+  //     setSearchParams(
+  //       { id: currentVideoId ? currentVideoId : 1 },
+  //       { replace: true }
+  //     );
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   // Bài học hiện tại
   const [currentPicker, setCurrenPicker] = useState({
-    srcVideo: course?.avatar,
+    srcVideo: null,
     title: "Intro Legacy",
     des: "Chào mừng bạn đến với khóa học trên Legacy",
     currentChapter: null,
@@ -129,6 +125,8 @@ const LearnPage = () => {
   const duration = document.getElementById("item-videoCourse")?.duration;
   return wasBought || isPublicCourse ? (
     <div>
+      <BackToTop />
+
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
         <div className="tool__container d-flex flex-row justify-content-between align-items-center gap-4 my-2">
           <span className="d-flex justify-content-between align-items-center">
@@ -141,11 +139,11 @@ const LearnPage = () => {
               <MdKeyboardArrowLeft
                 cursor="pointer"
                 size={30}
-                color={"#005fb7"}
+                color={"#00693e"}
               />
               <span
                 style={{
-                  color: "#005fb7",
+                  color: "#00693e",
                   fontSize: "14px",
                   fontWeight: "bold",
                 }}
@@ -182,21 +180,32 @@ const LearnPage = () => {
       </div>
       <div className="row my-3 ">
         <div className="col-12 col-lg-9">
-          <div>
-            <iframe
-              width="100%"
-              height="530"
-              src={currentPicker.srcVideo}
-              title={currentPicker.title}
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="learn-iframe"
-            ></iframe>
+          <div className="">
+            {!currentPicker.srcVideo ? (
+              <div className="d-flex justify-content-center align-items-center flex-column">
+                <img
+                  src={course?.avatar}
+                  alt="anhkhoahoc"
+                  style={{ height: "50%" }}
+                />
+              </div>
+            ) : (
+              <iframe
+                width="100%"
+                height="530"
+                src={currentPicker.srcVideo}
+                title={currentPicker.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="learn-iframe"
+              ></iframe>
+            )}
+
             <h4 className="video__title mt-3 text-left">
-              {currentPicker.title}
+              {currentPicker?.title}
             </h4>
-            <p>{currentPicker.des}</p>
+            <p>{currentPicker?.des}</p>
           </div>
         </div>
         <div className="col-12 col-lg-3 ">
@@ -252,13 +261,13 @@ const LearnPage = () => {
       <div className="row footer__tool d-flex flex-row justify-content-center align-items-center fixed-bottom">
         <div className="tool__container d-flex flex-row justify-content-center align-items-center gap-4 my-2">
           <span onClick={handlePrevVideo}>
-            <MdKeyboardArrowLeft size={30} color={"#e6c511"} />
+            <MdKeyboardArrowLeft size={30} color={"#00693e"} />
             Bài học trước
           </span>
 
           <span onClick={handleNextVideo}>
             Bài học kế tiếp
-            <MdKeyboardArrowRight size={30} color={"#e6c511"} />
+            <MdKeyboardArrowRight size={30} color={"#00693e"} />
           </span>
         </div>
       </div>

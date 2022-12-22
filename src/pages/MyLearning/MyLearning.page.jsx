@@ -9,7 +9,7 @@ import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
 import userApi from "../../api/userApi";
 import { deleteDetailUser } from "../../redux/userRedux";
-import "./Account.css";
+
 import coursesApi from "../../api/coursesApi";
 import { Rating } from "@mui/material";
 import ProgressComponent from "../../components/Progress/Progress";

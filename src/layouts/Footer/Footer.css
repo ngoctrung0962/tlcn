@@ -12,16 +12,16 @@
 .footer__brand {
   font-size: 1.8rem;
   font-weight: 800;
-  color: #fff;
+  color: #00693e;
   letter-spacing: 1px;
   padding: 5px 20px;
   border-radius: 10px;
   background: transparent;
-  border: 2px solid #fff;
+  border: 2px solid #00693e;
   transition: 0.4s;
 }
 .footer__brand:hover {
-  background: #fff;
-  color: #000;
+  background: #00693e;
+  color: #fff;
   transition: 0.4s;
 }

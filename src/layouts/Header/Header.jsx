@@ -11,7 +11,7 @@ import { FaShoppingCart } from "react-icons/fa";
 import { MdOutlineContactMail } from "react-icons/md";
 import { SiBloglovin } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, matchPath, useLocation } from "react-router-dom";
+import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { handleDeleteFromCart } from "../../redux/cartRedux";
 import { deleteDetailUser } from "../../redux/userRedux";
@@ -90,16 +90,59 @@ function Header() {
       }
     });
   };
-  const [showModalCheckOut, setShowModalCheckOut] = useState(false);
+
+  //hàm đổi màu background header khi scroll start
+  const navbarColor = document.getElementById("header");
+  const logoBrandColor = document.getElementById("logo_brand");
+  const logoBrandColor1 = document.getElementById("logo_brand1");
+  const navItemColor = document.getElementsByClassName("nav-item");
+  const navLinkColorHover = document.getElementsByClassName("nav-link");
+  const cartIconColor = document.getElementById("cart__icon");
+  const userIconColor = document.getElementById("user__icon");
+  const changeBackground = () => {
+    if (window.scrollY >= 80) {
+      navbarColor?.classList.add("color-nav");
+      logoBrandColor?.classList.add("color-logo");
+      logoBrandColor1?.classList.add("color-logo1");
+      cartIconColor?.classList.add("color-cart-icon");
+      userIconColor?.classList.add("color-user-icon");
+      //class
+      for (let i = 0; i < navItemColor.length; i++) {
+        navItemColor[i].classList.add("color-nav-item");
+      }
+      for (let i = 0; i < navLinkColorHover.length; i++) {
+        navLinkColorHover[i].classList.add("color-nav-link");
+      }
+    } else {
+      navbarColor?.classList.remove("color-nav");
+      logoBrandColor?.classList.remove("color-logo");
+      logoBrandColor1?.classList.remove("color-logo1");
+      cartIconColor?.classList.remove("color-cart-icon");
+      userIconColor?.classList.remove("color-user-icon");
+      //class
+      for (let i = 0; i < navItemColor.length; i++) {
+        navItemColor[i].classList.remove("color-nav-item");
+      }
+      for (let i = 0; i < navLinkColorHover.length; i++) {
+        navLinkColorHover[i].classList.remove("color-nav-link");
+      }
+    }
+  };
+  window.addEventListener("scroll", changeBackground);
+
+  //hàm đổi màu background header khi scroll end
+
+  const nav = useNavigate();
   return (
     <nav
-      className="navbar navbar-expand-lg fixed-top position-sticky"
+      className="navbar navbar-expand-lg fixed-top position-sticky "
       id="header"
     >
       <div className="container align-items-center">
         <Link
           className="navbar-brand  justify-content-center align-items-center d-flex"
           to="/"
+          id="logo_brand"
         >
           {/* <img
             src={require("../../assets/img/112-book-morph-outline.gif")}
@@ -107,8 +150,10 @@ function Header() {
             height={40}
             alt=""
           /> */}
-          <div style={{ height: "40px" }}></div>
-          <span style={{ color: "#005fb7" }}>Le</span>gacy
+          <span id="logo_brand1" style={{ color: "#00693e" }}>
+            Le
+          </span>
+          gacy
         </Link>
 
         <button
@@ -140,7 +185,7 @@ function Header() {
                 </div>
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item ">
               <Link
                 className={
                   matchPath("/courses", pathname)
@@ -240,17 +285,18 @@ function Header() {
               >
                 <i
                   className="bx bx-user-circle"
+                  id="user__icon"
                   style={{ cursor: "pointer", margin: "0px", padding: "0px" }}
                 ></i>
               </Dropdown.Toggle>
               <Dropdown.Menu className="drop__menu">
-                <Dropdown.Item>
-                  <Link to={`/account/${user.username}`}>Profile</Link>{" "}
+                <Dropdown.Item onClick={() => nav(`/account/${user.username}`)}>
+                  Profile
                 </Dropdown.Item>
-                <Dropdown.Item>
-                  <Link to={`/mylearning/${user.username}`}>
-                    Khóa học của tôi
-                  </Link>
+                <Dropdown.Item
+                  onClick={() => nav(`/mylearning/${user.username}`)}
+                >
+                  Khóa học của tôi
                 </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() => {
@@ -269,8 +315,9 @@ function Header() {
                 href="#offcanvasExample"
                 role="button"
                 aria-controls="offcanvasExample"
-                color="#005fb7"
+                color="#00693e"
                 size={20}
+                id="cart__icon"
               />
             </Badge>
             {/* Show Cart */}
