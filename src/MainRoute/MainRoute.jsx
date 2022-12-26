@@ -24,10 +24,6 @@ const MainRoute = () => {
 
       {/* <Route path="/*" element={<BlogPage />} /> */}
       <Route path="*" element={<>Not Found</>} />
-
-
-     
-
       <Route path="/purcharse/success" element={<SuccessPage />} />
       <Route path="/purcharse/fail" element={<FailPage />} />
     </Routes>

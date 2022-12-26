@@ -12,15 +12,16 @@ export default function Banner() {
         <div className="carousel-item  carousel-item1 active">
           <div className="row  px-5 py-3">
             <div className="banner__text col-12 col-md-7 d-flex flex-column justify-content-center px-3 px-md-5">
-              <h1>Legacy trên Youtube</h1>
+              <h1>Legacy có gì ?</h1>
               <p>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                Reprehenderit, aperiam cupiditate error adipisci consectetur
-                odio odit voluptas illum molestiae aliquid enim animi aliquam
-                sit asperiores ipsum. Sunt fugiat delectus modi!
+                <span>Learn Together </span>
+                Tất cả chúng ta đều về học tập xã hội. Trò chuyện với những
+                người khác trong khóa học của bạn, học hỏi lẫn nhau và phát
+                triển kỹ năng của bạn trong một lớp học toàn cầu có hàng triệu
+                người.
               </p>
               <div className="mb-4">
-                <Link className="banner__link " to="/">
+                <Link className="banner__link " to="/courses">
                   Truy cập ngay
                 </Link>
               </div>
@@ -37,15 +38,15 @@ export default function Banner() {
         <div className="carousel-item  carousel-item2 ">
           <div className="row  px-5 py-3">
             <div className="banner__text col-12 col-md-7 d-flex flex-column justify-content-center px-3 px-md-5">
-              <h1>Legacy trên Youtube</h1>
+              <h1>Legacy có gì ?</h1>
               <p>
-                Lorem ipsum, dolor sit amet consectetur adipisicing elit. Nobis
-                excepturi blanditiis voluptatibus deserunt! Aliquam architecto
-                atque quia, illo voluptate ipsum neque! Alias voluptatibus
-                laborum dolorum id! Dicta eum suscipit veritatis.
+                <span>Learn Everything </span>
+                Từ lập trình, chăm sóc sức khỏe và lịch sử đến mã hóa và ngôn
+                ngữ, Legacy có mọi khóa học dành cho bạn, từ người mới bắt đầu
+                đến chuyên gia.
               </p>
               <div className="mb-4">
-                <Link className="banner__link" to="/">
+                <Link className="banner__link" to="/courses">
                   Truy cập ngay
                 </Link>
               </div>
@@ -62,15 +63,15 @@ export default function Banner() {
         <div className="carousel-item  carousel-item3 ">
           <div className="row  px-5 py-3">
             <div className="banner__text col-12 col-md-7 d-flex flex-column justify-content-center px-3 px-md-5">
-              <h1>Legacy trên Youtube</h1>
+              <h1>Legacy có gì ?</h1>
               <p>
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                Incidunt modi, corporis placeat ipsa aliquid ducimus itaque
-                harum omnis alias doloremque, maiores laborum enim a veritatis
-                soluta iure quaerat sed quos.
+                <span>Learn From The Best </span>
+                Những khóa học trên Legacy được thiết kế và hỗ trợ bởi các
+                chuyên gia giảng dạy quốc tế, chất lượng các khóa học của chúng
+                tôi là điều khiến chúng tôi khác biệt.
               </p>
               <div className="mb-4">
-                <Link className="banner__link" to="/">
+                <Link className="banner__link" to="/courses">
                   Truy cập ngay
                 </Link>
               </div>

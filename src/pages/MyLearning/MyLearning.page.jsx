@@ -132,7 +132,7 @@ const MyLearning = () => {
               </div>
             </Tab>
             <Tab eventKey="wishlist" title="Khóa học yêu thích">
-              2
+              Chức năng này chưa hoàn thiện
             </Tab>
           </Tabs>
         </div>

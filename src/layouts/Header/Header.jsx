@@ -4,6 +4,7 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useRef } from "react";
 import { useEffect, useState } from "react";
 import { Dropdown, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
@@ -13,6 +14,7 @@ import { SiBloglovin } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import coursesApi from "../../api/coursesApi";
 import { handleDeleteFromCart } from "../../redux/cartRedux";
 import { deleteDetailUser } from "../../redux/userRedux";
 import "./Header.css";
@@ -36,27 +38,33 @@ function Header() {
     control,
     formState: { errors },
   } = useForm({
-    defaultValues: {
-      username: user.username,
-    },
+    defaultValues: {},
   });
-
+  const [couponCode, setCouponCode] = useState("");
   const [dataPost, setDataPost] = useState({
     username: user.username,
-    couponCode: "",
+    couponCode: couponCode,
     paymentId: "01",
     orderDetailList: [],
   });
-  const [tongTien, setTongTien] = useState(0);
 
+  const [tongTien, setTongTien] = useState(0);
   const handleCheckOut = async () => {
     try {
       const res = await axios.post(
         "http://localhost:8080/api/v1/vnpay/request-pay",
         dataPost
       );
-      const linkRes = res.data.data;
-      window.open(linkRes, "_self");
+      if (res.data.errorCode === "") {
+        const linkRes = res.data.data;
+        window.open(linkRes, "_self");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Lỗi",
+          text: res.data.message,
+        });
+      }
     } catch (error) {
       console.log(error);
     }
@@ -133,6 +141,44 @@ function Header() {
   //hàm đổi màu background header khi scroll end
 
   const nav = useNavigate();
+  const [doneSearch, setDoneSearch] = useState("");
+  const [listSearchResult, setListSearchResult] = useState([]);
+  const handleSearch = async (data) => {
+    try {
+      const res = await coursesApi.searchCourse(data, 0);
+      setListSearchResult(res.data.content);
+    } catch (error) {}
+  };
+
+  const typingTimeoutRef = useRef(null);
+  const handleChangeTextSearch = (e) => {
+    //Show kêt quả tìm kiếm khi nhập và ẩn khi không nhập
+    const searchResult = document.getElementById("form__search__result");
+    if (e.target.value !== "") {
+      searchResult?.classList.add("show");
+    }
+    if (e.target.value === "") {
+      searchResult?.classList.remove("show");
+    }
+
+    // delay 1s sau khi nhập mới gọi api
+    if (typingTimeoutRef.current) {
+      clearTimeout(typingTimeoutRef.current);
+    }
+    typingTimeoutRef.current = setTimeout(() => {
+      const formValue = {
+        name: {
+          key: "name",
+          value: e.target.value,
+          operation: "MATCH",
+        },
+      };
+      const temp = Object.values(formValue);
+      if (e.target.value !== "") {
+        handleSearch(temp);
+      }
+    }, 500);
+  };
   return (
     <nav
       className="navbar navbar-expand-lg fixed-top position-sticky "
@@ -232,15 +278,44 @@ function Header() {
             </li>
           </ul>
           <div className="d-flex justify-content-center align-items-center nav__tool-user">
-            <form className="d-flex align-items-center me-3 form__search">
+            <form
+              className="d-flex align-items-center me-3 form__search"
+              id="form__search"
+              onSubmit={(e) => {
+                e.preventDefault();
+              }}
+            >
               <input
                 className="form-control me-3 nav__search"
                 type="search"
                 placeholder="Tìm kiếm khóa học"
                 aria-label="Search"
+                onChange={handleChangeTextSearch}
               />
               <i className="bx bx-search"></i>
+              <div className="form__search__result" id="form__search__result">
+                <ul className="list-group">
+                  {listSearchResult.length > 0 ? (
+                    listSearchResult.map((item) => {
+                      return (
+                        <li
+                          className="list-group-item"
+                          key={item.id}
+                          onClick={() => {
+                            nav(`/courses/${item.id}`);
+                          }}
+                        >
+                          {item.name}
+                        </li>
+                      );
+                    })
+                  ) : (
+                    <li className="list-group-item">Không có kết quả</li>
+                  )}
+                </ul>
+              </div>
             </form>
+
             {/* <i
               className="bx bx-user-circle me-3"
               id="basic-button"
@@ -417,6 +492,14 @@ function Header() {
                     type="text"
                     placeholder="Mã giảm giá"
                     className="form-control"
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value);
+                      setDataPost({
+                        ...dataPost,
+                        couponCode: e.target.value,
+                      });
+                    }}
                   />
                 </div>
                 <div className="d-flex justify-content-between align-items-center w-100">

@@ -38,6 +38,14 @@ const userApi = {
     const url = `/reset-password?token=${token}&password=${newPass}`;
     return axiosClient.post(url);
   },
+  changeAvatar(username, data) {
+    const url = `/account/${username}/avatar`;
+    return axiosClient.post(url, data);
+  },
+  requestBecomeTeacher(data) {
+    const url = `/enroll-teacher`;
+    return axiosClient.post(url, data);
+  },
 };
 
 export default userApi;

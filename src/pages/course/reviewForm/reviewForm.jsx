@@ -133,7 +133,10 @@ const ReviewForm = (props) => {
               <div className="col-12 col-md-3 rating__avt d-flex justify-content-center align-items-center">
                 <img
                   alt="avt"
-                  src={require("../../../assets/img/member.jpg")}
+                  src={
+                    "https://users-avatars-online-courses.s3.us-west-2.amazonaws.com/man-2.png"
+                  }
+                  // require("../../../assets/img/member.jpg")
                 />
                 <div className="d-flex flex-column">
                   <span className="name_user">{item?.username}</span>

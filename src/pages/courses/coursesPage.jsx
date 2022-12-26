@@ -178,7 +178,7 @@ export default function CoursesPage() {
     <div className="container-fluid">
       <div className="row">
         <div className="col-12 col-lg-2 position-relative">
-          <FaAngleDoubleDown
+          {/* <FaAngleDoubleDown
             className=""
             onClick={toggleFilter}
             style={{
@@ -191,7 +191,7 @@ export default function CoursesPage() {
               border: "1px solid #000",
               cursor: "pointer",
             }}
-          />
+          /> */}
           <form
             className="filter__courses  mx-1 my-3"
             id="filter__courses"

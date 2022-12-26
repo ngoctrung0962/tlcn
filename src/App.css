@@ -30,7 +30,9 @@ body {
   margin: 0;
   padding: 0;
 }
-
+iframe video {
+  height: 100% !important;
+}
 /* Css cho thanh scroll */
 ::-webkit-scrollbar {
   width: 10px;
@@ -983,6 +985,8 @@ a {
   object-fit: cover;
   max-width: 120px;
   max-height: 120px;
+  min-height: 120px;
+  min-width: 120px;
   padding: 5px;
   border: 5px solid rgba(242, 230, 225, 0.988);
   margin-bottom: 32px;

@@ -21,24 +21,21 @@ export default function HomePage() {
               <div className="col-12 col-md-6">
                 <div className="user__created__box p-5">
                   <img
-                    src={require("../../assets/img/garden-model.png")}
+                    src={require("../../assets/img/trung.jpg")}
                     alt=""
                     className="user__avt"
                   />
                   <div className="user__created__info">
                     <h3 className="user__created__name">Nguyễn Ngọc Trung</h3>
                     <p className="user__created__job">Front-end Developer</p>
-                    <p className="user__created__desc">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quisquam, quod.
-                    </p>
+                    <p className="user__created__desc"></p>
                   </div>
                 </div>
               </div>
               <div className="col-12 col-md-6">
                 <div className="user__created__box p-5">
                   <img
-                    src={require("../../assets/img/garden-model.png")}
+                    src={require("../../assets/img/toan.jpg")}
                     alt=""
                     className="user__avt"
                   />
@@ -47,10 +44,7 @@ export default function HomePage() {
                       Nguyễn Phúc Thanh Toàn
                     </h3>
                     <p className="user__created__jobBE">Back-end Developer</p>
-                    <p className="user__created__desc">
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Quisquam, quod.
-                    </p>
+                    <p className="user__created__desc"></p>
                   </div>
                 </div>
               </div>

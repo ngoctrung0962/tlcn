@@ -221,7 +221,7 @@ const LearnPage = () => {
                       <Accordion.Body>
                         <ul className="list__videos">
                           {listVideo?.map((item, index) => {
-                            if (item.chapterId === chapter.id) {
+                            if (item.chapter.id === chapter.id) {
                               return (
                                 <li
                                   key={index}

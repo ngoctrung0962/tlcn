@@ -4,6 +4,7 @@ import { BiLogOut } from "react-icons/bi";
 import { BsArrowLeftShort } from "react-icons/bs";
 
 import { MdDownload } from "react-icons/md";
+import { RiSave3Fill } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,13 +12,16 @@ import userApi from "../../api/userApi";
 import { deleteDetailUser } from "../../redux/userRedux";
 import "./Account.css";
 import AccountChangePass from "./components/AccountChangePass";
-import AccountHistoryPurchase from "./components/AccountHistoryPurchase";
 import AccountInfo from "./components/AccountInfo";
 import ModalRequestBecomeTeacher from "./components/ModalRequestBecomeTeacher";
+import ModalUpdateAvatar from "./components/ModalUpdateAvatar";
 const Account = () => {
   const username = useLocation().pathname.split("/")[2];
   const [userDetail, setUserDetail] = useState();
   //get detail user
+
+  //fix tạm cách để render lại avatar khi đổi
+  const [reload, setReload] = useState(false);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -29,7 +33,7 @@ const Account = () => {
       }
     };
     fetchUser();
-  }, [username]);
+  }, [username, reload]);
 
   const dispatch = useDispatch();
   const handleLogout = async () => {
@@ -49,12 +53,24 @@ const Account = () => {
   };
   const [showModalRequestBecomeTeacher, setShowModalRequestBecomeTeacher] =
     useState(false);
+
+  const [showModalUpdateAvatar, setShowModalUpdateAvatar] = useState(false);
   return (
     <div className="account">
       {showModalRequestBecomeTeacher && (
         <ModalRequestBecomeTeacher
+          userDetail={userDetail}
           show={showModalRequestBecomeTeacher}
           onHide={() => setShowModalRequestBecomeTeacher(false)}
+        />
+      )}
+      {showModalUpdateAvatar && (
+        <ModalUpdateAvatar
+          reload={reload}
+          setReload={setReload}
+          userDetail={userDetail}
+          show={showModalUpdateAvatar}
+          onHide={() => setShowModalUpdateAvatar(false)}
         />
       )}
       <header className="account__header position-sticky top-0">
@@ -62,7 +78,6 @@ const Account = () => {
           <Link to="/">
             <div className="logo d-flex align-items-center">
               <BsArrowLeftShort size={15} cursor={"pointer"} />
-
               <h2>Trở về trang chủ</h2>
             </div>
           </Link>
@@ -74,11 +89,22 @@ const Account = () => {
             <div className="account__left container d-flex  flex-column py-3 sticky-top">
               <div className="account__left__avatar ">
                 <img
-                  src={require("../../assets/img/avt.jpg")}
+                  src={
+                    userDetail
+                      ? userDetail.avatar
+                      : require("../../assets/img/avt.jpg")
+                  }
                   alt=""
                   className="img-fluid"
                 />
               </div>
+              <button
+                className="account__btn"
+                onClick={() => setShowModalUpdateAvatar(true)}
+                style={{ width: "fit-content", marginTop: "10px" }}
+              >
+                <RiSave3Fill className="me-2" /> Cập nhật ảnh đại diện
+              </button>
               <div className="account__left__name">
                 <h3>
                   Student <br /> <span>{userDetail?.fullname}</span>
@@ -86,9 +112,9 @@ const Account = () => {
               </div>
               <div className="account__left__info">
                 <p>
-                  I'm the Front-End Developer for #Company in Bangladesh, OR. I
+                  {/* I'm the Front-End Developer for #Company in Bangladesh, OR. I
                   have serious passion for UI effects, animations and creating
-                  intuitive, dynamic user experiences.
+                  intuitive, dynamic user experiences. */}
                 </p>
               </div>
               <div className="account__left__button">
