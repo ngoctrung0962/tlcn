@@ -103,7 +103,6 @@ const LearnPage = () => {
     }
   };
   const onSubmit = async (data) => {
-    data.username = currentUser?.username;
     data.videoId = searchParams.get("id");
     data.atTime = formatTime(videoRef.current.currentTime);
     try {

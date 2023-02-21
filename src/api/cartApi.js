@@ -2,16 +2,16 @@ import axiosClient from "./axiosClient";
 import { stringify } from "query-string";
 
 const cartApi = {
-  getListCourseInCart(username) {
-    const url = `/cart/${username}`;
+  getListCourseInCart() {
+    const url = `/cart`;
     return axiosClient.get(url);
   },
-  AddToCartAction(courseId, username) {
-    const url = `/cart/${username}/${courseId}`;
+  AddToCartAction(courseId) {
+    const url = `/cart/${courseId}`;
     return axiosClient.post(url);
   },
-  DeleteFormCart(courseId, username) {
-    const url = `/cart/${username}/${courseId}`;
+  DeleteFormCart(courseId) {
+    const url = `/cart/${courseId}`;
     return axiosClient.delete(url);
   },
 };

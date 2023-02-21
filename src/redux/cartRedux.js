@@ -32,7 +32,6 @@ const cartSlice = createSlice({
 
 export const handleAddtoCart = async (
   courseId,
-  username,
   dispatch,
   listCart
 ) => {
@@ -45,7 +44,7 @@ export const handleAddtoCart = async (
       text: "",
     });
   } else {
-    const res = await cartApi.AddToCartAction(courseId, username);
+    const res = await cartApi.AddToCartAction(courseId);
     if (res.errorCode === "") {
       dispatch(insertCart(res.data.course));
       Swal.fire({
@@ -67,10 +66,9 @@ export const handleAddtoCart = async (
 
 export const handleDeleteFromCart = async (
   cartDetailId,
-  username,
   dispatch
 ) => {
-  const res = await cartApi.DeleteFormCart(cartDetailId, username);
+  const res = await cartApi.DeleteFormCart(cartDetailId);
 
   if (res.errorCode === "") {
     dispatch(deleteCart(res.data));

@@ -1,0 +1,31 @@
+/* markdown editor css */
+.w-md-editor {
+  background: #fff;
+  box-shadow: none;
+}
+.w-md-editor-toolbar {
+  position: relative;
+  z-index: 1;
+  padding: 0 10px;
+  background-color: #fff;
+  border: none;
+}
+
+.w-md-editor-toolbar li > button {
+  color: #757575;
+  font-size: 20px;
+  padding: 0 10px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.w-md-editor-toolbar li > button:hover {
+  color: #000;
+}
+.w-md-editor-text {
+  color: #757575;
+}
+.wmde-markdown {
+  background: #fff;
+  color: #757575;
+}

@@ -1,16 +1,16 @@
 import axiosClient from "./axiosClient";
 
 const noteApi = {
-  getnotebyvideoid(username, videoid) {
-    const url = `/note/${username}/${videoid}`;
+  getnotebyvideoid( videoid) {
+    const url = `/notes/video/${videoid}`;
     return axiosClient.get(url);
   },
   addnote(data) {
-    const url = `/note/add`;
+    const url = `/notes`;
     return axiosClient.post(url, data);
   },
   deletenotebyid(id) {
-    const url = `/note/delete/${id}`;
+    const url = `/notes/${id}`;
     return axiosClient.delete(url);
   },
 };

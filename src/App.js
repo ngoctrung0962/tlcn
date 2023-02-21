@@ -1,32 +1,23 @@
-import "./App.css";
 import React from "react";
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import "./App.css";
 
+import Cookies from "js-cookie";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import cartApi from "./api/cartApi";
+import userApi from "./api/userApi";
+import Loading from "./components/Loading/Loading";
 import CustomLayout from "./CustomLayout/CustomLayout";
+import Account from "./pages/Account/Account.page";
+import ForgotPass from "./pages/auth/ForgotPass/ForgotPass.page";
 import SignIn from "./pages/auth/signin/SignIn.page";
 import SignUp from "./pages/auth/signup/SignUp.page";
 import LearnPage from "./pages/learn/Learn.page";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import Cookies from "js-cookie";
-import { deleteDetailUser, loginSuccess } from "./redux/userRedux";
-import userApi from "./api/userApi";
-import cartApi from "./api/cartApi";
-import { getListCart } from "./redux/cartRedux";
-import Account from "./pages/Account/Account.page";
-import SuccessPage from "./pages/ResultPurchar/Success.page";
-import FailPage from "./pages/ResultPurchar/Fail.page";
-import { useState } from "react";
-import ContactPage from "./pages/Contact/Contact.page";
-import ForgotPass from "./pages/auth/ForgotPass/ForgotPass.page";
 import MyLearning from "./pages/MyLearning/MyLearning.page";
-import Loading from "./components/Loading/Loading";
+import { getListCart } from "./redux/cartRedux";
+import { deleteDetailUser, loginSuccess } from "./redux/userRedux";
+import ForumPage from "./pages/Forum/Forum.page";
 
 function App() {
   const dispatch = useDispatch();
@@ -36,7 +27,7 @@ function App() {
 
   useEffect(() => {
     const getListCartAction = async () => {
-      const res = await cartApi.getListCourseInCart(user?.username);
+      const res = await cartApi.getListCourseInCart();
       if (res.errorCode === "") {
         dispatch(getListCart(res.data));
       }
@@ -105,6 +96,7 @@ function App() {
           path="/learn/:id"
           element={user ? <LearnPage /> : <Navigate to="/signin" />}
         />
+        <Route path="/forum" element={<ForumPage />} />
       </Routes>
     </div>
   );

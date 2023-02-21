@@ -34,7 +34,7 @@ const CoursePage = (props) => {
   }, [courseId]);
   const dispatch = useDispatch();
   const handleSubmitAddtoCart = async (courseId) => {
-    await handleAddtoCart(courseId, user?.username, dispatch, listCart);
+    await handleAddtoCart(courseId, dispatch, listCart);
   };
 
   // Kiểm tra khóa học đã được đăng ký hay chưa
@@ -84,8 +84,13 @@ const CoursePage = (props) => {
         <div className="col-12 col-lg-9 col-md-7">
           <div className="course__left m-3">
             <h3 className="course__title">{course ? course.name : ""}</h3>
-            <div className="course__dess">
-              {course ? course.description : ""}
+            <div
+              className="course__dess"
+              dangerouslySetInnerHTML={{
+                __html: course?.description,
+              }}
+            >
+              {/* {course ? course.description : ""} */}
             </div>
             <div className="course__social">
               <div className="course__rating d-flex flex-row align-items-center gap-3">
@@ -176,9 +181,12 @@ const CoursePage = (props) => {
         <div className="col-12 col-lg-3 col-md-5 card__detail">
           <div className="course__right m-3 p-3">
             <h3 className="course__title">{course ? course.name : ""}</h3>
-            <div className="course__dess">
-              {course ? course.description : ""}
-            </div>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: course?.description,
+              }}
+              className="course__dess"
+            ></div>
             <div className="course__social">
               <div className="course__rating d-flex flex-row align-items-center gap-3 mb-2">
                 <span className="total">

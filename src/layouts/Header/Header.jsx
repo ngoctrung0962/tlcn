@@ -72,7 +72,7 @@ function Header() {
   };
   const dispatch = useDispatch();
   const handleSubmitDeleteFromCart = async (courseId) => {
-    await handleDeleteFromCart(courseId, user?.username, dispatch);
+    await handleDeleteFromCart(courseId, dispatch);
   };
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -249,14 +249,14 @@ function Header() {
             <li className="nav-item">
               <Link
                 className={
-                  matchPath("/blog", pathname) ? "nav-link active" : "nav-link"
+                  matchPath("/forum", pathname) ? "nav-link active" : "nav-link"
                 }
-                to="/blog"
+                to="/forum"
               >
                 <div className="d-flex flex-column align-items-center">
                   {/* <i className="bx bxl-blogger"></i> */}
                   <SiBloglovin />
-                  <span>Blogs</span>
+                  <span>Diễn đàn</span>
                 </div>
               </Link>
             </li>

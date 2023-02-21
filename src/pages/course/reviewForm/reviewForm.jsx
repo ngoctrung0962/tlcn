@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import reviewApi from "../../../api/reviewApi";
 import { formatDateDisplay } from "../../../utils/MyUtils";
 import { MdOutlineDelete } from "react-icons/md";
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 const ReviewForm = (props) => {
   const {
     register,
@@ -84,13 +86,43 @@ const ReviewForm = (props) => {
         <Row className="d-flex justify-content-center align-items-center">
           <Col md={10} sm={12}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <TextField
+              {/* <TextField
                 id="outlined-basic"
                 label="Nhập bình luận của bạn"
                 variant="outlined"
                 fullWidth
                 type={"text"}
                 {...register("content", { required: true })}
+              /> */}
+              <SunEditor
+                setOptions={{
+                  buttonList: [
+                    ["undo", "redo"],
+                    ["font", "fontSize", "formatBlock"],
+                    ["paragraphStyle", "blockquote"],
+                    [
+                      "bold",
+                      "underline",
+                      "italic",
+                      "strike",
+                      "subscript",
+                      "superscript",
+                    ],
+                    ["fontColor", "hiliteColor", "textStyle"],
+                    ["removeFormat"],
+                    ["outdent", "indent"],
+                    ["align", "horizontalRule", "list", "lineHeight"],
+                    ["table", "link", "image", "video", "audio"],
+                    ["fullScreen", "showBlocks", "codeView"],
+                    ["preview", "print"],
+                  ],
+                }}
+                setContents={getValues("description")}
+                onChange={(content) => {
+                  setValue("content", content);
+                }}
+                height="100%"
+                setDefaultStyle="font-family: 'Readex Pro', sans-serif; "
               />
             </Form.Group>
           </Col>
@@ -153,7 +185,12 @@ const ReviewForm = (props) => {
                     readOnly
                   />
                 </div>
-                <p>{item?.content}</p>{" "}
+                {/* <p>{item?.content}</p>{" "} */}
+                <div
+                  dangerouslySetInnerHTML={{
+                    __html: item?.content,
+                  }}
+                ></div>
                 {item?.username === currentUser.username && (
                   <div
                     className="rating__delete"
