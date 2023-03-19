@@ -318,9 +318,9 @@ const ThirdForm = () => {
   const client = google.accounts.oauth2.initCodeClient({
     client_id:
       "196687151915-7e4hb9r2vik4mq6mikovo1v8e54psqr8.apps.googleusercontent.com",
-    scope: "https://www.googleapis.com/auth/calendar.events",
+    scope: "https://www.googleapis.com/auth/calendar",
     ux_mode: "popup",
-    redirect_uri: "http://localhost:3001",
+    redirect_uri: "http://localhost:3000",
     callback: (response) => {
       console.log(response);
       setValue("code", response.code);
@@ -328,6 +328,7 @@ const ThirdForm = () => {
   });
   const handleClick = async () => {
     const response = await client.requestCode();
+    console.log(response);
   };
 
   return (
