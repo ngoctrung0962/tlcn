@@ -1333,3 +1333,39 @@ a {
   color: #061c3d;
   line-height: 16px;
 }
+
+.btn__addCalendar {
+  border: none;
+  background: var(--blue);
+  border-radius: 7px;
+  padding: 10px 20px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  letter-spacing: -0.015em;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.form-switch {
+  background: #fdfefe;
+  font-size: 14px;
+  border-radius: 2px solid #dadada;
+  padding-left: 0;
+}
+.form-switch .form-check-input {
+  margin-left: 0;
+}
+
+.login__google {
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(209, 215, 220);
+  padding: 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.login__google:hover {
+  color: #1c1d1f;
+  background-color: rgba(0, 0, 0, 0.04);
+}

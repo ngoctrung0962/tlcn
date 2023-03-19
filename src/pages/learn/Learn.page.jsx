@@ -24,6 +24,9 @@ import Swal from "sweetalert2";
 import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 import { useRef } from "react";
 import { formatTime } from "../../utils/MyUtils";
+import Calendar from "./tabs/CalendarTab/Calendar";
+import QATab from "./tabs/Q&ATab/Q&ATab";
+import CommentSection from "./tabs/Q&ATab/Q&ATab";
 const LearnPage = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -311,7 +314,7 @@ const LearnPage = () => {
             </Link>
           </span>
           <div
-            className="d-flex flex-row justify-content-center align-items-center gap-1"
+            className="d-none  d-md-flex flex-row justify-content-center align-items-center gap-1 "
             style={{
               color: "#fff",
             }}
@@ -354,16 +357,6 @@ const LearnPage = () => {
                 />
               </div>
             ) : (
-              // <iframe
-              //   width="100%"
-              //   height="500"
-              //   src={currentPicker.srcVideo}
-              //   title={currentPicker.title}
-              //   frameBorder="0"
-              //   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              //   allowFullScreen
-              //   className="learn-iframe"
-              // ></iframe>
               <video
                 id="myVideo"
                 className="learn__video"
@@ -375,13 +368,6 @@ const LearnPage = () => {
                 onTimeUpdate={handleChangeTime}
                 ref={videoRef}
               ></video>
-              //React file viewer
-              // <FileViewer
-              //   className="learn__viewer"
-              //   fileType={"mp4"}
-              //   filePath={currentPicker?.srcVideo}
-              //   onError={(e) => console.log(e)}
-              // />
             )}
 
             <Tabs
@@ -454,7 +440,7 @@ const LearnPage = () => {
                 </div>
               </Tab>
               <Tab eventKey="Q&A" title="Hỏi đáp">
-                <div className="question__container">
+                {/* <div className="question__container">
                   <div className="question__form mb-4">
                     <Form>
                       <Row>
@@ -525,7 +511,12 @@ const LearnPage = () => {
                       );
                     })}
                   </div>
-                </div>
+                </div> */}
+                <QATab listQuestion={listQuestion} />
+              </Tab>
+
+              <Tab eventKey="calendar" title="Lịch">
+                <Calendar />
               </Tab>
             </Tabs>
           </div>
