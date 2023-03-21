@@ -9,6 +9,7 @@ import { formatDateDisplay } from "../../../utils/MyUtils";
 import { MdOutlineDelete } from "react-icons/md";
 import SunEditor from "suneditor-react";
 import "suneditor/dist/css/suneditor.min.css";
+import uploadFileApi from "../../../api/uploadFileApi";
 const ReviewForm = (props) => {
   const {
     register,
@@ -20,6 +21,58 @@ const ReviewForm = (props) => {
   } = useForm({});
   const { currentUser } = useSelector((state) => state.user);
   const [rating, setRating] = useState(0);
+
+  const handleUploadImageBefore = async (files, info, uploadHandler) => {
+    // uploadHandler(files);
+    console.log("handleUploadImageBefore", uploadHandler);
+    console.log("info", info);
+    const formData = new FormData();
+    formData.append("files", files[0]);
+    const promise = new Promise((resolve, reject) => {
+      const addImage = async () => {
+        try {
+          const res = await uploadFileApi.upLoadFile(formData);
+          resolve(res.data[0]);
+        } catch (error) {
+          reject(error);
+        }
+      };
+      addImage();
+    });
+
+    promise
+      .then((res) => {
+        const data = {
+          // The response must have a "result" array.
+          result: [
+            {
+              url: res,
+              name: files[0].name,
+              size: files[0].size,
+            },
+          ],
+        };
+        uploadHandler(data);
+        return undefined;
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+
+    return undefined;
+  };
+  const handleImageUpload = async (
+    targetImgElement,
+    index,
+    state,
+    imageInfo,
+    remainingFilesCount
+  ) => {
+    console.log("target", targetImgElement);
+    console.log("image", imageInfo);
+    // Thay đổi đường dẫn ảnh
+    // targetImgElement.src = imageInfo.src;
+  };
   const handleDeleteReview = async (reviewId) => {
     try {
       const res = await reviewApi.remove(reviewId);
@@ -123,6 +176,8 @@ const ReviewForm = (props) => {
                 }}
                 height="100%"
                 setDefaultStyle="font-family: 'Readex Pro', sans-serif; "
+                onImageUploadBefore={handleUploadImageBefore}
+                onImageUpload={handleImageUpload}
               />
             </Form.Group>
           </Col>

@@ -195,16 +195,18 @@ a {
   overflow: auto;
 }
 
-.list__videos .video__item {
+.list__videos li .video__item {
   position: relative;
   width: 100%;
   border: 1px solid #212121;
-  border-radius: 6px;
-  padding: 10px 20px;
+  border-radius: 40px;
+  padding: 8px 10px;
   margin-bottom: 10px;
+  align-items: center;
+  cursor: pointer;
 }
 
-.list__videos .video__item.active {
+.list__videos li .video__item.active {
   background: #00693e;
   color: #fff;
   border: none;

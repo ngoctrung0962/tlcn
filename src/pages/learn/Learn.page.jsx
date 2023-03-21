@@ -1,7 +1,9 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { BsPlayCircleFill } from "react-icons/bs";
+import { BsFillCameraVideoFill, BsPlayCircleFill } from "react-icons/bs";
+import { HiOutlineVideoCamera } from "react-icons/hi";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
+import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import {
   Link,
@@ -99,7 +101,6 @@ const LearnPage = () => {
         currentUser?.username,
         searchParams.get("id")
       );
-      console.log("resNote", res.data);
       setListNote(res.data);
     } catch (error) {
       console.log(error);
@@ -159,7 +160,6 @@ const LearnPage = () => {
       (item) => item.id == searchParams.get("id")
     );
     const nextVideo = listVideo[currIndex + 1];
-    console.log(nextVideo);
     if (nextVideo) {
       setSearchParams({ id: nextVideo.id });
     }
@@ -285,6 +285,9 @@ const LearnPage = () => {
       ],
     },
   ];
+
+  const [activeLecture, setActiveLecture] = useState();
+  console.log(activeLecture);
   return wasBought || isPublicCourse ? (
     <div className="learn">
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
@@ -348,7 +351,7 @@ const LearnPage = () => {
       <div className="row my-3 mb-5">
         <div className="col-12 col-lg-9">
           <div className="">
-            {!currentPicker.srcVideo ? (
+            {!activeLecture ? (
               <div className="d-flex justify-content-center align-items-center flex-column">
                 <img
                   src={course?.avatar}
@@ -356,18 +359,20 @@ const LearnPage = () => {
                   style={{ height: "50%" }}
                 />
               </div>
-            ) : (
+            ) : activeLecture?.lectureType === "VIDEO" ? (
               <video
                 id="myVideo"
                 className="learn__video"
                 width="100%"
                 height="500px"
-                src={currentPicker.srcVideo}
+                src={activeLecture.link}
                 controls
                 autoPlay
                 onTimeUpdate={handleChangeTime}
                 ref={videoRef}
               ></video>
+            ) : (
+              ""
             )}
 
             <Tabs
@@ -377,143 +382,87 @@ const LearnPage = () => {
             >
               <Tab eventKey="overview" title="Tổng quan">
                 <h4 className="video__title mt-3 text-left">
-                  {currentPicker?.title}
+                  {activeLecture?.title}
                 </h4>
-                <p>{currentPicker?.des}</p>
-              </Tab>
-              <Tab eventKey="note" title="Note">
-                {/* Form add note */}
-                <div className="note__container">
-                  <div className="note__form mb-4">
-                    {searchParams.get("id") && (
-                      <Form onSubmit={handleSubmit(onSubmit)}>
-                        <Row>
-                          <Col md={6} xs={12}>
-                            <Form.Group className="mb-3">
-                              <Form.Label>Thêm ghi chú</Form.Label>
 
-                              <div className="time__video mb-1">
-                                {formatTime(currentTime)}
-                              </div>
-                              <Form.Control
-                                as="textarea"
-                                rows={3}
-                                placeholder="Nhập ghi chú"
-                                {...register("content", { required: true })}
-                              />
-                            </Form.Group>
-                            <Button
-                              className="main__btn"
-                              onClick={handleSubmit(onSubmit)}
-                            >
-                              Thêm ghi chú
-                            </Button>
-                          </Col>
-                        </Row>
-                      </Form>
-                    )}
-                  </div>
-                  <div className=" row note__list">
-                    <Form.Label>Danh sách note</Form.Label>
-                    {listNote?.map((item, index) => {
-                      return (
-                        <div className=" note__item mb-2" key={index}>
-                          <div className="note__item-header">
-                            <span className="note__item-time me-3">
-                              {item.atTime}
-                            </span>
-                            <span className="note__item-delete">
-                              <AiOutlineDelete
-                                size={20}
-                                cursor="pointer"
-                                onClick={() => handleDeleteNote(item.id)}
-                              />
-                            </span>
-                          </div>
-                          <div className="note__item-content">
-                            {item.content}
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                {!activeLecture && (
+                  <p
+                    dangerouslySetInnerHTML={{
+                      __html: course?.description,
+                    }}
+                  ></p>
+                )}
+                <p>{activeLecture?.description}</p>
               </Tab>
-              <Tab eventKey="Q&A" title="Hỏi đáp">
-                {/* <div className="question__container">
-                  <div className="question__form mb-4">
-                    <Form>
-                      <Row>
-                        <Col md={6} xs={12}>
-                          <Form.Group className="mb-3">
-                            <Form.Label>Thêm câu hỏi</Form.Label>
-                            <Form.Control
-                              className="mb-3"
-                              placeholder="Nhập tiêu đề"
-                            ></Form.Control>
-                            <Form.Control
-                              as="textarea"
-                              rows={3}
-                              placeholder="Nhập câu hỏi"
-                            ></Form.Control>
-                          </Form.Group>
+              {activeLecture && activeLecture?.lectureType === "VIDEO" && (
+                <Tab eventKey="note" title="Note">
+                  {/* Form add note */}
+                  <div className="note__container">
+                    <div className="note__form mb-4">
+                      {searchParams.get("id") && (
+                        <Form onSubmit={handleSubmit(onSubmit)}>
+                          <Row>
+                            <Col md={6} xs={12}>
+                              <Form.Group className="mb-3">
+                                <Form.Label>Thêm ghi chú</Form.Label>
 
-                          <Button
-                            className="main__btn"
-                            // onClick={handleSubmitQuestion(onSubmitQuestion)}
-                          >
-                            Thêm câu hỏi
-                          </Button>
-                        </Col>
-                      </Row>
-                    </Form>
-                  </div>
-                  <div className=" row question__list">
-                    <Form.Label>
-                      Danh sách câu hỏi ({listQuestion.length})
-                    </Form.Label>
-                    {listQuestion?.map((item, index) => {
-                      return (
-                        <div className=" question__item mb-2 row" key={index}>
-                          <div className="question__left col col-12 col-md-2">
-                            <div className="question__item-avatar">
-                              <img
-                                src={require("../../assets/img/avt.jpg")}
-                                alt=""
-                                className=""
-                              />
-                            </div>
-                            <div className="question__item-name">
-                              {item.user.name}
-                            </div>
-                            <span className="question__item-time me-3">
-                              {item.date_created}
-                            </span>
-                          </div>
-                          <div className="question__right col col-12 col-md-10">
-                            <div className="question__item-header d-flex w-100">
-                              <span className="question__item-title ">
-                                {item.title}
+                                <div className="time__video mb-1">
+                                  {formatTime(currentTime)}
+                                </div>
+                                <Form.Control
+                                  as="textarea"
+                                  rows={3}
+                                  placeholder="Nhập ghi chú"
+                                  {...register("content", { required: true })}
+                                />
+                              </Form.Group>
+                              <Button
+                                className="main__btn"
+                                onClick={handleSubmit(onSubmit)}
+                              >
+                                Thêm ghi chú
+                              </Button>
+                            </Col>
+                          </Row>
+                        </Form>
+                      )}
+                    </div>
+                    <div className=" row note__list">
+                      <Form.Label>Danh sách note</Form.Label>
+                      {listNote?.map((item, index) => {
+                        return (
+                          <div className=" note__item mb-2" key={index}>
+                            <div className="note__item-header">
+                              <span className="note__item-time me-3">
+                                {item.atTime}
                               </span>
-                              <div className="question__item-tool d-flex gap-2">
-                                <AiOutlineDelete size={24} cursor="pointer" />
-                                <AiOutlineEdit size={24} cursor="pointer" />
-                              </div>
+                              <span className="note__item-delete">
+                                <AiOutlineDelete
+                                  size={20}
+                                  cursor="pointer"
+                                  onClick={() => handleDeleteNote(item.id)}
+                                />
+                              </span>
                             </div>
-
-                            <div className="question__item-content">
+                            <div className="note__item-content">
                               {item.content}
                             </div>
-
-                            <div className="question__item-des d-flex gap-1"></div>
                           </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
-                </div> */}
-                <QATab listQuestion={listQuestion} />
-              </Tab>
+                </Tab>
+              )}
+
+              {activeLecture && (
+                <Tab eventKey="Q&A" title="Hỏi đáp">
+                  <QATab
+                    listQuestion={listQuestion}
+                    activeLecture={activeLecture && activeLecture}
+                  />
+                </Tab>
+              )}
 
               <Tab eventKey="calendar" title="Lịch">
                 <Calendar />
@@ -530,36 +479,62 @@ const LearnPage = () => {
                 {listChapters?.map((chapter, index) => {
                   return (
                     <Accordion.Item eventKey={index} key={index}>
-                      <Accordion.Header>{chapter.chapterName}</Accordion.Header>
+                      <Accordion.Header>
+                        <p
+                          style={{
+                            padding: "0",
+                            margin: "0",
+                            fontSize: "12px",
+                            fontWeight: "500",
+                          }}
+                        >
+                          {chapter.chapterName}
+                        </p>
+                      </Accordion.Header>
                       <Accordion.Body>
                         <ul className="list__videos">
-                          {listVideo?.map((item, index) => {
-                            if (item.chapter.id === chapter.id) {
-                              return (
-                                <li
-                                  key={index}
+                          {chapter?.lectures?.map((lecture, index) => {
+                            return (
+                              <li key={index}>
+                                <div
                                   className={
-                                    item.id == searchParams.get("id")
-                                      ? "video__item active ps-3 d-flex flex-row align-items-center "
-                                      : "video__item  ps-3 d-flex flex-row align-items-center "
+                                    lecture.id == searchParams.get("id")
+                                      ? "video__item active ps-3  "
+                                      : "video__item  ps-3 "
                                   }
+                                  onClick={() => {
+                                    setSearchParams(
+                                      { id: lecture.id },
+                                      { replace: true }
+                                    );
+                                    setActiveLecture(lecture);
+                                  }}
                                 >
-                                  <p className="video__title m-0">
-                                    {item.title}
-                                  </p>
-
-                                  <BsPlayCircleFill
-                                    className="ms-3 icon__playvideo "
-                                    onClick={() => {
-                                      setSearchParams(
-                                        { id: item.id },
-                                        { replace: true }
-                                      );
+                                  <p
+                                    className="video__title m-0 ms-2"
+                                    style={{
+                                      padding: "0",
+                                      margin: "0",
+                                      fontSize: "12px",
+                                      fontWeight: "400",
                                     }}
-                                  />
-                                </li>
-                              );
-                            }
+                                  >
+                                    {lecture?.lectureType === "VIDEO" ? (
+                                      <HiOutlineVideoCamera
+                                        style={{
+                                          fontSize: "12px",
+                                          marginRight: "5px",
+                                          marginBottom: "2px",
+                                        }}
+                                      />
+                                    ) : (
+                                      <GrDocumentText />
+                                    )}
+                                    {lecture.title}
+                                  </p>
+                                </div>
+                              </li>
+                            );
                           })}
                         </ul>
                       </Accordion.Body>
