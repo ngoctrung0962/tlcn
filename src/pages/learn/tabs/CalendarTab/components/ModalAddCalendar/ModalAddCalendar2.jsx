@@ -22,6 +22,8 @@ import moment from "moment/moment";
 import MultipleSelectChip from "../MultiSelect/MultiSelect";
 import Select from "react-select";
 import calendarApi from "../../../../../../api/calendarApi";
+import Swal from "sweetalert2";
+import { formatDateDisplay } from "../../../../../../utils/MyUtils";
 const useStyles = makeStyles((theme) => ({
   button: {
     marginRight: theme.spacing(1),
@@ -313,7 +315,13 @@ const FirstForm = () => {
   );
 };
 const ThirdForm = () => {
-  const { control, setValue } = useFormContext();
+  const [isHasGoogleAccount, setIsHasGoogleAccount] = useState(false);
+  console.log(isHasGoogleAccount);
+  const {
+    control,
+    setValue,
+    formState: { errors },
+  } = useFormContext();
   const google = window.google;
   const client = google.accounts.oauth2.initCodeClient({
     client_id:
@@ -322,45 +330,20 @@ const ThirdForm = () => {
     ux_mode: "popup",
     redirect_uri: "http://localhost:3000",
     callback: (response) => {
-      console.log(response);
-      setValue("code", response.code);
+      if (response.code) {
+        setValue("code", response.code);
+        setValue("calendarType", "GOOGLE");
+        setIsHasGoogleAccount(true);
+      }
     },
   });
-  const handleClick = async () => {
-    const response = await client.requestCode();
-    console.log(response);
+  const handleLoginWithGG = async () => {
+    console.log("clcik");
+    await client.requestCode();
   };
 
   return (
     <div className="p-1">
-      <p
-        style={{
-          color: "#6a6f73",
-          marginBottom: "2rem",
-        }}
-      >
-        Bước 3/3
-      </p>
-      <div
-        className="over__view__calendar p-4"
-        style={{
-          position: "relative",
-          background: "#f7f9fa",
-          border: "1px solid #d1d7dc",
-          padding: " 1.6rem",
-          marginBottom: " 1.6rem",
-        }}
-      >
-        <div className="icon__calendar">
-          <i className="fas fa-calendar-alt"></i>
-        </div>
-        <div className="calendar__name"></div>
-        <div className="calendar__time">22/02/2023</div>
-        <div className="calendar__time__remind">
-          Thông báo nhắc 30 phút trước
-        </div>
-      </div>
-
       <label
         style={{
           display: "flex",
@@ -370,31 +353,68 @@ const ThirdForm = () => {
           minHeight: "2.8rem",
         }}
       >
-        Lưu sự kiện của bạn
+        Đăng nhập
       </label>
 
-      <button
-        className="login__google d-flex align-items-center "
-        style={{
-          background: "#fff",
-          border: "1px solid #d1d7dc",
-          padding: " 0.6rem",
-          cursor: "pointer",
-          fontSize: "1rem",
-        }}
-        onClick={handleClick}
-      >
-        <FcGoogle
+      <Controller
+        control={control}
+        name="calendarType"
+        rules={{ required: "Bạn chưa đăng nhập" }}
+        render={({ field }) => (
+          <Form.Group>
+            <Form.Control type="text" {...field} hidden />
+            {errors.calendarType && (
+              <Form.Text className="text-danger">
+                Vui lòng đăng nhập để tiếp tục
+              </Form.Text>
+            )}
+          </Form.Group>
+        )}
+      />
+      {isHasGoogleAccount === false ? (
+        <button
+          className="login__google d-flex align-items-center "
           style={{
-            marginRight: "0.6rem",
+            background: "#fff",
+            border: "1px solid #d1d7dc",
+            padding: " 0.6rem",
+            cursor: "pointer",
+            fontSize: "1rem",
           }}
-        />
-        Đăng nhập với Google
-      </button>
+          onClick={(e) => {
+            e.preventDefault();
+            handleLoginWithGG();
+          }}
+        >
+          <FcGoogle
+            style={{
+              marginRight: "0.6rem",
+            }}
+          />
+          Đăng nhập với Google
+        </button>
+      ) : (
+        <div>
+          <p>Đăng nhập với google thành công</p>
+          <lottie-player
+            src="https://assets6.lottiefiles.com/packages/lf20_hkpzpvwq.json"
+            background="transparent"
+            speed="0.5"
+            autoplay
+            style={{ width: "100%", height: "300px" }}
+          ></lottie-player>
+        </div>
+      )}
     </div>
   );
 };
 const ResultForm = () => {
+  const {
+    control,
+    setValue,
+    getValues,
+    formState: { errors },
+  } = useFormContext();
   return (
     <div
       className="over__view__calendar p-4"
@@ -409,9 +429,26 @@ const ResultForm = () => {
       <div className="icon__calendar">
         <i className="fas fa-calendar-alt"></i>
       </div>
-      <div className="calendar__name">Đã đến giờ học rồi</div>
-      <div className="calendar__time">22/02/2023</div>
-      <div className="calendar__time__remind">Thông báo nhắc 30 phút trước</div>
+      <div className="calendar__name"> Tên lịch học: {getValues("title")}</div>
+      <div className="calendar__name">
+        {" "}
+        Tần xuất nhắc: {getValues("frequency") === "ONCE" ? "1 lần" : "Nhiều"}
+      </div>
+      <div className="calendar__name">
+        Thông báo qua:{" "}
+        {getValues("notificationMethod") === "EMAIL" ? "Email" : "SMS"}
+      </div>
+
+      <div className="calendar__time">
+        Ngày bắt đầu: {formatDateDisplay(getValues("startTime"))}
+      </div>
+
+      <div className="calendar__time">
+        Ngày kết thúc: {formatDateDisplay(getValues("endTime"))}
+      </div>
+      <div className="calendar__time__remind">
+        Thời lượng thông báo: {getValues("notificationDuration")} phút
+      </div>
     </div>
   );
 };
@@ -437,7 +474,6 @@ const LinaerStepper = ({ show, handleClose }) => {
     defaultValues: {
       frequency: "ONCE",
       notificationMethod: "EMAIL",
-      calendarType: "GOOGLE",
     },
   });
   const [activeStep, setActiveStep] = useState(0);
@@ -465,10 +501,16 @@ const LinaerStepper = ({ show, handleClose }) => {
         .toISOString();
     }
     console.log(data);
+
     if (activeStep === steps.length - 1) {
       try {
         const res = await calendarApi.addCalendar(data);
-        console.log("res,", res);
+        if (res.errorCode === "") {
+          Swal.fire({
+            icon: "success",
+            title: "Thêm lịch học tập thành công",
+          });
+        }
       } catch (error) {
         console.log(error);
       }

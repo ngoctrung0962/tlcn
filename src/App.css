@@ -198,8 +198,8 @@ a {
 .list__videos li .video__item {
   position: relative;
   width: 100%;
-  border: 1px solid #212121;
-  border-radius: 40px;
+  border: 1px solid #e6e6ea;
+  border-radius: 5px;
   padding: 8px 10px;
   margin-bottom: 10px;
   align-items: center;
@@ -207,9 +207,8 @@ a {
 }
 
 .list__videos li .video__item.active {
-  background: #00693e;
-  color: #fff;
-  border: none;
+  background: #e6e6ea;
+  color: #00693e;
 }
 
 .icon__playvideo {
@@ -869,6 +868,7 @@ a {
   box-shadow: 0 14px 28px rgb(0 0 0 / 25%), 0 10px 10px rgb(0 0 0 / 22%);
   border-radius: 5px;
   min-width: 240px;
+  overflow: auto;
 }
 .mylearning .nav-item .nav-link:hover::after {
   content: "";
@@ -1370,4 +1370,9 @@ a {
 .login__google:hover {
   color: #1c1d1f;
   background-color: rgba(0, 0, 0, 0.04);
+}
+
+.pdf-canvas canvas {
+  width: 100%;
+  height: auto;
 }

@@ -17,7 +17,9 @@ import FormAddRep from "./components/FormAddRep";
 const QATab = ({ listQuestion, activeLecture }) => {
   const coursePath = useLocation().pathname.split("/")[2];
   const { currentUser } = useSelector((state) => state.user);
-  const [CmtIdParams, setCmtIdParams] = useSearchParams();
+  // Lấy search params
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const {
     register,
     handleSubmit,
@@ -46,10 +48,17 @@ const QATab = ({ listQuestion, activeLecture }) => {
   const [listQA, setListQA] = useState();
   // Form add question
   //get data Q&A from api
+  const [methodFilterQA, setMethodFilterQA] = useState("byCourse");
   const fetchDataQA = async () => {
     try {
       const resQA = await axios.get(
-        "http://localhost:8080/api/v1/discusses?byCourse=COU03&page=0&limit=10"
+        `http://localhost:8080/api/v1/discusses?${methodFilterQA}=${
+          methodFilterQA === "byCourse"
+            ? coursePath
+            : methodFilterQA === "byChapter"
+            ? activeLecture.chapterId
+            : activeLecture.id
+        }&page=0&limit=100`
       );
       console.log("resQA", resQA.data.content);
       setListQA(resQA.data.content);
@@ -151,7 +160,7 @@ const QATab = ({ listQuestion, activeLecture }) => {
 
   useEffect(() => {
     fetchDataQA();
-  }, [isOpenFormAddRep]);
+  }, [isOpenFormAddRep, methodFilterQA, searchParams.get("id")]);
 
   useEffect(() => {
     reset({
@@ -217,6 +226,19 @@ const QATab = ({ listQuestion, activeLecture }) => {
         </div>
         <div className=" row question__list">
           <Form.Label>Danh sách câu hỏi ({listQA?.length})</Form.Label>
+          <Form.Select
+            style={{
+              width: "200px",
+            }}
+            className="mb-3"
+            onChange={(e) => {
+              setMethodFilterQA(e.target.value);
+            }}
+          >
+            <option value="byCourse">Tất cả</option>
+            <option value="byChapter">Theo chapter</option>
+            <option value="byLecture">Theo bài giảng</option>
+          </Form.Select>
           {/* {listQuestion?.map((item, index) => {
             return (
               <div className=" question__item mb-2 row" key={index}>

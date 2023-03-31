@@ -441,8 +441,11 @@ export default function CoursesPage() {
                   });
                 }}
                 disabled={outOfStock}
+                style={{
+                  cursor: outOfStock ? "not-allowed" : "pointer",
+                }}
               >
-                {outOfStock === false ? "Xem thêm" : "Hết khóa học"}
+                {outOfStock === false ? "Xem thêm" : "Xem thêm"}
               </button>
             </div>
           </div>

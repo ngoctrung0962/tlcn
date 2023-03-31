@@ -92,10 +92,7 @@ function App() {
           path="/mylearning/:id"
           element={user ? <MyLearning /> : <SignIn />}
         />
-        <Route
-          path="/learn/:id"
-          element={user ? <LearnPage /> : <Navigate to="/signin" />}
-        />
+        <Route path="/learn/:id" element={<LearnPage />} />
         <Route path="/forum" element={<ForumPage />} />
       </Routes>
     </div>

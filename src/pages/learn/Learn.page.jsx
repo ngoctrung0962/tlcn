@@ -1,7 +1,7 @@
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import { BsFillCameraVideoFill, BsPlayCircleFill } from "react-icons/bs";
-import { HiOutlineVideoCamera } from "react-icons/hi";
+import { HiOutlineVideoCamera, HiOutlineDocumentText } from "react-icons/hi";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
@@ -29,7 +29,12 @@ import { formatTime } from "../../utils/MyUtils";
 import Calendar from "./tabs/CalendarTab/Calendar";
 import QATab from "./tabs/Q&ATab/Q&ATab";
 import CommentSection from "./tabs/Q&ATab/Q&ATab";
+import lectureApi from "../../api/lectureApi";
+import Loading from "../../components/Loading/Loading";
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+
 const LearnPage = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
@@ -71,6 +76,7 @@ const LearnPage = () => {
   const [isPublicCourse, setIsPublicCourse] = useState(false);
   useEffect(() => {
     const checkRegistered = async () => {
+      await setIsLoading(true);
       try {
         const res = await coursesApi.checkisPurchaseCourse(
           courseId,
@@ -82,7 +88,9 @@ const LearnPage = () => {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     };
+
     checkRegistered();
   }, [courseId, user?.username]);
 
@@ -97,10 +105,7 @@ const LearnPage = () => {
   } = useForm();
   const fetchDataNote = async () => {
     try {
-      const res = await noteApi.getnotebyvideoid(
-        currentUser?.username,
-        searchParams.get("id")
-      );
+      const res = await noteApi.getnotebyvideoid(searchParams.get("id"));
       setListNote(res.data);
     } catch (error) {
       console.log(error);
@@ -108,7 +113,8 @@ const LearnPage = () => {
   };
   const onSubmit = async (data) => {
     data.videoId = searchParams.get("id");
-    data.atTime = formatTime(videoRef.current.currentTime);
+    data.atTime = formatTime(Math.floor(videoRef.current.currentTime));
+    console.log("data", data);
     try {
       const res = await noteApi.addnote(data);
       if (res.errorCode === "") {
@@ -155,32 +161,47 @@ const LearnPage = () => {
 
   //
   //Handle next video không sử dụng thứ tự của videoID
-  const handleNextVideo = () => {
-    const currIndex = listVideo.findIndex(
-      (item) => item.id == searchParams.get("id")
-    );
-    const nextVideo = listVideo[currIndex + 1];
-    if (nextVideo) {
-      setSearchParams({ id: nextVideo.id });
-    }
+  const handleNextVideo = async () => {
+    try {
+      const res = await lectureApi.nextLecture(searchParams.get("id"));
+      if (res.errorCode === "") {
+        setSearchParams({ id: res.data.lecture.id });
+        setActiveLecture(res.data.lecture);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: res.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {}
   };
   //Handle prev video
-  const handlePrevVideo = () => {
-    const currIndex = listVideo.findIndex(
-      (item) => item.id == searchParams.get("id")
-    );
-    const prevVideo = listVideo[currIndex - 1];
-    if (prevVideo) {
-      setSearchParams({ id: prevVideo.id });
-    }
+  const handlePrevVideo = async () => {
+    try {
+      const res = await lectureApi.prevLecture(searchParams.get("id"));
+      if (res.errorCode === "") {
+        setSearchParams({ id: res.data.lecture.id });
+        setActiveLecture(res.data.lecture);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: res.message,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    } catch (error) {}
   };
 
   //Get current time of video
   const videoRef = useRef(null);
 
-  const [currentTime, setCurrentTime] = useState(0);
+  // const [currentTime, setCurrentTime] = useState(0);
   const handleChangeTime = (e) => {
-    setCurrentTime(Math.floor(e.target.currentTime));
+    // set ref
+    // videoRef.current.currentTime = e.target.value;
   };
 
   const handleDeleteNote = async (id) => {
@@ -287,8 +308,9 @@ const LearnPage = () => {
   ];
 
   const [activeLecture, setActiveLecture] = useState();
-  console.log(activeLecture);
-  return wasBought || isPublicCourse ? (
+  return isLoading ? (
+    <Loading />
+  ) : wasBought || isPublicCourse ? (
     <div className="learn">
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
         <div className="tool__container d-flex flex-row justify-content-between align-items-center gap-4 my-2">
@@ -371,6 +393,29 @@ const LearnPage = () => {
                 onTimeUpdate={handleChangeTime}
                 ref={videoRef}
               ></video>
+            ) : activeLecture?.lectureType === "PRESENTATION" &&
+              activeLecture?.type === "PDF" ? (
+              // <FileViewer
+              //   fileType={"pdf"}
+              //   filePath={activeLecture?.link}
+              //   errorComponent={<div>error</div>}
+              //   onError={(e) => console.log(e) /* handle as you please */}
+              // />
+              <DocViewer
+                documents={[
+                  {
+                    uri: activeLecture?.link,
+                  },
+                ]}
+                pluginRenderers={DocViewerRenderers}
+                config={{
+                  header: {
+                    disableHeader: false,
+                    disableFileName: true,
+                    retainURLParams: false,
+                  },
+                }}
+              />
             ) : (
               ""
             )}
@@ -406,9 +451,6 @@ const LearnPage = () => {
                               <Form.Group className="mb-3">
                                 <Form.Label>Thêm ghi chú</Form.Label>
 
-                                <div className="time__video mb-1">
-                                  {formatTime(currentTime)}
-                                </div>
                                 <Form.Control
                                   as="textarea"
                                   rows={3}
@@ -467,6 +509,9 @@ const LearnPage = () => {
               <Tab eventKey="calendar" title="Lịch">
                 <Calendar />
               </Tab>
+              <Tab eventKey="notification" title="Thông báo giảng viên">
+                <Calendar />
+              </Tab>
             </Tabs>
           </div>
         </div>
@@ -511,7 +556,7 @@ const LearnPage = () => {
                                   }}
                                 >
                                   <p
-                                    className="video__title m-0 ms-2"
+                                    className="video__title m-0 ms-2 "
                                     style={{
                                       padding: "0",
                                       margin: "0",
@@ -528,7 +573,13 @@ const LearnPage = () => {
                                         }}
                                       />
                                     ) : (
-                                      <GrDocumentText />
+                                      <HiOutlineDocumentText
+                                        style={{
+                                          fontSize: "12px",
+                                          marginRight: "5px",
+                                          marginBottom: "2px",
+                                        }}
+                                      />
                                     )}
                                     {lecture.title}
                                   </p>
@@ -546,22 +597,38 @@ const LearnPage = () => {
           </div>
         </div>
       </div>
-      <div className="row footer__tool d-flex flex-row justify-content-center align-items-center fixed-bottom">
-        <div className="tool__container d-flex flex-row justify-content-center align-items-center gap-4 my-2">
-          <span onClick={handlePrevVideo}>
-            <MdKeyboardArrowLeft size={30} color={"#00693e"} />
-            Bài học trước
-          </span>
+      {activeLecture && (
+        <div className="row footer__tool d-flex flex-row justify-content-center align-items-center fixed-bottom">
+          <div className="tool__container d-flex flex-row justify-content-center align-items-center gap-4 my-2">
+            <span onClick={handlePrevVideo}>
+              <MdKeyboardArrowLeft size={30} color={"#00693e"} />
+              Bài học trước
+            </span>
 
-          <span onClick={handleNextVideo}>
-            Bài học kế tiếp
-            <MdKeyboardArrowRight size={30} color={"#00693e"} />
-          </span>
+            <span onClick={handleNextVideo}>
+              Bài học kế tiếp
+              <MdKeyboardArrowRight size={30} color={"#00693e"} />
+            </span>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   ) : (
-    <div className="container">Bạn chưa mua khóa học này</div>
+    <div
+      className="container d-flex flex-column justify-content-center align-items-center mt-5
+    
+    "
+    >
+      <h3>Bạn chưa mua khóa học này</h3>
+      <lottie-player
+        src="https://assets1.lottiefiles.com/packages/lf20_pNx6yH.json"
+        background="transparent"
+        speed="0.7"
+        loop
+        autoplay
+        style={{ width: "500px", height: "auto" }}
+      ></lottie-player>
+    </div>
   );
 };
 
