@@ -32,6 +32,8 @@ import CommentSection from "./tabs/Q&ATab/Q&ATab";
 import lectureApi from "../../api/lectureApi";
 import Loading from "../../components/Loading/Loading";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import Question from "./components/quizz/Question";
+import Quiz from "./components/quizz/Quiz";
 
 const LearnPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -308,6 +310,49 @@ const LearnPage = () => {
   ];
 
   const [activeLecture, setActiveLecture] = useState();
+
+  // Quizz
+  const listQuestions = [
+    {
+      id: 1,
+      questionName: "What is React?",
+      answer: 2,
+      listChooses: [
+        {
+          id: 1,
+          content: "A JavaScript library for building user interfaces Sai",
+        },
+        {
+          id: 2,
+          content: "A JavaScript library for building user interfaces Đúng",
+        },
+        {
+          id: 3,
+          content: "A JavaScript library for building user interfaces Sai",
+        },
+      ],
+    },
+    {
+      id: 2,
+      questionName: "What is Vite?",
+      answer: 3,
+      listChooses: [
+        {
+          id: 1,
+          content: "A JavaScript library for building user interfaces Sai",
+        },
+        {
+          id: 2,
+          content: "A JavaScript library for building user interfaces Sai",
+        },
+        {
+          id: 3,
+          content: "A JavaScript library for building user interfaces Đúng",
+        },
+      ],
+    },
+  ];
+
   return isLoading ? (
     <Loading />
   ) : wasBought || isPublicCourse ? (
@@ -401,21 +446,23 @@ const LearnPage = () => {
               //   errorComponent={<div>error</div>}
               //   onError={(e) => console.log(e) /* handle as you please */}
               // />
-              <DocViewer
-                documents={[
-                  {
-                    uri: activeLecture?.link,
-                  },
-                ]}
-                pluginRenderers={DocViewerRenderers}
-                config={{
-                  header: {
-                    disableHeader: false,
-                    disableFileName: true,
-                    retainURLParams: false,
-                  },
-                }}
-              />
+              // <DocViewer
+              //   documents={[
+              //     {
+              //       uri: activeLecture?.link,
+              //     },
+              //   ]}
+              //   pluginRenderers={DocViewerRenderers}
+              //   config={{
+              //     header: {
+              //       disableHeader: false,
+              //       disableFileName: true,
+              //       retainURLParams: false,
+              //     },
+              //   }}
+              // />
+
+              <Quiz lectureId={activeLecture?.id} />
             ) : (
               ""
             )}

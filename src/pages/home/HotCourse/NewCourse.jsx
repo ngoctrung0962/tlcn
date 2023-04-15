@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./NewCourse.css";
 import AOS from "aos";
 import "aos/dist/aos.css";
@@ -25,6 +25,12 @@ export default function HotCourse() {
     };
     fetchNewwestCourse();
   }, []);
+
+  const nav = useNavigate();
+  const handleNavigateToCart = (course) => {
+    // Truyền state vào đây
+    nav("/cart", { state: course });
+  };
   return (
     <div data-aos="fade-up" className="d-flex flex-column mb-5 new__course">
       <div className="row">
@@ -95,6 +101,9 @@ export default function HotCourse() {
               </div> */}
             </div>
             <div className="course__link">
+              <div onClick={() => handleNavigateToCart(item)}>
+                Mua ngay <i class="fa-solid fa-arrow-right"></i>
+              </div>
               <Link to={`/courses/${item.id}`}>
                 Xem khóa học <i class="fa-solid fa-arrow-right"></i>
               </Link>

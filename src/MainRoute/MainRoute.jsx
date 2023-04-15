@@ -1,6 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import BlogPage from "../pages/Blog/Blog.page";
+import Cart from "../pages/Cart/Cart";
 import ContactPage from "../pages/Contact/Contact.page";
 import CoursePage from "../pages/course/course.page";
 import CoursesPage from "../pages/courses/coursesPage";
@@ -19,10 +20,10 @@ const MainRoute = () => {
 
         <Route path="/courses/:id" element={<CoursePage />} />
 
+        <Route path="/cart" element={<Cart />} />
+
         <Route path="/blogs/:id" element={<BlogPage />} />
         <Route path="/contact" element={<ContactPage />} />
-
-      
 
         {/* <Route path="/*" element={<BlogPage />} /> */}
         <Route path="*" element={<NotFound />} />

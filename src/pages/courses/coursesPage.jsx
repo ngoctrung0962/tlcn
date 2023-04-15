@@ -7,7 +7,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import "./coursesPage.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import coursesApi from "../../api/coursesApi";
 import categoriescoursesApi from "../../api/categoriescoursesApi";
@@ -173,6 +173,11 @@ export default function CoursesPage() {
       console.log(res.data);
       setListCourses(res.data.content);
     } catch (error) {}
+  };
+  const nav = useNavigate();
+  const handleNavigateToCart = (course) => {
+    // Truyền state vào đây
+    nav("/cart", { state: course });
   };
   return (
     <div className="container-fluid">
@@ -421,7 +426,10 @@ export default function CoursesPage() {
                             </div>
                           </div> */}
                         </div>
-                        <div className="course__link">
+                        <div className="course__link d-flex flex-column gap-2">
+                          <div onClick={() => handleNavigateToCart(item)}>
+                            Mua ngay <i class="fa-solid fa-arrow-right"></i>
+                          </div>
                           <Link to={`/courses/${item.id}`}>
                             Xem khóa học <i class="fa-solid fa-arrow-right"></i>
                           </Link>
