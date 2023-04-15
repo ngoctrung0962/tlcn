@@ -366,7 +366,7 @@ const LearnPage = () => {
                 </Typography>
               </Box>
             </Box>
-            2/10 bài học
+            20/10 bài học
           </span>
         </div>
       </div>
