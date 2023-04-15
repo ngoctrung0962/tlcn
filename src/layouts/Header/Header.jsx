@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { Dropdown, Form } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { FaShoppingCart } from "react-icons/fa";
-import { MdOutlineContactMail } from "react-icons/md";
+import { MdOutlineContactMail, MdOutlineShoppingCart } from "react-icons/md";
 import { SiBloglovin } from "react-icons/si";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, matchPath, useLocation, useNavigate } from "react-router-dom";
@@ -273,6 +273,20 @@ function Header() {
                   {/* <i className="bx bxs-contact"></i> */}
                   <MdOutlineContactMail />
                   <span>Contact Us</span>
+                </div>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link
+                className={
+                  matchPath("/cart", pathname) ? "nav-link active" : "nav-link"
+                }
+                to="/cart"
+              >
+                <div className="d-flex flex-column align-items-center">
+                  {/* <i className="bx bxl-blogger"></i> */}
+                 <MdOutlineShoppingCart />
+                  <span>Giỏ hàng</span>
                 </div>
               </Link>
             </li>
