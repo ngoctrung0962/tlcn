@@ -14,7 +14,13 @@ import categoriescoursesApi from "../../api/categoriescoursesApi";
 import { useForm } from "react-hook-form";
 import { Radio, RadioGroup } from "@mui/material";
 import { FaAngleDoubleDown } from "react-icons/fa";
+import wishListApi from "../../api/wishListApi";
+import Swal from "sweetalert2";
+import { addWishListAction } from "../../redux/userRedux";
+import { useDispatch, useSelector } from "react-redux";
 export default function CoursesPage() {
+  const { listWishList } = useSelector((state) => state.user);
+  console.log(listWishList);
   //Text search
   const [searchText, setSearchText] = useState({
     language: {
@@ -178,6 +184,10 @@ export default function CoursesPage() {
   const handleNavigateToCart = (course) => {
     // Truyền state vào đây
     nav("/cart", { state: course });
+  };
+  const dispatch = useDispatch();
+  const handleAddWishList = async (courseId) => {
+    await addWishListAction(dispatch, courseId);
   };
   return (
     <div className="container-fluid">
@@ -377,13 +387,20 @@ export default function CoursesPage() {
                         />
 
                         <div className="card-body w-100 d-flex flex-column align-items-center  align-items-md-start">
-                          <div class="instructor">
+                          <div
+                            className="wish__icon"
+                            onClick={() => handleAddWishList(item.id)}
+                          >
+                            <i className="fa-regular fa-heart ms-2"></i>
+                          </div>
+
+                          <div className="instructor">
                             <img
                               src={require("../../assets/img/garden-model.png")}
                               alt="Images"
                               className="img-fluid avt__teacher"
                             />
-                            <h3 class="name">
+                            <h3 className="name">
                               <a href="course-details.html">David McLean</a>
                             </h3>
                           </div>
@@ -409,7 +426,7 @@ export default function CoursesPage() {
                             </p>
                             <Rating
                               name="read-only"
-                              value={5}
+                              value={item.rate}
                               size="small"
                               readOnly
                             />

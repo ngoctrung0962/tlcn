@@ -123,7 +123,7 @@ const MyLearning = () => {
                           </p>
                           <Rating
                             name="read-only"
-                            value={5}
+                            value={item.rate}
                             size="small"
                             readOnly
                           />

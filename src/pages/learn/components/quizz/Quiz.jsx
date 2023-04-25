@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import Question from "./Question";
+import axios from "axios";
+import quizApi from "../../../../api/quizApi";
+import Swal from "sweetalert2";
 
 const Quiz = ({ lectureId }) => {
   const fakeData = {
@@ -58,6 +61,9 @@ const Quiz = ({ lectureId }) => {
     ],
   };
 
+  const [listQuestions, setListQuestions] = useState();
+  const [refStat, setRefStat] = useState();
+
   const [listAnwser, setListAnwser] = useState();
 
   const [dataAnswer, setDataAnswer] = useState({
@@ -99,48 +105,149 @@ const Quiz = ({ lectureId }) => {
       setActiveQuestion(activeQuestion - 1);
     }
   };
+
+  const [quizStatus, setQuizStatus] = useState("not-started");
+
+  const handleStartQuiz = async () => {
+    setQuizStatus("started");
+    console.log(lectureId);
+    try {
+      const res = await quizApi.startQuiz(lectureId);
+      if (res.errorCode === "") {
+        console.log(res);
+        setListQuestions(res.data.questions);
+        setRefStat(res.data.refStat);
+      }
+    } catch (error) {}
+  };
+
+  const handleSubmitQuiz = async () => {
+    Swal.fire({
+      title: "Bạn có chắc chắn muốn nộp bài?",
+      showDenyButton: true,
+      confirmButtonText: `Nộp bài`,
+      denyButtonText: `Không`,
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          let dataSubmit = {
+            ref: refStat,
+            userAnswers: dataAnswer.user_chooses,
+          };
+          console.log(dataSubmit);
+          const res = await quizApi.submitQuiz(lectureId, dataSubmit);
+          if (res.errorCode === "") {
+            Swal.fire("Nộp bài thành công!", "", "success");
+            setQuizStatus("submitted");
+          }
+        } catch (error) {}
+        console.log(dataAnswer);
+      }
+    });
+  };
+  console.log(listQuestions);
+
   return (
     <div className="containerrr">
-      <div className="d-flex flex-column justify-content-between align-items-center">
-        {fakeData.questions.map((question, index) => {
-          if (activeQuestion === index + 1)
-            return (
-              <div
-                key={question.id}
-                className="d-flex justify-content-center align-items-center"
-                style={{
-                  width: "80%",
-                }}
-              >
-                <Question
-                  question={question}
-                  dataAnswer={dataAnswer}
-                  setDataAnswer={setDataAnswer}
-                  handleChoose={handleChoose}
-                />
-              </div>
-            );
-        })}
-        <div className="t">
-          <button
-            className="btn__next__quiz"
-            onClick={() => {
-              handleNextOrPrev("prev");
-            }}
-          >
-            Prev
-          </button>
-
-          <button
-            className="btn__next__quiz"
-            onClick={() => {
-              handleNextOrPrev("next");
-            }}
-          >
-            Next
+      {quizStatus === "not-started" ? (
+        <div
+          style={{
+            height: "60vh",
+            background:
+              "url(https://x2mint.vercel.app/assets/images/contest.svg) no-repeat center",
+          }}
+          className="d-flex justify-content-center align-items-center"
+        >
+          <button className="main__btn" onClick={handleStartQuiz}>
+            Start Quiz
           </button>
         </div>
-      </div>
+      ) : quizStatus === "started" ? (
+        <div className="d-flex flex-column justify-content-between align-items-center">
+          {listQuestions?.map((question, index) => {
+            if (activeQuestion === index + 1)
+              return (
+                <div
+                  key={question.id}
+                  className="d-flex justify-content-center align-items-center"
+                  style={{
+                    width: "80%",
+                    height: "60vh",
+                    position: "relative",
+                  }}
+                >
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0",
+                      left: "-10px",
+
+                      zIndex: "1",
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontSize: "1.5rem",
+                        fontWeight: "bold",
+                        color: "#00693e",
+                      }}
+                    >
+                      {activeQuestion}/{listQuestions.length}
+                    </span>
+                  </div>
+
+                  <div
+                    style={{
+                      position: "absolute",
+                      top: "0",
+                      right: "-10px",
+
+                      zIndex: "1",
+                    }}
+                  >
+                    <button
+                      className="btn__next__quiz"
+                      onClick={() => {
+                        handleSubmitQuiz();
+                      }}
+                    >
+                      Nộp bài
+                    </button>
+                  </div>
+                  <Question
+                    question={question}
+                    dataAnswer={dataAnswer}
+                    setDataAnswer={setDataAnswer}
+                    handleChoose={handleChoose}
+                  />
+                </div>
+              );
+          })}
+          <div className="t">
+            <button
+              className="btn__next__quiz"
+              onClick={() => {
+                handleNextOrPrev("prev");
+              }}
+            >
+              Prev
+            </button>
+
+            <button
+              className="btn__next__quiz"
+              onClick={() => {
+                handleNextOrPrev("next");
+              }}
+            >
+              Next
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div>
+          <h1>Đã nộp bài</h1>
+        </div>
+      )}
     </div>
   );
 };

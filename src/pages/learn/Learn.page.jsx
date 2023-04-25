@@ -353,6 +353,8 @@ const LearnPage = () => {
     },
   ];
 
+  console.log(activeLecture);
+
   return isLoading ? (
     <Loading />
   ) : wasBought || isPublicCourse ? (
@@ -440,31 +442,25 @@ const LearnPage = () => {
               ></video>
             ) : activeLecture?.lectureType === "PRESENTATION" &&
               activeLecture?.type === "PDF" ? (
-              // <FileViewer
-              //   fileType={"pdf"}
-              //   filePath={activeLecture?.link}
-              //   errorComponent={<div>error</div>}
-              //   onError={(e) => console.log(e) /* handle as you please */}
-              // />
-              // <DocViewer
-              //   documents={[
-              //     {
-              //       uri: activeLecture?.link,
-              //     },
-              //   ]}
-              //   pluginRenderers={DocViewerRenderers}
-              //   config={{
-              //     header: {
-              //       disableHeader: false,
-              //       disableFileName: true,
-              //       retainURLParams: false,
-              //     },
-              //   }}
-              // />
-
-              <Quiz lectureId={activeLecture?.id} />
+              <>
+                <DocViewer
+                  documents={[
+                    {
+                      uri: activeLecture?.link,
+                    },
+                  ]}
+                  pluginRenderers={DocViewerRenderers}
+                  config={{
+                    header: {
+                      disableHeader: false,
+                      disableFileName: true,
+                      retainURLParams: false,
+                    },
+                  }}
+                />
+              </>
             ) : (
-              ""
+              <Quiz lectureId={activeLecture?.id} />
             )}
 
             <Tabs

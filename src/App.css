@@ -597,7 +597,7 @@ a {
   transition: all 0.4s;
 }
 .card-text {
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   line-height: 1.083em;
 }
@@ -608,26 +608,27 @@ a {
 }
 .card-title {
   max-width: 300px;
-  font-size: 18px;
+  font-size: 14px;
   line-height: 1.273em;
   font-weight: 500;
   overflow: hidden;
   white-space: pre-wrap;
 }
 .instructor {
-  margin-bottom: 15px;
+  margin-top: 10px;
+  margin-bottom: 10px;
   display: flex;
 }
 .instructor .avt__teacher {
   display: inline-block;
   margin-right: 10px;
-  max-width: 35px;
+  max-width: 28px;
 }
 .instructor .name {
-  font-size: 16px;
+  font-size: 12px;
   display: inline-block;
   position: relative;
-  top: 3px;
+  top: 7px;
 }
 .card-language {
   font-size: 10px;
@@ -641,10 +642,10 @@ a {
 }
 .card-language,
 .card__star {
-  border-radius: 30px;
+  border-radius: 10px;
   background-color: #00693e;
   border: 1px solid #eee;
-  padding: 7px;
+  padding: 6px;
   white-space: nowrap;
   box-shadow: 0 2px 8px 0 rgb(20 20 43 / 6%);
   color: #fff;
@@ -1622,4 +1623,21 @@ a {
   line-height: 28px;
   color: #061c3d;
   margin-bottom: 16px;
+}
+
+.MuiRating-sizeSmall {
+  font-size: 16px !important;
+}
+.wish__icon {
+  position: absolute;
+  top: 12px;
+  left: 10px;
+  cursor: pointer;
+}
+.wish__icon i {
+  font-size: 14px;
+  color: #061c3d;
+}
+.wish__icon:hover i {
+  color: #9f0036;
 }

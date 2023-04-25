@@ -203,7 +203,12 @@ const CoursePage = (props) => {
                     Ngôn ngữ: {course ? course.language : ""}
                   </span>
                 </div>
-                <Rating name="read-only" value={5} readOnly size="small" />
+                <Rating
+                  name="read-only"
+                  value={course ? course.rate : 0}
+                  readOnly
+                  size="small"
+                />
               </div>
             </div>
             <img

@@ -85,7 +85,12 @@ export default function NewCourse() {
                         }) + " VND"}
                   </span>
                 </p>
-                <Rating name="read-only" value={5} size="small" readOnly />
+                <Rating
+                  name="read-only"
+                  value={item.rate}
+                  size="small"
+                  readOnly
+                />
               </div>
 
               {/* <div className="card__layer">

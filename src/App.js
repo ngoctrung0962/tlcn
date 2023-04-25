@@ -16,7 +16,11 @@ import SignUp from "./pages/auth/signup/SignUp.page";
 import LearnPage from "./pages/learn/Learn.page";
 import MyLearning from "./pages/MyLearning/MyLearning.page";
 import { getListCart } from "./redux/cartRedux";
-import { deleteDetailUser, loginSuccess } from "./redux/userRedux";
+import {
+  deleteDetailUser,
+  getListWishListAction,
+  loginSuccess,
+} from "./redux/userRedux";
 import ForumPage from "./pages/Forum/Forum.page";
 
 function App() {
@@ -34,6 +38,7 @@ function App() {
     };
     if (user) {
       getListCartAction();
+      getListWishListAction(dispatch);
     }
   }, [dispatch, user]);
 
