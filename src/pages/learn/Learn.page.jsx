@@ -34,6 +34,7 @@ import Loading from "../../components/Loading/Loading";
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import Question from "./components/quizz/Question";
 import Quiz from "./components/quizz/Quiz";
+import ChatBotTab from "./tabs/ChatBotTab/ChatBotTab";
 
 const LearnPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -554,6 +555,9 @@ const LearnPage = () => {
               </Tab>
               <Tab eventKey="notification" title="Thông báo giảng viên">
                 <Calendar />
+              </Tab>
+              <Tab eventKey="chatbot" title="Chat BOT" unmountOnExit>
+                <ChatBotTab />
               </Tab>
             </Tabs>
           </div>

@@ -78,3 +78,18 @@ export const formatTime = (seconds) => {
   date.setSeconds(seconds);
   return date.toISOString().substr(11, 8);
 };
+
+// convert unixtime to hh:mm múi giờ +7
+export const formatUnixTime = (unixtime) => {
+  return moment.unix(unixtime).format("HH:mm");
+};
+
+// convert date to unixtime
+export const convertDateToUnixTime = (date) => {
+  return moment(date).unix();
+};
+
+// Hàm sinh id ngẫu nhiên
+export const generateId = () => {
+  return Math.floor(Math.random() * 1000000000);
+};

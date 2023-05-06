@@ -20,7 +20,7 @@ import { addWishListAction } from "../../redux/userRedux";
 import { useDispatch, useSelector } from "react-redux";
 export default function CoursesPage() {
   const { listWishList } = useSelector((state) => state.user);
-  console.log(listWishList);
+  console.log("listWishList", listWishList);
   //Text search
   const [searchText, setSearchText] = useState({
     language: {
@@ -262,7 +262,6 @@ export default function CoursesPage() {
                       label={item.name}
                       onChange={(e) => {
                         const oldValue = watch("category.value");
-                        console.log(oldValue);
                         if (e.target.checked) {
                           if (oldValue === undefined) {
                             const newValue = item.id + ",";
