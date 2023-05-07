@@ -11,6 +11,8 @@ import {
   formatUnixTime,
   generateId,
 } from "../../../../utils/MyUtils";
+import ReactMarkdown from 'react-markdown'
+
 export default function ChatBotTab() {
   const { currentUser } = useSelector((state) => state.user);
   console.log("currentUser", currentUser);
@@ -48,7 +50,7 @@ export default function ChatBotTab() {
         setdataConvertation((pre) => [...pre, res.data]);
       }
       setIsTyping(false);
-    } catch (error) {}
+    } catch (error) { }
   };
   const dummy = useRef();
   const [chatRoomId, setChatRoomId] = useState();
@@ -97,14 +99,13 @@ export default function ChatBotTab() {
             {dataConvertation?.map((message) => (
               <div
                 key={message.id}
-                className={`chat__message ${
-                  message.sender === currentUser.username
+                className={`chat__message ${message.sender === currentUser.username
                     ? "chat__message__right"
                     : "chat__message__left"
-                }`}
+                  }`}
               >
                 <div className="chat__message__content">
-                  <p>{message.message}</p>
+                  <ReactMarkdown>{message.message}</ReactMarkdown>
                   <span className="chat__timestamp">
                     {formatUnixTime(message?.timeSent)}
                   </span>
