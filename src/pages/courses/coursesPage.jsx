@@ -193,20 +193,6 @@ export default function CoursesPage() {
     <div className="container-fluid">
       <div className="row">
         <div className="col-12 col-lg-2 position-relative">
-          {/* <FaAngleDoubleDown
-            className=""
-            onClick={toggleFilter}
-            style={{
-              position: "absolute",
-              bottom: "0px",
-              right: "50%",
-              fontSize: "28px",
-              zIndex: "1",
-              borderRadius: "50%",
-              border: "1px solid #000",
-              cursor: "pointer",
-            }}
-          /> */}
           <form
             className="filter__courses  mx-1 my-3"
             id="filter__courses"
@@ -387,7 +373,13 @@ export default function CoursesPage() {
 
                         <div className="card-body w-100 d-flex flex-column align-items-center  align-items-md-start">
                           <div
-                            className="wish__icon"
+                            className={
+                              listWishList?.find(
+                                (e) => e.courseInfo.id === item.id
+                              )
+                                ? "wish__icon__active"
+                                : "wish__icon"
+                            }
                             onClick={() => handleAddWishList(item.id)}
                           >
                             <i className="fa-regular fa-heart ms-2"></i>

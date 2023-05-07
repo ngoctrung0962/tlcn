@@ -13,6 +13,7 @@ import { deleteDetailUser } from "../../redux/userRedux";
 import coursesApi from "../../api/coursesApi";
 import { Rating } from "@mui/material";
 import ProgressComponent from "../../components/Progress/Progress";
+import WishListTab from "./components/WishListTab";
 const MyLearning = () => {
   const username = useLocation().pathname.split("/")[2];
   const [userDetail, setUserDetail] = useState();
@@ -153,8 +154,8 @@ const MyLearning = () => {
                 })}
               </div>
             </Tab>
-            <Tab eventKey="wishlist" title="Khóa học yêu thích">
-              Chức năng này chưa hoàn thiện
+            <Tab eventKey="wishlist" title="Khóa học yêu thích" unmountOnExit>
+              <WishListTab />
             </Tab>
           </Tabs>
         </div>

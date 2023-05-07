@@ -15,7 +15,6 @@ export default function ChatBotTab() {
   const { currentUser } = useSelector((state) => state.user);
   console.log("currentUser", currentUser);
 
-
   const [dataConvertation, setdataConvertation] = useState();
   console.log("dataConvertation", dataConvertation);
   // hook form
@@ -64,7 +63,6 @@ export default function ChatBotTab() {
     }
   };
 
-
   useEffect(() => {
     fetchChatHistory();
   }, []);
@@ -104,7 +102,9 @@ export default function ChatBotTab() {
                 }`}
               >
                 <div className="chat__message__content">
-                  <p>{message.message}</p>
+                  <p dangerouslySetInnerHTML={{ __html: message.message }}>
+                    {/* {message.message} */}
+                  </p>
                   <span className="chat__timestamp">
                     {formatUnixTime(message?.timeSent)}
                   </span>

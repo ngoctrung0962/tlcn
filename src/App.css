@@ -1384,8 +1384,8 @@ a {
   padding: 1rem;
   color: #e6e6ea;
   width: 100%;
-  margin-bottom: 2rem;
   max-width: 700px;
+  margin-bottom: 2rem;
 }
 .question__title h3 {
   font-size: 1.5rem;
@@ -1400,6 +1400,32 @@ a {
   border: 1px solid transparent;
   cursor: pointer;
   transition: 0.4s;
+}
+
+.question__result {
+  padding: 0.75rem;
+  border-radius: 12px;
+  margin-bottom: 1rem;
+  position: relative;
+  cursor: pointer;
+  transition: 0.4s;
+}
+.question__choose__correct {
+  background: #00693e;
+  border: 1px solid #fff;
+}
+.question__choose__wrong {
+  background: red;
+  border: 1px solid #fff;
+}
+
+.icon__result {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  font-size: 1.5rem;
+  color: #fff;
 }
 .question__choose p {
   color: #061c3d;
@@ -1634,12 +1660,20 @@ a {
   left: 10px;
   cursor: pointer;
 }
+.wish__icon__active i {
+  font-size: 14px;
+  color: #9f0036;
+}
 .wish__icon i {
   font-size: 14px;
   color: #061c3d;
 }
 .wish__icon:hover i {
   color: #9f0036;
+}
+
+.wish__icon__active:hover i {
+  color: #061c3d;
 }
 
 /* chat */
@@ -1833,3 +1867,16 @@ a {
 }
 
 /* animation typing */
+
+.form__quiz__result h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 0.7rem;
+  color: #061c3d;
+}
+.result__quiz__item .result__quiz__text {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  color: #061c3d;
+}

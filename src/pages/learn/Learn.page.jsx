@@ -440,7 +440,22 @@ const LearnPage = () => {
                 autoPlay
                 onTimeUpdate={handleChangeTime}
                 ref={videoRef}
-              ></video>
+                crossOrigin="anonymous"
+              >
+                {/* <track
+                  src={"../../assets/test3.mp4-1.vtt"}
+                  kind="subtitles"
+                  srcLang="en"
+                  label="English" // Nhãn hiển thị cho phụ đề
+                /> */}
+                <track
+                  label="English"
+                  kind="subtitles"
+                  srclang="en"
+                  src="https://video-react.js.org/assets/elephantsdream/captions.en.vtt"
+                  default
+                ></track>
+              </video>
             ) : activeLecture?.lectureType === "PRESENTATION" &&
               activeLecture?.type === "PDF" ? (
               <>

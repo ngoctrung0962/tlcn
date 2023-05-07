@@ -3,6 +3,7 @@ import Question from "./Question";
 import axios from "axios";
 import quizApi from "../../../../api/quizApi";
 import Swal from "sweetalert2";
+import QuestionResult from "./QuestionResult";
 
 const Quiz = ({ lectureId }) => {
   const fakeData = {
@@ -64,12 +65,12 @@ const Quiz = ({ lectureId }) => {
   const [listQuestions, setListQuestions] = useState();
   const [refStat, setRefStat] = useState();
 
-  const [listAnwser, setListAnwser] = useState();
-
   const [dataAnswer, setDataAnswer] = useState({
     lectureId: lectureId,
     user_chooses: [],
   });
+
+  const [dataResult, setDataResult] = useState();
 
   const handleChoose = (questionId, chooseId) => {
     const chooseData = dataAnswer.user_chooses.find(
@@ -134,18 +135,18 @@ const Quiz = ({ lectureId }) => {
             ref: refStat,
             userAnswers: dataAnswer.user_chooses,
           };
-          console.log(dataSubmit);
           const res = await quizApi.submitQuiz(lectureId, dataSubmit);
           if (res.errorCode === "") {
             Swal.fire("Nộp bài thành công!", "", "success");
             setQuizStatus("submitted");
+            setDataResult(res.data);
           }
         } catch (error) {}
         console.log(dataAnswer);
       }
     });
   };
-  console.log(listQuestions);
+  console.log(dataResult);
 
   return (
     <div className="containerrr">
@@ -244,8 +245,33 @@ const Quiz = ({ lectureId }) => {
           </div>
         </div>
       ) : (
-        <div>
+        <div className="form__quiz__result d-flex justify-content-center align-items-center flex-column">
           <h1>Đã nộp bài</h1>
+          <div className="result__quiz">
+            <div className="result__quiz__item">
+              <p className="result__quiz__text">
+                {dataResult?.passed
+                  ? "Bạn đã vượt qua bài kiểm tra"
+                  : "Bạn chưa vượt qua bài kiểm tra"}
+              </p>
+            </div>
+            <div className="result__quiz__item">
+              <span className="result__quiz__text">Số câu đúng: </span>
+              <span>{dataResult?.numCorrect}</span>
+            </div>
+            <div className="result__quiz__item">
+              <span className="result__quiz__text">Số câu sai</span>
+              <span>{dataResult?.numWrong}</span>
+            </div>
+            <div className="result__quiz__item">
+              <span className="result__quiz__text">Kết quả chi tiết</span>
+              <div>
+                {dataResult?.resultDetail?.map((item) => (
+                  <QuestionResult key={item.questionId} questionResult={item} />
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
