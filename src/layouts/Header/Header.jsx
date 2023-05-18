@@ -196,7 +196,7 @@ function Header() {
             height={40}
             alt=""
           /> */}
-          <span id="logo_brand1" style={{ color: "#00693e" }}>
+          <span id="logo_brand1" style={{ color: "#054a49" }}>
             Le
           </span>
           gacy
@@ -285,7 +285,7 @@ function Header() {
               >
                 <div className="d-flex flex-column align-items-center">
                   {/* <i className="bx bxl-blogger"></i> */}
-                 <MdOutlineShoppingCart />
+                  <MdOutlineShoppingCart />
                   <span>Giỏ hàng</span>
                 </div>
               </Link>
@@ -404,7 +404,7 @@ function Header() {
                 href="#offcanvasExample"
                 role="button"
                 aria-controls="offcanvasExample"
-                color="#00693e"
+                color="#054a49"
                 size={20}
                 id="cart__icon"
               />

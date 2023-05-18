@@ -15,7 +15,7 @@
   --white: #fff;
   --pink: rgba(254, 44, 85, 1);
   --orange: #ff3f3f;
-  --blue: #00693e;
+  --blue: #054a49;
   --gray: #faf9fa;
   --big--font: 2.5rem;
   --medium--font: 1.5rem;
@@ -30,6 +30,9 @@ body {
   margin: 0;
   padding: 0;
 }
+.App {
+  background-color: rgb(241 255 249/1);
+}
 iframe video {
   height: 100% !important;
 }
@@ -41,7 +44,7 @@ iframe video {
   background: #f1f1f1;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00693e;
+  background: #054a49;
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -76,7 +79,7 @@ a {
   flex-grow: 0.5 !important;
 }
 .main__btn {
-  background-color: #00693e !important;
+  background-color: #054a49 !important;
   font-size: 13px;
   color: #fff;
   border-radius: 30px;
@@ -85,11 +88,11 @@ a {
   font-weight: 600;
   background-color: transparent;
   max-width: 300px;
-  border: 2px solid #00693e;
+  border: 2px solid #054a49;
 }
 .main__btn:hover {
   background-color: #fff !important;
-  color: #00693e !important;
+  color: #054a49 !important;
   transition: 0.4s;
 }
 .blog__title {
@@ -208,7 +211,7 @@ a {
 
 .list__videos li .video__item.active {
   background: #e6e6ea;
-  color: #00693e;
+  color: #054a49;
 }
 
 .icon__playvideo {
@@ -272,11 +275,11 @@ a {
 .course__social {
   margin-top: 0.75rem;
   font-size: 14px;
-  color: #00693e;
+  color: #054a49;
   font-weight: 700;
 }
 .course__social .total {
-  color: #00693e;
+  color: #054a49;
   font-weight: 700;
 }
 .course__social .course__img {
@@ -296,7 +299,7 @@ a {
 .card__detail .course__social {
   margin-top: 0.25rem;
   font-size: 10px;
-  color: #00693e;
+  color: #054a49;
   font-weight: 700;
 }
 .card__detail .course__dess {
@@ -305,7 +308,7 @@ a {
   line-height: 1.7;
 }
 .card__detail .course__social .total {
-  color: #00693e;
+  color: #054a49;
   font-weight: 700;
 }
 .course__img {
@@ -323,7 +326,7 @@ a {
   object-fit: cover;
 }
 .card__detail .btn-dkkh {
-  background-color: #00693e !important;
+  background-color: #054a49 !important;
   font-size: 10px;
   color: #fff;
   border-radius: 30px;
@@ -332,11 +335,11 @@ a {
   font-weight: 600;
   background-color: transparent;
   max-width: 300px;
-  border: 2px solid #00693e;
+  border: 2px solid #054a49;
 }
 .card__detail .btn-dkkh:hover {
   background-color: #fff !important;
-  color: #00693e !important;
+  color: #054a49 !important;
   transition: 0.4s;
 }
 .card__detail .course__price {
@@ -346,7 +349,7 @@ a {
 }
 .card__detail p span {
   font-size: 14px;
-  color: #00693e;
+  color: #054a49;
   line-height: 1.7;
   font-weight: 900;
 }
@@ -569,7 +572,7 @@ a {
   transition: 0.3s;
 }
 .card__layer:hover {
-  background-image: linear-gradient(rgba(228, 219, 219, 0.741), #00693e);
+  background-image: linear-gradient(rgba(228, 219, 219, 0.741), #054a49);
   cursor: pointer;
 }
 .card__layer a {
@@ -643,7 +646,7 @@ a {
 .card-language,
 .card__star {
   border-radius: 10px;
-  background-color: #00693e;
+  background-color: #054a49;
   border: 1px solid #eee;
   padding: 6px;
   white-space: nowrap;
@@ -666,7 +669,7 @@ a {
 }
 
 .success__content h1 {
-  color: #00693e;
+  color: #054a49;
   font-size: 3rem;
   font-weight: 800;
   line-height: 1.6;
@@ -699,17 +702,17 @@ a {
 .success__btn {
   margin-top: 20px;
   padding: 5px 20px;
-  color: #00693e;
+  color: #054a49;
   display: flex;
   justify-content: center;
   align-items: center;
   background: transparent;
   transition: 0.4s;
-  border: 2px solid #00693e;
+  border: 2px solid #054a49;
   border-radius: 30px;
 }
 .success__btn:hover {
-  background: #00693e;
+  background: #054a49;
   color: #fff;
 }
 
@@ -900,7 +903,7 @@ a {
 }
 .mylearning .nav-item .nav-link.active {
   cursor: default;
-  color: #00693e;
+  color: #054a49;
   border: none;
 }
 
@@ -963,7 +966,7 @@ a {
   box-shadow: none;
 }
 .list__chapter .accordion-button:not(.collapsed) {
-  background-color: #00693e;
+  background-color: #054a49;
   color: #fff;
 }
 .list__chapter .accordion-button:not(.collapsed) button {
@@ -983,7 +986,7 @@ a {
   right: 20px;
   z-index: 999;
   border-radius: 50%;
-  background: #00693e;
+  background: #054a49;
   width: 36px;
   height: 36px;
   color: #fff;
@@ -1055,7 +1058,7 @@ a {
   background-color: rgb(97, 136, 212);
 }
 .Mui-checked {
-  color: #00693e !important;
+  color: #054a49 !important;
 }
 .learn__video {
   background: #000;
@@ -1125,7 +1128,7 @@ a {
   right: 10px;
   top: 0px;
   z-index: 999;
-  background: #00693e70;
+  background: #054a4970;
   border-radius: 10%;
   padding: 5px;
 }
@@ -1166,7 +1169,7 @@ a {
   right: 10px;
 }
 .course__link a:hover {
-  color: #00693e;
+  color: #054a49;
 }
 
 /* responesive màn hình nhỏ */
@@ -1246,7 +1249,7 @@ a {
 }
 
 .post__item__content__title a:hover {
-  color: #00693e;
+  color: #054a49;
 }
 .post__item__content__desc p {
   font-style: normal;
@@ -1411,7 +1414,7 @@ a {
   transition: 0.4s;
 }
 .question__choose__correct {
-  background: #00693e;
+  background: #054a49;
   border: 1px solid #fff;
 }
 .question__choose__wrong {
@@ -1879,4 +1882,16 @@ a {
   font-weight: 400;
   margin-bottom: 0.5rem;
   color: #061c3d;
+}
+
+.markasdone__lecture {
+  position: absolute;
+  /* căn giữa */
+  top: 50%;
+  right: 0;
+  transform: translate(-50%, -50%);
+
+  cursor: pointer;
+  transition: 0.4s;
+  z-index: 999;
 }

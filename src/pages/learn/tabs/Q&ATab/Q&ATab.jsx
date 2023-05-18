@@ -319,7 +319,7 @@ const QATab = ({ listQuestion, activeLecture }) => {
                                 <h6
                                   class="fw-bold  mb-1"
                                   style={{
-                                    color: "#00693e",
+                                    color: "#054a49",
                                   }}
                                 >
                                   {item?.username}

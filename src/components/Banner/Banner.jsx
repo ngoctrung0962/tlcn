@@ -5,7 +5,7 @@ export default function Banner() {
   return (
     <div
       id="carouselExampleControls"
-      className="carousel slide mt-3 mb-3"
+      className="carousel slide mt-3 mb-3 banner__container"
       data-bs-ride="carousel"
     >
       <div className="carousel-inner ">

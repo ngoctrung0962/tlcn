@@ -10,9 +10,8 @@ import Swal from "sweetalert2";
 import userApi from "../../api/userApi";
 import { deleteDetailUser } from "../../redux/userRedux";
 
-import coursesApi from "../../api/coursesApi";
 import { Rating } from "@mui/material";
-import ProgressComponent from "../../components/Progress/Progress";
+import coursesApi from "../../api/coursesApi";
 import WishListTab from "./components/WishListTab";
 const MyLearning = () => {
   const username = useLocation().pathname.split("/")[2];

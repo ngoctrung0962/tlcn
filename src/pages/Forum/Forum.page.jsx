@@ -63,11 +63,11 @@ export default function ForumPage() {
               <MdKeyboardArrowLeft
                 cursor="pointer"
                 size={30}
-                color={"#00693e"}
+                color={"#054a49"}
               />
               <span
                 style={{
-                  color: "#00693e",
+                  color: "#054a49",
                   fontSize: "14px",
                   fontWeight: "bold",
                 }}
@@ -178,7 +178,7 @@ export default function ForumPage() {
                       fontSize: "14px",
                       fontWeight: "600",
                       color: "#fff",
-                      backgroundColor: "#00693e",
+                      backgroundColor: "#054a49",
                       borderRadius: "5px",
                       width: "30px",
                       height: "30px",

@@ -1,9 +1,13 @@
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { BsFillCameraVideoFill, BsPlayCircleFill } from "react-icons/bs";
-import { HiOutlineVideoCamera, HiOutlineDocumentText } from "react-icons/hi";
+import React, { useEffect, useRef, useState } from "react";
+import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import Accordion from "react-bootstrap/Accordion";
+import { useForm } from "react-hook-form";
+import { AiOutlineDelete } from "react-icons/ai";
+import { BiNotepad } from "react-icons/bi";
+import { HiOutlineDocumentText, HiOutlineVideoCamera } from "react-icons/hi";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
-import { GrDocumentText } from "react-icons/gr";
 import { useSelector } from "react-redux";
 import {
   Link,
@@ -11,30 +15,19 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import Swal from "sweetalert2";
 import chapterApi from "../../api/chapterApi";
 import coursesApi from "../../api/coursesApi";
 import coursesVideoApi from "../../api/coursesVideoApi";
-import Accordion from "react-bootstrap/Accordion";
-import BackToTop from "../../components/BackToTop/BackToTop";
-import FileViewer from "react-file-viewer";
-import { BiNotepad } from "react-icons/bi";
-import { Col, Form, Row, Tab, Tabs } from "react-bootstrap";
-import { Button } from "react-bootstrap";
-import noteApi from "../../api/noteApi";
-import { useForm } from "react-hook-form";
-import Swal from "sweetalert2";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
-import { useRef } from "react";
-import { formatTime } from "../../utils/MyUtils";
-import Calendar from "./tabs/CalendarTab/Calendar";
-import QATab from "./tabs/Q&ATab/Q&ATab";
-import CommentSection from "./tabs/Q&ATab/Q&ATab";
+import learningprogressApi from "../../api/learningprogressApi";
 import lectureApi from "../../api/lectureApi";
+import noteApi from "../../api/noteApi";
 import Loading from "../../components/Loading/Loading";
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
-import Question from "./components/quizz/Question";
+import { formatTime } from "../../utils/MyUtils";
 import Quiz from "./components/quizz/Quiz";
+import Calendar from "./tabs/CalendarTab/Calendar";
 import ChatBotTab from "./tabs/ChatBotTab/ChatBotTab";
+import QATab from "./tabs/Q&ATab/Q&ATab";
 
 const LearnPage = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -47,6 +40,57 @@ const LearnPage = () => {
   const [listChapters, setListChapters] = useState([]);
   const nav = useNavigate();
 
+  const [learningProgress, setLearningProgress] = useState();
+  console.log(learningProgress);
+  const handleMarkAsDoneLecture = async (e, lectureId) => {
+    try {
+      if (e.target.checked) {
+        const res = await learningprogressApi.markLectureAsComplete(
+          courseId,
+          lectureId
+        );
+        if (res.errorCode === "") {
+          Swal.fire({
+            icon: "success",
+            title: "Đánh dấu hoàn thành thành công",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setLearningProgress(res.data);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Đánh dấu hoàn thành thất bại",
+            text: res.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      } else {
+        const res = await learningprogressApi.unmarkLectureAsComplete(
+          courseId,
+          lectureId
+        );
+        if (res.errorCode === "") {
+          Swal.fire({
+            icon: "success",
+            title: "Bỏ đánh dấu hoàn thành thành công",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          setLearningProgress(res.data);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Bỏ đánh dấu hoàn thành thất bại",
+            text: res.message,
+            showConfirmButton: false,
+            timer: 1500,
+          });
+        }
+      }
+    } catch (error) {}
+  };
   //Get video course by courseId
   useEffect(() => {
     const getData = async () => {
@@ -54,9 +98,13 @@ const LearnPage = () => {
         const res = await coursesVideoApi.getByCourseId(courseId);
         const resChapter = await chapterApi.getbycourseId(courseId);
         const resCourse = await coursesApi.get(courseId);
+        const resProgress = await learningprogressApi.getLearningProgress(
+          courseId
+        );
         setListVideo(res.data);
         setListChapters(resChapter.data);
         setCourse(resCourse.data);
+        setLearningProgress(resProgress.data);
       } catch (error) {
         console.log(error);
       }
@@ -117,7 +165,6 @@ const LearnPage = () => {
   const onSubmit = async (data) => {
     data.videoId = searchParams.get("id");
     data.atTime = formatTime(Math.floor(videoRef.current.currentTime));
-    console.log("data", data);
     try {
       const res = await noteApi.addnote(data);
       if (res.errorCode === "") {
@@ -354,8 +401,6 @@ const LearnPage = () => {
     },
   ];
 
-  console.log(activeLecture);
-
   return isLoading ? (
     <Loading />
   ) : wasBought || isPublicCourse ? (
@@ -372,11 +417,11 @@ const LearnPage = () => {
               <MdKeyboardArrowLeft
                 cursor="pointer"
                 size={30}
-                color={"#00693e"}
+                color={"#054a49"}
               />
               <span
                 style={{
-                  color: "#00693e",
+                  color: "#054a49",
                   fontSize: "14px",
                   fontWeight: "bold",
                 }}
@@ -396,7 +441,10 @@ const LearnPage = () => {
           </div>
           <span className="d-flex flex-row justify-content-center align-items-center gap-3">
             <Box sx={{ position: "relative", display: "inline-flex" }}>
-              <CircularProgress variant="determinate" value={20} />
+              <CircularProgress
+                variant="determinate"
+                value={learningProgress?.percentCompleted}
+              />
               <Box
                 sx={{
                   top: 0,
@@ -410,11 +458,15 @@ const LearnPage = () => {
                 }}
               >
                 <Typography variant="caption" component="div" color="#f0f0f0">
-                  {`${Math.round(20)}%`}
+                  {`${Math.round(learningProgress?.percentCompleted)}%`}
                 </Typography>
               </Box>
             </Box>
-            20/10 bài học
+            {/* 20/10 bài học */}
+            {learningProgress?.learnedLectures?.length +
+              "/" +
+              learningProgress?.totalLecturesInCourse +
+              " bài học"}
           </span>
         </div>
       </div>
@@ -602,7 +654,27 @@ const LearnPage = () => {
                         <ul className="list__videos">
                           {chapter?.lectures?.map((lecture, index) => {
                             return (
-                              <li key={index}>
+                              <li
+                                key={index}
+                                style={{
+                                  position: "relative",
+                                }}
+                              >
+                                <div className="markasdone__lecture">
+                                  <Form.Check
+                                    type={"checkbox"}
+                                    defaultChecked={
+                                      learningProgress?.learnedLectures?.find(
+                                        (item) => item === lecture.id
+                                      )
+                                        ? true
+                                        : false
+                                    }
+                                    onChange={async (e) => {
+                                      handleMarkAsDoneLecture(e, lecture.id);
+                                    }}
+                                  />
+                                </div>
                                 <div
                                   className={
                                     lecture.id == searchParams.get("id")
@@ -663,13 +735,13 @@ const LearnPage = () => {
         <div className="row footer__tool d-flex flex-row justify-content-center align-items-center fixed-bottom">
           <div className="tool__container d-flex flex-row justify-content-center align-items-center gap-4 my-2">
             <span onClick={handlePrevVideo}>
-              <MdKeyboardArrowLeft size={30} color={"#00693e"} />
+              <MdKeyboardArrowLeft size={30} color={"#054a49"} />
               Bài học trước
             </span>
 
             <span onClick={handleNextVideo}>
               Bài học kế tiếp
-              <MdKeyboardArrowRight size={30} color={"#00693e"} />
+              <MdKeyboardArrowRight size={30} color={"#054a49"} />
             </span>
           </div>
         </div>

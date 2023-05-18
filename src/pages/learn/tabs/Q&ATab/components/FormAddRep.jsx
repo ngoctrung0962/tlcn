@@ -240,7 +240,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                     <h6
                       class="fw-bold  mb-1"
                       style={{
-                        color: "#00693e",
+                        color: "#054a49",
                         fontSize: "14px",
                       }}
                     >
@@ -335,7 +335,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                               class="fw-bold  mb-0"
                               style={{
                                 fontSize: "12px",
-                                color: "#00693e",
+                                color: "#054a49",
                               }}
                             >
                               {item?.username}

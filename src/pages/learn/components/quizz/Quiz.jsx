@@ -190,7 +190,7 @@ const Quiz = ({ lectureId }) => {
                       style={{
                         fontSize: "1.5rem",
                         fontWeight: "bold",
-                        color: "#00693e",
+                        color: "#054a49",
                       }}
                     >
                       {activeQuestion}/{listQuestions.length}

@@ -6,7 +6,7 @@
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 20%);
 }
 .color-nav {
-  background: #00693e !important;
+  background: #054a49 !important;
 }
 .color-logo {
   color: #fff !important;
@@ -22,7 +22,7 @@
   font-weight: bold;
 }
 .navbar-brand:hover {
-  color: #00693e;
+  color: #054a49;
   transform: scale(1.1);
   transition: 0.4s !important;
 }
@@ -31,7 +31,7 @@
 }
 
 .nav-link:hover {
-  color: #00693e !important;
+  color: #054a49 !important;
 }
 
 .nav-link::after {
@@ -121,7 +121,7 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  border: 1px solid #00693e;
+  border: 1px solid #054a49;
   border-radius: 8px;
 }
 .form__search__result ul li {
@@ -130,7 +130,7 @@
   cursor: pointer;
 }
 .form__search__result ul li:hover {
-  background: #00693e;
+  background: #054a49;
   color: #fff;
 }
 .nav__tool-user i {
@@ -222,6 +222,6 @@ input::-webkit-input-placeholder {
   margin-right: 20px;
 }
 #header .dropdown-item:hover {
-  background: #00693e !important;
+  background: #054a49 !important;
   color: #fff !important;
 }
