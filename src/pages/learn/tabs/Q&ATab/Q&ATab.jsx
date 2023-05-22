@@ -51,15 +51,24 @@ const QATab = ({ listQuestion, activeLecture }) => {
   const [methodFilterQA, setMethodFilterQA] = useState("byCourse");
   const fetchDataQA = async () => {
     try {
-      const resQA = await axios.get(
-        `http://localhost:8080/api/v1/discusses?${methodFilterQA}=${
-          methodFilterQA === "byCourse"
-            ? coursePath
-            : methodFilterQA === "byChapter"
-            ? activeLecture.chapterId
-            : activeLecture.id
-        }&page=0&limit=100`
-      );
+      const methodFilterQAValue =  methodFilterQA === "byCourse"? coursePath
+      : methodFilterQA === "byChapter"? activeLecture.chapterId
+      : activeLecture.id;
+
+      const requestParams = {
+        methodFilterQA: methodFilterQAValue
+      }
+
+      // const resQA = await axios.get(
+      //   `http://localhost:8080/api/v1/discusses?${methodFilterQA}=${
+      //     methodFilterQA === "byCourse"
+      //       ? coursePath
+      //       : methodFilterQA === "byChapter"
+      //       ? activeLecture.chapterId
+      //       : activeLecture.id
+      //   }&page=0&limit=100`
+      // );
+      const resQA = await qaApi.filter(requestParams);
       console.log("resQA", resQA.data.content);
       setListQA(resQA.data.content);
     } catch (error) {

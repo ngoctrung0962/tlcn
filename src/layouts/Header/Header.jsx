@@ -17,6 +17,7 @@ import Swal from "sweetalert2";
 import coursesApi from "../../api/coursesApi";
 import { handleDeleteFromCart } from "../../redux/cartRedux";
 import { deleteDetailUser } from "../../redux/userRedux";
+import requestOrder from "../../api/requestOrder";
 import "./Header.css";
 function Header() {
   useEffect(() => {
@@ -51,10 +52,7 @@ function Header() {
   const [tongTien, setTongTien] = useState(0);
   const handleCheckOut = async () => {
     try {
-      const res = await axios.post(
-        "http://localhost:8080/api/v1/vnpay/request-pay",
-        dataPost
-      );
+      const res = await requestOrder.request(dataPost);
       if (res.data.errorCode === "") {
         const linkRes = res.data.data;
         window.open(linkRes, "_self");
