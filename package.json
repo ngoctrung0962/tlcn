@@ -20,6 +20,7 @@
     "bootstrap": "^5.2.0",
     "date-fns": "^2.29.3",
     "dom-to-image": "^2.6.0",
+    "dotenv": "^16.0.3",
     "js-cookie": "^3.0.1",
     "moment": "^2.29.4",
     "query-string": "^7.1.1",
@@ -30,6 +31,7 @@
     "react-hook-form": "^7.36.1",
     "react-icon": "^1.0.0",
     "react-icons": "^4.4.0",
+    "react-loader-spinner": "^5.3.4",
     "react-markdown": "^8.0.7",
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.3.0",
@@ -43,7 +45,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "dotenv -e .env.local react-scripts start",
+    "start": " react-scripts start",
     "build:local": "env-cmd -f .env.local react-scripts build",
     "build:deploy": "dotenv -e .env.deploy react-scripts build",
     "test": "react-scripts test",

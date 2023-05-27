@@ -28,20 +28,18 @@ import Quiz from "./components/quizz/Quiz";
 import Calendar from "./tabs/CalendarTab/Calendar";
 import ChatBotTab from "./tabs/ChatBotTab/ChatBotTab";
 import QATab from "./tabs/Q&ATab/Q&ATab";
+import NotiOfTeacherTab from "./tabs/NotiOfTeacherTab/NotiOfTeacherTab";
 
 const LearnPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const courseId = location.pathname.split("/")[2];
   const [course, setCourse] = useState();
-  const [listVideo, setListVideo] = useState([]);
   const [listChapters, setListChapters] = useState([]);
   const nav = useNavigate();
 
   const [learningProgress, setLearningProgress] = useState();
-  console.log(learningProgress);
   const handleMarkAsDoneLecture = async (e, lectureId) => {
     try {
       if (e.target.checked) {
@@ -101,7 +99,6 @@ const LearnPage = () => {
         const resProgress = await learningprogressApi.getLearningProgress(
           courseId
         );
-        setListVideo(res.data);
         setListChapters(resChapter.data);
         setCourse(resCourse.data);
         setLearningProgress(resProgress.data);
@@ -404,7 +401,7 @@ const LearnPage = () => {
   return isLoading ? (
     <Loading />
   ) : wasBought || isPublicCourse ? (
-    <div className="learn">
+    <div className="learn" style={{ height: "100vh", overflow: "auto" }}>
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
         <div className="tool__container d-flex flex-row justify-content-between align-items-center gap-4 my-2">
           <span className="d-flex justify-content-between align-items-center">
@@ -412,7 +409,7 @@ const LearnPage = () => {
               className="navbar-brand justify-content-center align-items-center d-flex"
               to="/"
               style={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
-              onClick={() => nav(-1)}
+              // onClick={() => nav(-1)}
             >
               <MdKeyboardArrowLeft
                 cursor="pointer"
@@ -621,7 +618,7 @@ const LearnPage = () => {
                 <Calendar />
               </Tab>
               <Tab eventKey="notification" title="Thông báo giảng viên">
-                <Calendar />
+                <NotiOfTeacherTab />
               </Tab>
               <Tab eventKey="chatbot" title="Chat BOT" unmountOnExit>
                 <ChatBotTab />

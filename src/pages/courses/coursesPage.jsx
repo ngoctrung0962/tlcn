@@ -1,26 +1,22 @@
-import React, { useEffect } from "react";
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
-import { useState } from "react";
-import { ImFilter } from "react-icons/im";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import "./coursesPage.css";
-import { Link, useNavigate } from "react-router-dom";
-import Rating from "@mui/material/Rating";
-import coursesApi from "../../api/coursesApi";
-import categoriescoursesApi from "../../api/categoriescoursesApi";
-import { useForm } from "react-hook-form";
 import { Radio, RadioGroup } from "@mui/material";
-import { FaAngleDoubleDown } from "react-icons/fa";
-import wishListApi from "../../api/wishListApi";
-import Swal from "sweetalert2";
-import { addWishListAction } from "../../redux/userRedux";
-import { useDispatch, useSelector } from "react-redux";
+import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Slider from "@mui/material/Slider";
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { ImFilter } from "react-icons/im";
+import { useSelector } from "react-redux";
+import categoriescoursesApi from "../../api/categoriescoursesApi";
+import coursesApi from "../../api/coursesApi";
+import CourseCard from "../../components/CourseCard/CourseCard";
+import "./coursesPage.css";
+import Loading from "../../components/Loading/Loading";
 export default function CoursesPage() {
+  const [loading, setLoading] = useState(false);
+
   const { listWishList } = useSelector((state) => state.user);
-  console.log("listWishList", listWishList);
   //Text search
   const [searchText, setSearchText] = useState({
     language: {
@@ -52,8 +48,6 @@ export default function CoursesPage() {
 
   //Handle search start
   const onSubmit = async (data) => {
-    console.log("searchText", searchText);
-    console.log("submit");
     if (paginate.page !== 0) {
       setPaginate({
         page: 0,
@@ -61,14 +55,15 @@ export default function CoursesPage() {
     }
     data = Object.values(data);
     const temp = Object.values(searchText);
-    console.log(data);
     try {
+      setLoading(true);
       const res = await coursesApi.searchCourse(temp, paginate.page);
       console.log(res.data);
       setListCourses(res.data.content);
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
 
   const [priceRange, setPriceRange] = useState([0, 0]);
@@ -94,6 +89,7 @@ export default function CoursesPage() {
   const [listCourses, setListCourses] = useState([]);
   useEffect(() => {
     const getListCourses = async () => {
+      setLoading(true);
       try {
         const res = await coursesApi.searchCourse(
           Object.values(searchText),
@@ -110,11 +106,13 @@ export default function CoursesPage() {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     getListCourses();
   }, [paginate]);
 
   const [listCategories, setListCategories] = useState([]);
+
   useEffect(() => {
     const paginateCategories = {
       page: 0,
@@ -136,6 +134,7 @@ export default function CoursesPage() {
 
     fetchData();
   }, []);
+
   const listLanguages = [
     {
       id: 1,
@@ -175,20 +174,14 @@ export default function CoursesPage() {
     };
     const temp = Object.values(defaultSearchText);
     try {
+      setLoading(true);
       const res = await coursesApi.searchCourse(temp, 0);
       console.log(res.data);
       setListCourses(res.data.content);
     } catch (error) {}
+    setLoading(false);
   };
-  const nav = useNavigate();
-  const handleNavigateToCart = (course) => {
-    // Truyền state vào đây
-    nav("/cart", { state: course });
-  };
-  const dispatch = useDispatch();
-  const handleAddWishList = async (courseId) => {
-    await addWishListAction(dispatch, courseId);
-  };
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -229,17 +222,19 @@ export default function CoursesPage() {
               </p>
             </Box>
 
-            <Box sx={{ width: "90%", marginBottom: "20px" }}>
+            <Box
+              sx={{
+                width: "90%",
+                marginBottom: "20px",
+                fontFamily: "inherit",
+                fontSize: "11px",
+                overflow: "auto",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <p className="filter__type ">Lọc theo loại khóa học</p>
-              <FormGroup
-                sx={{
-                  fontFamily: "inherit",
-                  fontSize: "11px",
-                  maxHeight: "170px",
-                  maxWidth: "100%",
-                  overflow: "auto",
-                }}
-              >
+              <FormGroup>
                 {listCategories.map((item, index) => {
                   return (
                     <FormControlLabel
@@ -332,15 +327,21 @@ export default function CoursesPage() {
               <button
                 onClick={handleSubmit(onSubmit)}
                 className="main__btn "
-                style={{}}
+                style={{
+                  minWidth: "100px",
+                }}
+                disabled={loading}
               >
                 Lọc
               </button>
               <button
                 onClick={handleResetFilter}
                 className="main__btn "
-                style={{}}
+                style={{
+                  minWidth: "100px",
+                }}
                 type="button"
+                disabled={loading}
               >
                 Mặc định
               </button>
@@ -353,100 +354,22 @@ export default function CoursesPage() {
             className="courses__container mx-1 my-3 "
           >
             <div className="d-flex justify-content-evenly flex-wrap  align-items-center ">
-              {listCourses
-                ? listCourses?.map((item, index) => {
-                    return (
-                      <div
-                        data-aos="flip-left"
-                        key={index}
-                        className="card col-12 col-md-5 py-3 d-flex flex-xl-row flex-column align-items-center  card__course-item"
-                      >
-                        <img
-                          src={
-                            item.avatar
-                              ? item.avatar
-                              : require("../../assets/img/no-image-1771002-1505134.png")
-                          }
-                          className="card-img-top img-fluid avt__course"
-                          alt="..."
-                        />
-
-                        <div className="card-body w-100 d-flex flex-column align-items-center  align-items-md-start">
-                          <div
-                            className={
-                              listWishList?.find(
-                                (e) => e.courseInfo.id === item.id
-                              )
-                                ? "wish__icon__active"
-                                : "wish__icon"
-                            }
-                            onClick={() => handleAddWishList(item.id)}
-                          >
-                            <i className="fa-regular fa-heart ms-2"></i>
-                          </div>
-
-                          <div className="instructor">
-                            <img
-                              src={require("../../assets/img/garden-model.png")}
-                              alt="Images"
-                              className="img-fluid avt__teacher"
-                            />
-                            <h3 className="name">
-                              <a href="course-details.html">David McLean</a>
-                            </h3>
-                          </div>
-                          <h5 className="card-title mb-2 ">{item.name}</h5>
-                          <div className="d-flex   mb-2">
-                            <div className="card-language me-1">
-                              Language: {item ? item.language : ""}
-                            </div>
-                            <div className="card-language">
-                              Số lượng học sinh: {item ? item.numStudents : ""}
-                            </div>
-                          </div>
-                          <div className="d-flex gap-1 align-items-center">
-                            <p className="card-text m-0">
-                              Giá :{" "}
-                              <span>
-                                {item.price === 0
-                                  ? "Miễn phí"
-                                  : item.price.toLocaleString("vi", {
-                                      currency: "VND",
-                                    }) + " VND"}
-                              </span>
-                            </p>
-                            <Rating
-                              name="read-only"
-                              value={item.rate}
-                              size="small"
-                              readOnly
-                            />
-                          </div>
-
-                          {/* <div className="card__layer">
-                            <div>
-                              <Link
-                                to={`/courses/${item.id}`}
-                                className="btn btn-primary"
-                              >
-                                Xem khóa học
-                              </Link>
-                            </div>
-                          </div> */}
-                        </div>
-                        <div className="course__link d-flex flex-column gap-2">
-                          <div onClick={() => handleNavigateToCart(item)}>
-                            Mua ngay <i class="fa-solid fa-arrow-right"></i>
-                          </div>
-                          <Link to={`/courses/${item.id}`}>
-                            Xem khóa học <i class="fa-solid fa-arrow-right"></i>
-                          </Link>
-                        </div>
-                      </div>
-                    );
-                  })
-                : "Không có khóa học nào"}
+              {listCourses.length > 0 ? (
+                listCourses?.map((item, index) => {
+                  return (
+                    <CourseCard
+                      item={item}
+                      key={index}
+                      listWishList={listWishList}
+                    />
+                  );
+                })
+              ) : (
+                <div>{loading ? <Loading /> : "Không có khóa học nào"}</div>
+              )}
             </div>
+
+            {loading && listCourses.length > 0 && <Loading />}
             <div className="d-flex align-items-center justify-content-center w-100 my-4">
               <button
                 className="main__btn  text-center"
@@ -456,7 +379,7 @@ export default function CoursesPage() {
                     page: paginate.page + 1,
                   });
                 }}
-                disabled={outOfStock}
+                disabled={outOfStock || loading}
                 style={{
                   cursor: outOfStock ? "not-allowed" : "pointer",
                 }}

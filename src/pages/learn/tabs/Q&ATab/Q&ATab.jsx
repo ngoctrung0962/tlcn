@@ -51,13 +51,16 @@ const QATab = ({ listQuestion, activeLecture }) => {
   const [methodFilterQA, setMethodFilterQA] = useState("byCourse");
   const fetchDataQA = async () => {
     try {
-      const methodFilterQAValue =  methodFilterQA === "byCourse"? coursePath
-      : methodFilterQA === "byChapter"? activeLecture.chapterId
-      : activeLecture.id;
+      const methodFilterQAValue =
+        methodFilterQA === "byCourse"
+          ? coursePath
+          : methodFilterQA === "byChapter"
+          ? activeLecture.chapterId
+          : activeLecture.id;
 
-      const requestParams = {
-        methodFilterQA: methodFilterQAValue
-      }
+      // const requestParams = {
+      //   methodFilterQA: methodFilterQAValue,
+      // };
 
       // const resQA = await axios.get(
       //   `http://localhost:8080/api/v1/discusses?${methodFilterQA}=${
@@ -68,15 +71,14 @@ const QATab = ({ listQuestion, activeLecture }) => {
       //       : activeLecture.id
       //   }&page=0&limit=100`
       // );
-      const resQA = await qaApi.filter(requestParams);
-      console.log("resQA", resQA.data.content);
-      setListQA(resQA.data.content);
+
+      const resQA = await qaApi.filter(methodFilterQA, methodFilterQAValue);
+      setListQA(resQA?.content);
     } catch (error) {
       console.log(error);
     }
   };
   const onSubmit = async (data) => {
-    console.log("data", data);
     try {
       const res = await qaApi.addQA(data);
       if (res.errorCode === "") {
@@ -117,8 +119,6 @@ const QATab = ({ listQuestion, activeLecture }) => {
   };
   const handleUploadImageBefore = async (files, info, uploadHandler) => {
     // uploadHandler(files);
-    console.log("handleUploadImageBefore", uploadHandler);
-    console.log("info", info);
     const formData = new FormData();
     formData.append("files", files[0]);
     const promise = new Promise((resolve, reject) => {
@@ -161,8 +161,6 @@ const QATab = ({ listQuestion, activeLecture }) => {
     imageInfo,
     remainingFilesCount
   ) => {
-    console.log("target", targetImgElement);
-    console.log("image", imageInfo);
     // Thay đổi đường dẫn ảnh
     // targetImgElement.src = imageInfo.src;
   };
@@ -346,7 +344,7 @@ const QATab = ({ listQuestion, activeLecture }) => {
                                 fontSize: "12px",
                               }}
                               dangerouslySetInnerHTML={{
-                                __html: item.content,
+                                __html: item?.content,
                               }}
                             ></p>
 
