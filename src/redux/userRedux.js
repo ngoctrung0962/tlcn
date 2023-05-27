@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import userApi from "../api/userApi";
-import Storagekey from "../constants/storagekey";
-import { showNotification } from "../utils/MyUtils";
-import wishListApi from "../api/wishListApi";
 import Swal from "sweetalert2";
+import userApi from "../api/userApi";
+import wishListApi from "../api/wishListApi";
+import Storagekey from "../constants/storagekey";
 
 export const login = async (dispatch, data, username) => {
   dispatch(loginStart());
@@ -72,16 +71,14 @@ export const removeWishListAction = async (dispatch, courseId) => {
     const res = await wishListApi.remove(courseId);
     if (res.errorCode === "") {
       Swal.fire({
-        position: "top-end",
         icon: "success",
         title: "Remove from wishlist success",
         showConfirmButton: false,
         timer: 1500,
       });
-      dispatch(deleteWishList(res.data));
+      dispatch(deleteWishList(courseId));
     } else {
       Swal.fire({
-        position: "top-end",
         icon: "error",
         title: res.message,
         showConfirmButton: false,
@@ -136,7 +133,7 @@ const userSlice = createSlice({
     },
     deleteWishList: (state, action) => {
       state.listWishList = state.listWishList.filter(
-        (item) => item.id !== action.payload
+        (item) => item.courseInfo?.id !== action.payload
       );
     },
   },

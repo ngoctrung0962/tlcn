@@ -1,47 +1,36 @@
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
-import { Button, Col, Form, Row, Tab, Tabs } from "react-bootstrap";
+import { Form, Tab, Tabs } from "react-bootstrap";
 import Accordion from "react-bootstrap/Accordion";
-import { useForm } from "react-hook-form";
-import { AiOutlineDelete } from "react-icons/ai";
 import { BiNotepad } from "react-icons/bi";
 import { HiOutlineDocumentText, HiOutlineVideoCamera } from "react-icons/hi";
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from "react-icons/md";
 import { useSelector } from "react-redux";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import chapterApi from "../../api/chapterApi";
 import coursesApi from "../../api/coursesApi";
-import coursesVideoApi from "../../api/coursesVideoApi";
 import learningprogressApi from "../../api/learningprogressApi";
 import lectureApi from "../../api/lectureApi";
-import noteApi from "../../api/noteApi";
 import Loading from "../../components/Loading/Loading";
-import { formatTime } from "../../utils/MyUtils";
 import Quiz from "./components/quizz/Quiz";
 import Calendar from "./tabs/CalendarTab/Calendar";
 import ChatBotTab from "./tabs/ChatBotTab/ChatBotTab";
+import NoteTab from "./tabs/NoteTab/NoteTab";
+import NotiOfTeacherTab from "./tabs/NotiOfTeacherTab/NotiOfTeacherTab";
 import QATab from "./tabs/Q&ATab/Q&ATab";
+import LoadingSkeleton from "../../components/Loading/LoadingSkeleton";
 
 const LearnPage = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { currentUser } = useSelector((state) => state.user);
   const [searchParams, setSearchParams] = useSearchParams();
   const location = useLocation();
   const courseId = location.pathname.split("/")[2];
   const [course, setCourse] = useState();
-  const [listVideo, setListVideo] = useState([]);
   const [listChapters, setListChapters] = useState([]);
-  const nav = useNavigate();
 
   const [learningProgress, setLearningProgress] = useState();
-  console.log(learningProgress);
   const handleMarkAsDoneLecture = async (e, lectureId) => {
     try {
       if (e.target.checked) {
@@ -95,13 +84,11 @@ const LearnPage = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const res = await coursesVideoApi.getByCourseId(courseId);
         const resChapter = await chapterApi.getbycourseId(courseId);
         const resCourse = await coursesApi.get(courseId);
         const resProgress = await learningprogressApi.getLearningProgress(
           courseId
         );
-        setListVideo(res.data);
         setListChapters(resChapter.data);
         setCourse(resCourse.data);
         setLearningProgress(resProgress.data);
@@ -112,14 +99,6 @@ const LearnPage = () => {
     getData();
   }, [courseId]);
 
-  // Bài học hiện tại
-  const [currentPicker, setCurrenPicker] = useState({
-    srcVideo: null,
-    title: "Intro Legacy",
-    des: "Chào mừng bạn đến với khóa học trên Legacy",
-    currentChapter: null,
-    currentVideoOfChapter: null,
-  });
   // Kiểm tra khóa học đã được đăng ký hay chưa
   const user = useSelector((state) => state.user.currentUser);
 
@@ -145,69 +124,20 @@ const LearnPage = () => {
     checkRegistered();
   }, [courseId, user?.username]);
 
-  //Get video by videoId và get listnote of video
-  const [listNote, setListNote] = useState([]);
   //react hook form
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
-  const fetchDataNote = async () => {
-    try {
-      const res = await noteApi.getnotebyvideoid(searchParams.get("id"));
-      setListNote(res.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const onSubmit = async (data) => {
-    data.videoId = searchParams.get("id");
-    data.atTime = formatTime(Math.floor(videoRef.current.currentTime));
-    try {
-      const res = await noteApi.addnote(data);
-      if (res.errorCode === "") {
-        Swal.fire({
-          icon: "success",
-          title: "Thêm ghi chú thành công",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        await fetchDataNote();
-        setValue("content", "");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Thêm ghi chú thất bại",
-          text: res.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    } catch (error) {}
-  };
 
   useEffect(() => {
-    const getVideo = async () => {
+    const getLectureByID = async () => {
       try {
-        const res = await coursesVideoApi.getbyId(searchParams.get("id"));
-        await fetchDataNote();
+        const res = await lectureApi.getLectureById(searchParams.get("id"));
 
-        setCurrenPicker({
-          ...currentPicker,
-          srcVideo: res.data?.link,
-          title: res.data?.title,
-          des: res.data?.description,
-          currentChapter: res.data?.chapterId,
-          currentVideoOfChapter: res.data?.id,
-        });
+        setActiveLecture(res.data);
       } catch (error) {
         console.log(error);
       }
     };
-    getVideo();
-  }, [searchParams.get("id")]);
+    getLectureByID();
+  }, []);
 
   //
   //Handle next video không sử dụng thứ tự của videoID
@@ -249,162 +179,14 @@ const LearnPage = () => {
   const videoRef = useRef(null);
 
   // const [currentTime, setCurrentTime] = useState(0);
-  const handleChangeTime = (e) => {
-    // set ref
-    // videoRef.current.currentTime = e.target.value;
-  };
-
-  const handleDeleteNote = async (id) => {
-    try {
-      const res = await noteApi.deletenotebyid(id);
-      if (res.errorCode === "") {
-        Swal.fire({
-          icon: "success",
-          title: "Xóa ghi chú thành công",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-        await fetchDataNote();
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Xóa ghi chú thất bại",
-          text: res.message,
-          showConfirmButton: false,
-          timer: 1500,
-        });
-      }
-    } catch (error) {}
-  };
-
-  const listQuestion = [
-    {
-      id: 1,
-      title:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elit",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-      date_created: "2021-10-10",
-      user: {
-        username: "admin",
-        name: "Admin",
-        avatar: "https://i.pravatar.cc/150?img=1",
-      },
-      listReply: [
-        {
-          id: 1,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Lorem ipsum dolor sit amet consectetur adipisicing elitLorem ipsum dolor sit amet consectetur adipisicing elitQuisquam, quod.",
-          date_created: "2021-10-10",
-          user: {
-            username: "user1",
-            name: "User 1",
-            avatar: "https://i.pravatar.cc/150?img=1",
-          },
-        },
-        {
-          id: 2,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-          date_created: "2021-10-10",
-          user: {
-            username: "user2",
-            name: "User 2",
-            avatar: "https://i.pravatar.cc/150?img=1",
-          },
-        },
-      ],
-    },
-    {
-      id: 2,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      content:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-      date_created: "2021-10-10",
-      user: {
-        username: "admin12",
-        name: "Admin 2",
-        avatar: "https://i.pravatar.cc/150?img=1",
-      },
-      listReply: [
-        {
-          id: 5,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-          date_created: "2021-10-10",
-          user: {
-            username: "user5",
-            name: "User 5",
-            avatar: "https://i.pravatar.cc/150?img=1",
-          },
-        },
-        {
-          id: 6,
-          title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-          content:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quod.",
-          date_created: "2021-10-10",
-          user: {
-            username: "user6",
-            name: "User 6",
-            avatar: "https://i.pravatar.cc/150?img=1",
-          },
-        },
-      ],
-    },
-  ];
 
   const [activeLecture, setActiveLecture] = useState();
-
-  // Quizz
-  const listQuestions = [
-    {
-      id: 1,
-      questionName: "What is React?",
-      answer: 2,
-      listChooses: [
-        {
-          id: 1,
-          content: "A JavaScript library for building user interfaces Sai",
-        },
-        {
-          id: 2,
-          content: "A JavaScript library for building user interfaces Đúng",
-        },
-        {
-          id: 3,
-          content: "A JavaScript library for building user interfaces Sai",
-        },
-      ],
-    },
-    {
-      id: 2,
-      questionName: "What is Vite?",
-      answer: 3,
-      listChooses: [
-        {
-          id: 1,
-          content: "A JavaScript library for building user interfaces Sai",
-        },
-        {
-          id: 2,
-          content: "A JavaScript library for building user interfaces Sai",
-        },
-        {
-          id: 3,
-          content: "A JavaScript library for building user interfaces Đúng",
-        },
-      ],
-    },
-  ];
+  console.log("activeLecture", activeLecture);
 
   return isLoading ? (
     <Loading />
   ) : wasBought || isPublicCourse ? (
-    <div className="learn">
+    <div className="learn" style={{ height: "100vh", overflow: "auto" }}>
       <div className="row header__tool d-flex flex-row justify-content-center align-items-center position-sticky">
         <div className="tool__container d-flex flex-row justify-content-between align-items-center gap-4 my-2">
           <span className="d-flex justify-content-between align-items-center">
@@ -412,7 +194,7 @@ const LearnPage = () => {
               className="navbar-brand justify-content-center align-items-center d-flex"
               to="/"
               style={{ fontSize: "14px", fontWeight: "bold", color: "#fff" }}
-              onClick={() => nav(-1)}
+              // onClick={() => nav(-1)}
             >
               <MdKeyboardArrowLeft
                 cursor="pointer"
@@ -437,7 +219,8 @@ const LearnPage = () => {
               color: "#fff",
             }}
           >
-            <BiNotepad /> {course?.name}
+            <BiNotepad />{" "}
+            {course ? course.name : <LoadingSkeleton width={200} height={20} />}
           </div>
           <span className="d-flex flex-row justify-content-center align-items-center gap-3">
             <Box sx={{ position: "relative", display: "inline-flex" }}>
@@ -458,14 +241,22 @@ const LearnPage = () => {
                 }}
               >
                 <Typography variant="caption" component="div" color="#f0f0f0">
-                  {`${Math.round(learningProgress?.percentCompleted)}%`}
+                  {`${Math.round(
+                    learningProgress?.percentCompleted
+                      ? learningProgress?.percentCompleted
+                      : 0
+                  )}%`}
                 </Typography>
               </Box>
             </Box>
             {/* 20/10 bài học */}
-            {learningProgress?.learnedLectures?.length +
+            {(learningProgress?.learnedLectures?.length
+              ? learningProgress?.learnedLectures?.length
+              : "0") +
               "/" +
-              learningProgress?.totalLecturesInCourse +
+              (learningProgress?.totalLecturesInCourse
+                ? learningProgress?.totalLecturesInCourse
+                : "0") +
               " bài học"}
           </span>
         </div>
@@ -474,13 +265,17 @@ const LearnPage = () => {
         <div className="col-12 col-lg-9">
           <div className="">
             {!activeLecture ? (
-              <div className="d-flex justify-content-center align-items-center flex-column">
-                <img
-                  src={course?.avatar}
-                  alt="anhkhoahoc"
-                  style={{ height: "50%" }}
-                />
-              </div>
+              course?.avatar ? (
+                <div className="d-flex justify-content-center align-items-center flex-column">
+                  <img
+                    src={course?.avatar}
+                    alt="anhkhoahoc"
+                    style={{ height: "50%" }}
+                  />
+                </div>
+              ) : (
+                <LoadingSkeleton height={300} width="100%" />
+              )
             ) : activeLecture?.lectureType === "VIDEO" ? (
               <video
                 id="myVideo"
@@ -490,7 +285,6 @@ const LearnPage = () => {
                 src={activeLecture.link}
                 controls
                 autoPlay
-                onTimeUpdate={handleChangeTime}
                 ref={videoRef}
                 crossOrigin="anonymous"
               >
@@ -541,19 +335,24 @@ const LearnPage = () => {
                   {activeLecture?.title}
                 </h4>
 
-                {!activeLecture && (
-                  <p
-                    dangerouslySetInnerHTML={{
-                      __html: course?.description,
-                    }}
-                  ></p>
-                )}
+                {!activeLecture &&
+                  (course?.description ? (
+                    <p
+                      dangerouslySetInnerHTML={{
+                        __html: course?.description,
+                      }}
+                    ></p>
+                  ) : (
+                    <p>
+                      <LoadingSkeleton height={"20vh"} />
+                    </p>
+                  ))}
                 <p>{activeLecture?.description}</p>
               </Tab>
               {activeLecture && activeLecture?.lectureType === "VIDEO" && (
                 <Tab eventKey="note" title="Note">
                   {/* Form add note */}
-                  <div className="note__container">
+                  {/* <div className="note__container">
                     <div className="note__form mb-4">
                       {searchParams.get("id") && (
                         <Form onSubmit={handleSubmit(onSubmit)}>
@@ -604,16 +403,14 @@ const LearnPage = () => {
                         );
                       })}
                     </div>
-                  </div>
+                  </div> */}
+                  <NoteTab videoRef={videoRef} />
                 </Tab>
               )}
 
               {activeLecture && (
                 <Tab eventKey="Q&A" title="Hỏi đáp">
-                  <QATab
-                    listQuestion={listQuestion}
-                    activeLecture={activeLecture && activeLecture}
-                  />
+                  <QATab activeLecture={activeLecture && activeLecture} />
                 </Tab>
               )}
 
@@ -621,7 +418,7 @@ const LearnPage = () => {
                 <Calendar />
               </Tab>
               <Tab eventKey="notification" title="Thông báo giảng viên">
-                <Calendar />
+                <NotiOfTeacherTab />
               </Tab>
               <Tab eventKey="chatbot" title="Chat BOT" unmountOnExit>
                 <ChatBotTab />
@@ -632,7 +429,9 @@ const LearnPage = () => {
         <div className="col-12 col-lg-3 ">
           <div className="list__video-container">
             <h5>Nội dung khóa học</h5>
-
+            {listChapters && listChapters.length == 0 && (
+              <LoadingSkeleton height={"70vh"} width="100%" />
+            )}
             <div className="list__chapter">
               <Accordion alwaysOpen>
                 {listChapters?.map((chapter, index) => {

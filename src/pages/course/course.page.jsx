@@ -83,7 +83,7 @@ const CoursePage = (props) => {
       <div className="row d-flex flex-row">
         <div className="col-12 col-lg-9 col-md-7">
           <div className="course__left m-3">
-            <h3 className="course__title">{course ? course.name : ""}</h3>
+            <h3 className="course__title">{course ? course?.name : ""}</h3>
             <div
               className="course__dess"
               dangerouslySetInnerHTML={{
@@ -94,13 +94,17 @@ const CoursePage = (props) => {
             </div>
             <div className="course__social">
               <div className="course__rating d-flex flex-row align-items-center gap-3">
-                <Rating name="read-only" value={5} readOnly size="small" />
+                <Rating
+                  name="read-only"
+                  value={course?.rate}
+                  readOnly
+                  size="small"
+                />
                 <span className="total">
-                  {" "}
-                  5.0 ({listReviews ? listReviews.length : "0"} review)
+                  ({listReviews ? listReviews?.length : "0"} review)
                 </span>
                 <p className="m-0">
-                  Đang có {course ? course.numStudents : ""} học viên tham gia
+                  Đang có {course ? course?.numStudents : ""} học viên tham gia
                 </p>
               </div>
               <div className="course__img">
@@ -181,34 +185,34 @@ const CoursePage = (props) => {
         <div className="col-12 col-lg-3 col-md-5 card__detail">
           <div className="course__right m-3 p-3">
             <h3 className="course__title">{course ? course.name : ""}</h3>
-            <div
+            {/* <div
               dangerouslySetInnerHTML={{
                 __html: course?.description,
               }}
               className="course__dess"
-            ></div>
-            <div className="course__social">
-              <div className="course__rating d-flex flex-row align-items-center gap-3 mb-2">
-                <span className="total">
-                  {" "}
-                  5.0 ({listReviews ? listReviews.length : "0"} review)
-                </span>
-                <p className="m-0">
-                  Đang có {course ? course.numStudents : ""} học viên tham gia
-                </p>
-              </div>
-              <div className="course__rating d-flex flex-row align-items-center gap-3">
-                <div className="course-language">
-                  <span className="course-language__title">
-                    Ngôn ngữ: {course ? course.language : ""}
-                  </span>
-                </div>
+            ></div> */}
+            <div className="course__social d-flex flex-column gap-3">
+              <div className="course__rating d-flex align-items-center gap-2">
                 <Rating
                   name="read-only"
                   value={course ? course.rate : 0}
                   readOnly
                   size="small"
                 />
+                <span className="total">
+                  ({listReviews ? listReviews.length : "0"} review)
+                </span>
+              </div>
+
+              <p className="m-0">
+                Đang có {course ? course.numStudents : ""} học viên tham gia
+              </p>
+              <div className="course__rating">
+                <div className="course-language">
+                  <span className="course-language__title">
+                    Ngôn ngữ: {course ? course.language : ""}
+                  </span>
+                </div>
               </div>
             </div>
             <img

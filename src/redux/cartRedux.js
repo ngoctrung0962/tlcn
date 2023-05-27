@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Swal from "sweetalert2";
-import cartApi, { AddToCartAction } from "../api/cartApi";
+import cartApi from "../api/cartApi";
 
 const cartSlice = createSlice({
   name: "cart",

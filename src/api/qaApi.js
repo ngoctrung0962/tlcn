@@ -17,10 +17,10 @@ const qaApi = {
     const url = `/discusses/${id}`;
     return axiosClient.delete(url);
   },
-  filter(requestParams){
-    const url = `/discusses`
-    return axiosClient.get(url, {requestParams})
-  }
+  filter(requestParams, valueRequestParams) {
+    const url = `/discusses?page=0&limit=100&${requestParams}=${valueRequestParams}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default qaApi;

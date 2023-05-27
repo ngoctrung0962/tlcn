@@ -1,9 +1,5 @@
-import axios from "axios";
-import { callApi } from "./callApi";
-import swal from "sweetalert2";
-import { useNavigate } from "react-router-dom";
-import Swal from "sweetalert2";
 import moment from "moment/moment";
+import { default as Swal, default as swal } from "sweetalert2";
 
 export const formatVND = (price) => {
   const formatPrice = price.toLocaleString("vi", {
