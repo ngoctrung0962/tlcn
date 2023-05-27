@@ -31,7 +31,7 @@ body {
   padding: 0;
 }
 .App {
-  background-color: rgb(241 255 249/1);
+  /* background-color: rgb(241 255 249/1); */
 }
 iframe video {
   height: 100% !important;

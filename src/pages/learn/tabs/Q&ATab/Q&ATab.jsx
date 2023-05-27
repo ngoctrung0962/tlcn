@@ -13,8 +13,10 @@ import qaApi from "../../../../api/qaApi";
 import uploadFileApi from "../../../../api/uploadFileApi";
 import { formatDateDisplay } from "../../../../utils/MyUtils";
 import FormAddRep from "./components/FormAddRep";
+import Loading from "../../../../components/Loading/Loading";
 
-const QATab = ({ listQuestion, activeLecture }) => {
+const QATab = ({ activeLecture }) => {
+  const [loading, setLoading] = useState(false);
   const coursePath = useLocation().pathname.split("/")[2];
   const { currentUser } = useSelector((state) => state.user);
   // Lấy search params
@@ -50,6 +52,7 @@ const QATab = ({ listQuestion, activeLecture }) => {
   //get data Q&A from api
   const [methodFilterQA, setMethodFilterQA] = useState("byCourse");
   const fetchDataQA = async () => {
+    setLoading(true);
     try {
       const methodFilterQAValue =
         methodFilterQA === "byCourse"
@@ -58,27 +61,15 @@ const QATab = ({ listQuestion, activeLecture }) => {
           ? activeLecture.chapterId
           : activeLecture.id;
 
-      // const requestParams = {
-      //   methodFilterQA: methodFilterQAValue,
-      // };
-
-      // const resQA = await axios.get(
-      //   `http://localhost:8080/api/v1/discusses?${methodFilterQA}=${
-      //     methodFilterQA === "byCourse"
-      //       ? coursePath
-      //       : methodFilterQA === "byChapter"
-      //       ? activeLecture.chapterId
-      //       : activeLecture.id
-      //   }&page=0&limit=100`
-      // );
-
       const resQA = await qaApi.filter(methodFilterQA, methodFilterQAValue);
       setListQA(resQA?.content);
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const res = await qaApi.addQA(data);
       if (res.errorCode === "") {
@@ -91,11 +82,12 @@ const QATab = ({ listQuestion, activeLecture }) => {
         fetchDataQA();
         reset();
       }
-      console.log("res", res);
     } catch (error) {}
+    setLoading(false);
   };
 
   const handleDeleteQuestion = async (id) => {
+    setLoading(true);
     try {
       const res = await qaApi.delete(id);
       if (res.errorCode === null) {
@@ -116,6 +108,7 @@ const QATab = ({ listQuestion, activeLecture }) => {
         });
       }
     } catch (error) {}
+    setLoading(false);
   };
   const handleUploadImageBefore = async (files, info, uploadHandler) => {
     // uploadHandler(files);
@@ -224,6 +217,7 @@ const QATab = ({ listQuestion, activeLecture }) => {
                   className="main__btn"
                   // onClick={handleSubmitQuestion(onSubmitQuestion)}
                   onClick={handleSubmit(onSubmit)}
+                  disabled={loading}
                 >
                   Thêm câu hỏi
                 </Button>
@@ -246,38 +240,6 @@ const QATab = ({ listQuestion, activeLecture }) => {
             <option value="byChapter">Theo chapter</option>
             <option value="byLecture">Theo bài giảng</option>
           </Form.Select>
-          {/* {listQuestion?.map((item, index) => {
-            return (
-              <div className=" question__item mb-2 row" key={index}>
-                <div className="question__left col col-12 col-md-2">
-                  <div className="question__item-avatar">
-                    <img
-                      src={require("../../../../assets/img/avt.jpg")}
-                      alt=""
-                      className=""
-                    />
-                  </div>
-                  <div className="question__item-name">{item.user.name}</div>
-                  <span className="question__item-time me-3">
-                    {item.date_created}
-                  </span>
-                </div>
-                <div className="question__right col col-12 col-md-10">
-                  <div className="question__item-header d-flex w-100">
-                    <span className="question__item-title ">{item.title}</span>
-                    <div className="question__item-tool d-flex gap-2">
-                      <AiOutlineDelete size={24} cursor="pointer" />
-                      <AiOutlineEdit size={24} cursor="pointer" />
-                    </div>
-                  </div>
-
-                  <div className="question__item-content">{item.content}</div>
-
-                  <div className="question__item-des d-flex gap-1"></div>
-                </div>
-              </div>
-            );
-          })} */}
 
           {!isOpenFormAddRep ? (
             <section
@@ -287,90 +249,100 @@ const QATab = ({ listQuestion, activeLecture }) => {
               className="mb-4 p-2"
             >
               <div class=" ">
-                {listQA?.map((item, index) => {
-                  return (
-                    <div class="row d-flex justify-content-center mb-2">
-                      <div class="col-md-12 p-0 m-0">
-                        <div class="card">
-                          <div class="card-body">
-                            <div class="d-flex flex-start align-items-center">
-                              {/* Nút xóa */}
-                              {currentUser?.username === item?.username && (
-                                <div
-                                  class="btn  btn-sm  "
-                                  style={{
-                                    position: "absolute",
-                                    right: "5px",
-                                    top: "5px",
-                                    padding: "5px",
-                                  }}
-                                  onClick={() => handleDeleteQuestion(item?.id)}
-                                >
-                                  <i
-                                    class="fas fa-trash"
+                {!loading || listQA?.length > 0 ? (
+                  listQA?.map((item, index) => {
+                    return (
+                      <div
+                        class="row d-flex justify-content-center mb-2"
+                        key={index}
+                      >
+                        <div class="col-md-12 p-0 m-0">
+                          <div class="card">
+                            <div class="card-body">
+                              <div class="d-flex flex-start align-items-center">
+                                {/* Nút xóa */}
+                                {currentUser?.username === item?.username && (
+                                  <Button
+                                    class="btn  btn-sm  "
                                     style={{
-                                      fontSize: "11px",
+                                      position: "absolute",
+                                      right: "5px",
+                                      top: "5px",
+                                      padding: "5px",
                                     }}
-                                  ></i>
+                                    disabled={loading}
+                                    onClick={() =>
+                                      handleDeleteQuestion(item?.id)
+                                    }
+                                  >
+                                    <i
+                                      class="fas fa-trash"
+                                      style={{
+                                        fontSize: "11px",
+                                      }}
+                                    ></i>
+                                  </Button>
+                                )}
+
+                                <img
+                                  class="rounded-circle shadow-1-strong me-3"
+                                  src={item?.ownerAvt}
+                                  alt="avatar"
+                                  width="60"
+                                  height="60"
+                                />
+                                <div>
+                                  <h6
+                                    class="fw-bold  mb-1"
+                                    style={{
+                                      color: "#054a49",
+                                    }}
+                                  >
+                                    {item?.username}
+                                  </h6>
+                                  <p class="text-muted small mb-0">
+                                    {item?.title} -{" "}
+                                    {formatDateDisplay(item?.createdDate)}
+                                  </p>
                                 </div>
-                              )}
-
-                              <img
-                                class="rounded-circle shadow-1-strong me-3"
-                                src={item?.ownerAvt}
-                                alt="avatar"
-                                width="60"
-                                height="60"
-                              />
-                              <div>
-                                <h6
-                                  class="fw-bold  mb-1"
-                                  style={{
-                                    color: "#054a49",
-                                  }}
-                                >
-                                  {item?.username}
-                                </h6>
-                                <p class="text-muted small mb-0">
-                                  {item?.title} -{" "}
-                                  {formatDateDisplay(item?.createdDate)}
-                                </p>
                               </div>
-                            </div>
 
-                            <p
-                              class="mt-3 mb-2 pb-2"
-                              style={{
-                                fontSize: "12px",
-                              }}
-                              dangerouslySetInnerHTML={{
-                                __html: item?.content,
-                              }}
-                            ></p>
+                              <p
+                                class="mt-3 mb-2 pb-2"
+                                style={{
+                                  fontSize: "12px",
+                                }}
+                                dangerouslySetInnerHTML={{
+                                  __html: item?.content,
+                                }}
+                              ></p>
 
-                            <div class="small d-flex justify-content-start">
-                              <a
-                                href="#!"
-                                class="d-flex align-items-center me-3"
-                              >
-                                <i class="far fa-thumbs-up me-2"></i>
-                                <p class="mb-0">Like</p>
-                              </a>
+                              <div class="small d-flex justify-content-start">
+                                <a
+                                  href="#!"
+                                  class="d-flex align-items-center me-3"
+                                >
+                                  <i class="far fa-thumbs-up me-2"></i>
+                                  <p class="mb-0">Like</p>
+                                </a>
 
-                              <div
-                                class="d-flex align-items-center me-3"
-                                onClick={() => handleClick(item?.id)}
-                              >
-                                <i class="fas fa-share me-2"></i>
-                                <p class="mb-0">Reply</p>
+                                <div
+                                  class="d-flex align-items-center me-3"
+                                  onClick={() => handleClick(item?.id)}
+                                >
+                                  <i class="fas fa-share me-2"></i>
+                                  <p class="mb-0">Reply</p>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })
+                ) : (
+                  <Loading />
+                )}
               </div>
             </section>
           ) : (

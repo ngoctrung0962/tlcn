@@ -14,7 +14,9 @@ import { Rating } from "@mui/material";
 import coursesApi from "../../api/coursesApi";
 import WishListTab from "./components/WishListTab";
 import CourseCard from "../../components/CourseCard/CourseCard";
+import Loading from "../../components/Loading/Loading";
 const MyLearning = () => {
+  const [loading, setLoading] = useState(false);
   const { listWishList } = useSelector((state) => state.user);
   const username = useLocation().pathname.split("/")[2];
   //get detail user
@@ -22,6 +24,7 @@ const MyLearning = () => {
   const [listCourseBought, setListCourseBought] = useState([]);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const res = await userApi.get(username);
         const resPurchase = await coursesApi.getlistpurchased(username);
@@ -29,6 +32,7 @@ const MyLearning = () => {
       } catch (error) {
         console.log(error);
       }
+      setLoading(false);
     };
     fetchData();
   }, [username]);
@@ -57,16 +61,20 @@ const MyLearning = () => {
               title="Khóa học đã mua"
             >
               <div className="row m-0 p-0 justify-content-evenly  align-items-center gap-1">
-                {listCourseBought.map((item, index) => {
-                  return (
-                    <CourseCard
-                      item={item}
-                      key={index}
-                      listWishList={listWishList}
-                      isWasBought={true}
-                    />
-                  );
-                })}
+                {!loading ? (
+                  listCourseBought.map((item, index) => {
+                    return (
+                      <CourseCard
+                        item={item}
+                        key={index}
+                        listWishList={listWishList}
+                        isWasBought={true}
+                      />
+                    );
+                  })
+                ) : (
+                  <Loading />
+                )}
               </div>
             </Tab>
             <Tab eventKey="wishlist" title="Khóa học yêu thích" unmountOnExit>

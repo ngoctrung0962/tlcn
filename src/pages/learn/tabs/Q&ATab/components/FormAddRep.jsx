@@ -12,7 +12,7 @@ import qaApi from "../../../../../api/qaApi";
 import uploadFileApi from "../../../../../api/uploadFileApi";
 import { formatDateDisplay } from "../../../../../utils/MyUtils";
 const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
-  console.log("activeLecture 1 :", activeLecture);
+  const [loading, setLoading] = useState(false);
   const coursePath = useLocation().pathname.split("/")[2];
 
   const { currentUser } = useSelector((state) => state.user);
@@ -72,6 +72,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
   const [listChild, setListChild] = useState();
   const [QA, setQA] = useState();
   const fetchDataQA = async () => {
+    setLoading(true);
     try {
       const response = await qaApi.getbyId(commentId);
       setQA(response.data);
@@ -81,10 +82,11 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
     } catch (error) {
       console.log("Failed to fetch data: ", error);
     }
+    setLoading(false);
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
+    setLoading(true);
     try {
       const response = await qaApi.addQA(data);
       if (response.errorCode === "") {
@@ -95,12 +97,12 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
           showConfirmButton: false,
         });
         fetchDataQA();
-        console.log(response);
         reset();
       }
     } catch (error) {
       console.log("Failed to fetch data: ", error);
     }
+    setLoading(false);
   };
 
   const handleUploadImageBefore = async (files, info, uploadHandler) => {
@@ -155,6 +157,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
     // targetImgElement.src = imageInfo.src;
   };
   const handleDeleteQuestion = async (id) => {
+    setLoading(true);
     try {
       const res = await qaApi.delete(id);
       if (res.errorCode === null) {
@@ -179,6 +182,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
         });
       }
     } catch (error) {}
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -209,7 +213,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                 <div class="d-flex flex-start align-items-center">
                   {/* Nút xóa */}
                   {currentUser?.username === QA?.username && (
-                    <div
+                    <Button
                       class="btn  btn-sm  "
                       style={{
                         position: "absolute",
@@ -217,6 +221,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                         top: "5px",
                         padding: "5px",
                       }}
+                      disabled={loading}
                       onClick={() => {
                         handleDeleteQuestion(QA?.id);
                       }}
@@ -227,7 +232,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                           fontSize: "11px",
                         }}
                       ></i>
-                    </div>
+                    </Button>
                   )}
                   <img
                     class="rounded-circle shadow-1-strong me-3"

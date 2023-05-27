@@ -1,9 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import userApi from "../api/userApi";
-import Storagekey from "../constants/storagekey";
-import { showNotification } from "../utils/MyUtils";
-import wishListApi from "../api/wishListApi";
 import Swal from "sweetalert2";
+import userApi from "../api/userApi";
+import wishListApi from "../api/wishListApi";
+import Storagekey from "../constants/storagekey";
 
 export const login = async (dispatch, data, username) => {
   dispatch(loginStart());

@@ -8,6 +8,10 @@ const lectureApi = {
   prevLecture(currentLectureId) {
     const url = `/lectures/prev-lectures?currentLecture=${currentLectureId}`;
     return axiosClient.get(url);
+  },
+  getLectureById(id) {
+    const url = `/lectures/${id}`;
+    return axiosClient.get(url);
   }
 };
 export default lectureApi;
