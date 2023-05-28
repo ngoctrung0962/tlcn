@@ -22,7 +22,7 @@ jobs:
         run: npm install -g dotenv-cli
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i --force
 
       - name: Build
         run: npm run build:deploy
