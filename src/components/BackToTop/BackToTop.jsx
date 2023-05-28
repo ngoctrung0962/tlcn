@@ -1,5 +1,5 @@
 import React from "react";
-import { TbArrowBigTop } from "react-icons/tb";
+import { TbArrowBigUp } from "react-icons/tb";
 export default function BackToTop() {
   const showBackToTop = () => {
     const backToTop = document.querySelector(".back__to__top");
@@ -19,7 +19,7 @@ export default function BackToTop() {
   };
   return (
     <div className="back__to__top" onClick={handScrollToTop}>
-      <TbArrowBigTop />
+      <TbArrowBigUp />
     </div>
   );
 }
