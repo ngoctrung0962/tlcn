@@ -328,7 +328,7 @@ const ThirdForm = () => {
       "196687151915-7e4hb9r2vik4mq6mikovo1v8e54psqr8.apps.googleusercontent.com",
     scope: "https://www.googleapis.com/auth/calendar",
     ux_mode: "popup",
-    redirect_uri: "http://localhost:3000",
+    redirect_uri: process.env.REACT_APP_GOOGLE_REDIRECT_URL,
     callback: (response) => {
       if (response.code) {
         setValue("code", response.code);
