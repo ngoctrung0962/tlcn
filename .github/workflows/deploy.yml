@@ -26,8 +26,6 @@ jobs:
 
       - name: Build
         run: CI=false npm run build:deploy
-      - name: Checkout code
-        uses: actions/checkout@v2
 
       - name: List workspace contents
         run: ls -R
