@@ -325,7 +325,7 @@ const ThirdForm = () => {
   const google = window.google;
   const client = google.accounts.oauth2.initCodeClient({
     client_id:
-      "196687151915-7e4hb9r2vik4mq6mikovo1v8e54psqr8.apps.googleusercontent.com",
+      "14798142292-jspm633im26dll1s46sbfa4o2pnjm2pp.apps.googleusercontent.com",
     scope: "https://www.googleapis.com/auth/calendar",
     ux_mode: "popup",
     redirect_uri: process.env.REACT_APP_GOOGLE_REDIRECT_URL,
@@ -339,6 +339,7 @@ const ThirdForm = () => {
   });
   const handleLoginWithGG = async () => {
     console.log("clcik");
+    console.log(process.env.REACT_APP_GOOGLE_REDIRECT_URL)
     await client.requestCode();
   };
 
