@@ -29,13 +29,13 @@ export const showNotification = (
 };
 
 export const checkQuantity = (newItem, productQuantity, listCart) => {
-  const result = listCart.filter((item) => {
-    if (item.id.productId === newItem.id.productId) {
-      if (item.quantity + newItem.quantity > productQuantity) return item;
-    }
-  });
-  console.log(result);
-  return result.length > 0 ? false : true;
+  // // const result = listCart.filter((item) => {
+  // //   if (item.id.productId === newItem.id.productId) {
+  // //     if (item.quantity + newItem.quantity > productQuantity) return item;
+  // //   }
+  // });
+  // console.log(result);
+  // return result.length > 0 ? false : true;
 };
 
 export const showConfirmDeleteDialog = (positiveAction) => {
