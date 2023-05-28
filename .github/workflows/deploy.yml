@@ -6,7 +6,7 @@ on:
       - deploy
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
 
     steps:
@@ -29,11 +29,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@master
-        with:
-          name: web-app-build
-          path: './build'
+      - name: List workspace contents
+        run: ls -R
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
