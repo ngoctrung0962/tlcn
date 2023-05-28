@@ -18,6 +18,9 @@ jobs:
         with:
           node-version: 14
 
+      - name: Install dotenv-cli
+        run: npm install -g dotenv-cli
+
       - name: Install dependencies
         run: npm ci
 
