@@ -83,7 +83,7 @@ export default function SuccessPage(props) {
               </button>
               <button
                 className="success__btn"
-                onClick={() => nav(`/course/${temp[0]?.courseId}`)}
+                onClick={() => nav(`/courses/${temp[0]?.courseId}`)}
               >
                 Đến khóa học
               </button>
