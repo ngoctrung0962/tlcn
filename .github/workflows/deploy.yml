@@ -16,21 +16,19 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: 14
+          node-version: 16.17.1
+
+      - name: Install dotenv-cli
+        run: npm install -g dotenv-cli
 
       - name: Install dependencies
-        run: npm ci
+        run: npm i --force
 
       - name: Build
-        run: npm run build:deploy
+        run: CI=false npm run build:deploy
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: List workspace contents
+        run: ls -R
 
       - name: Deploy to S3
         uses: jakejarvis/s3-sync-action@master
@@ -42,3 +40,13 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SOURCE_DIR: build/
+
+      - name: Cloudfront Invalidation
+        uses: chetan/invalidate-cloudfront-action@master
+        env:
+          DISTRIBUTION: E2BJ2JVGTSXVUG
+          PATHS: '/*'
+          AWS_REGION: 'ap-southeast-1'
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
