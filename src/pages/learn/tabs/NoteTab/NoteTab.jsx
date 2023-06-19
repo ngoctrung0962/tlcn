@@ -25,6 +25,7 @@ export default function NoteTab({ videoRef }) {
     try {
       setLoading(true);
       const res = await noteApi.getnotebyvideoid(searchParams.get("id"));
+
       setListNote(res.data);
     } catch (error) {
       console.log(error);

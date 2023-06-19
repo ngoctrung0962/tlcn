@@ -21,6 +21,7 @@ import NoteTab from "./tabs/NoteTab/NoteTab";
 import NotiOfTeacherTab from "./tabs/NotiOfTeacherTab/NotiOfTeacherTab";
 import QATab from "./tabs/Q&ATab/Q&ATab";
 import LoadingSkeleton from "../../components/Loading/LoadingSkeleton";
+import VideoWithSubtitle from "./VideoWithSubtitle";
 
 const LearnPage = () => {
     const [isLoading, setIsLoading] = useState(false);
@@ -160,37 +161,28 @@ const LearnPage = () => {
         }
     };
     const renderViewLecture = (lecture) => {
-        if (lecture?.lectureType === "VIDEO") {
+        if (lecture?.lectureType === "VIDEO"){
+            console.log("before render video eith subtitle: ", lecture);
             return (
-                <video
-                    id="myVideo"
-                    className="learn__video"
-                    width="100%"
-                    height="500px"
-                    src={activeLecture.link}
-                    controls
-                    autoPlay
-                    ref={videoRef}
-                    crossOrigin="anonymous"
-                />
+                <VideoWithSubtitle lecture={lecture} videoRef={videoRef}/>
             )
-        }else if(lecture.lectureType === "QUIZ"){
+        } else if (lecture.lectureType === "QUIZ") {
             return (
                 <Quiz lectureId={lecture?.id}/>
             )
-        }else if(lecture.lectureType === "PRESENTATION"){
-            if(lecture.type === "TEXT"){
+        } else if (lecture.lectureType === "PRESENTATION") {
+            if (lecture.type === "TEXT") {
                 return (
-                    <p style = {{padding: "100px 20px" }}>{lecture.content}</p>
+                    <p style={{padding: "100px 20px"}}>{lecture.content}</p>
                 )
-            }else if(lecture.type === "FILE"){
+            } else if (lecture.type === "FILE") {
                 const headers = {
                     "Origin": "http://localhost:3000"
                     //"My-Custom-Header": "my-custom-value",
                 };
 
                 return (
-                    <div style={{ width: '100%', height: '650px' }}>
+                    <div style={{width: '100%', height: '650px'}}>
                         <DocViewer
                             documents={[
                                 {
