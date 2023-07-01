@@ -53,8 +53,9 @@ function Header() {
   const handleCheckOut = async () => {
     try {
       const res = await requestOrder.request(dataPost);
-      if (res.data.errorCode === "") {
-        const linkRes = res.data.data;
+      console.log(res);
+      if (res.errorCode === "") {
+        const linkRes = res.data;
         window.open(linkRes, "_self");
       } else {
         Swal.fire({

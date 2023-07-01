@@ -19,7 +19,12 @@ export default function ModalRecept({ hanleExitModal, dataOrder }) {
           Thông tin hóa đơn
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body
+        style={{
+          maxHeight: "calc(100vh - 210px)",
+          overflowY: "auto",
+        }}
+      >
         {/* Thông tin đơn hàng */}
         <div className="row">
           <p className="historypurcharse__caption modal__recept__title">

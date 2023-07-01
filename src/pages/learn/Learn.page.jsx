@@ -451,12 +451,6 @@ const LearnPage = () => {
                                 key={index}
                                 style={{
                                   position: "relative",
-                                  pointerEvents:
-                                    learningProgress?.learnedLectures?.find(
-                                      (item) => item === lecture.id
-                                    )
-                                      ? "auto"
-                                      : "none",
                                 }}
                               >
                                 <div className="markasdone__lecture">
