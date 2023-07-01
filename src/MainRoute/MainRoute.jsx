@@ -9,6 +9,9 @@ import HomePage from "../pages/home/homePage";
 import NotFound from "../pages/NotFound/NotFound";
 import FailPage from "../pages/ResultPurchar/Fail.page";
 import SuccessPage from "../pages/ResultPurchar/Success.page";
+import Teacher from "../pages/Teacher/Teacher";
+import OurTeacher from "../pages/OurTeacher/OurTeacher";
+import HistoryPurcharse from "../pages/HistoryPurcharse/HistoryPurcharse";
 
 const MainRoute = () => {
   return (
@@ -20,9 +23,16 @@ const MainRoute = () => {
 
         <Route path="/courses/:id" element={<CoursePage />} />
 
+        <Route path="/teacher/:id" element={<Teacher />} />
+        <Route path="/teachers" element={<OurTeacher />} />
+
+        <Route path="/historypurchase/:id" element={<Teacher />} />
+        <Route path="/historypurchase" element={<HistoryPurcharse />} />
+
         <Route path="/cart" element={<Cart />} />
 
         <Route path="/blogs/:id" element={<BlogPage />} />
+
         <Route path="/contact" element={<ContactPage />} />
 
         {/* <Route path="/*" element={<BlogPage />} /> */}

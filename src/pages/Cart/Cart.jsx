@@ -7,7 +7,6 @@ import requestOrder from "../../api/requestOrder";
 
 const Cart = () => {
     const state = useLocation().state;
-    console.log(state);
 
     const {listCart, totalQuantity, totalPrice} = useSelector(
         (state) => state.cart

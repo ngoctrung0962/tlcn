@@ -1924,3 +1924,251 @@ a {
   position: relative;
   margin-bottom: 1rem;
 }
+.course__teacher__info h5 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--black);
+}
+
+/* Teacher info */
+.teacher__avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 1rem;
+}
+
+.teacher__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+.teacher__name h1 {
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.teacher__caption {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.teacher__about__me span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.teacher__link__list span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.teacher__link__list__item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  padding: 1rem;
+  border-radius: 3px;
+  border: 1px solid var(--black);
+  width: 200px;
+}
+.teacher__link__list__item i {
+  font-size: 1.5rem;
+  color: var(--black);
+  margin-right: 1rem;
+}
+.teacher__link__list__item a {
+  text-decoration: none;
+  color: var(--black);
+}
+
+.teacher__top__course {
+  margin-bottom: 1rem;
+}
+.teacher__top__course span {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 1rem;
+}
+
+.teacher__achievements__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 1rem;
+  background-color: #fff;
+  padding: 0.8rem;
+  border-radius: 3px;
+  border: 1px solid var(--black);
+  width: 150px;
+}
+.teacher__achievements__item p {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+.teacher__achievements__item span {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--black);
+}
+.teacher__card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  transition: 0.4s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+.teacher__card:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.card__teacher__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+.card__teacher__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.top__teacher__title {
+  font-size: 2.3rem;
+  font-weight: 700;
+  color: var(--black);
+  margin-bottom: 1.2rem;
+  padding-left: 10px;
+  border-left: 9px solid var(--orange);
+}
+.teacher__card .teacher__fullname {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+.teacher__card .teacher__caption {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  margin-bottom: 0.8rem;
+  /* Khoảng cách dòng */
+  line-height: 1.5;
+}
+
+.teacher__card .teacher__caption strong {
+  background-color: var(--green);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+/* History purcharse */
+.historypurcharse__card {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  background-color: #fff;
+  padding: 0.8rem;
+  border-radius: 10px;
+  border: none;
+  transition: 0.4s;
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
+    rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
+    rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+}
+.historypurcharse__card:hover {
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
+    rgba(0, 0, 0, 0.04) 0px 10px 10px -5px;
+}
+.card__historypurcharse__avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+.top__historypurcharse__title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--black);
+  padding-bottom: 1.2rem;
+}
+.historypurcharse__card .historypurcharse__fullname {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--black);
+  margin-bottom: 0.5rem;
+}
+
+.historypurcharse__card .historypurcharse__caption {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--black);
+  margin-bottom: 0.8rem;
+  /* Khoảng cách dòng */
+  line-height: 1.5;
+}
+
+.historypurcharse__card .historypurcharse__caption strong {
+  background-color: var(--green);
+  color: #fff;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  margin-right: 8px;
+}
+
+.btn__recept__order {
+  background: var(--blue);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.9rem;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.btn__recept__order i {
+  font-size: 1.5rem;
+}
+
+.modal__recept__title {
+  font-size: 12px;
+  margin-right: 10px;
+  border-left: 5px solid var(--orange);
+}

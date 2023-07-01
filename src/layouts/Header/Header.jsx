@@ -247,14 +247,16 @@ function Header() {
             <li className="nav-item">
               <Link
                 className={
-                  matchPath("/forum", pathname) ? "nav-link active" : "nav-link"
+                  matchPath("/teachers", pathname)
+                    ? "nav-link active"
+                    : "nav-link"
                 }
-                to="/forum"
+                to="/teachers"
               >
                 <div className="d-flex flex-column align-items-center">
                   {/* <i className="bx bxl-blogger"></i> */}
                   <SiBloglovin />
-                  <span>Diễn đàn</span>
+                  <span>Giảng viên</span>
                 </div>
               </Link>
             </li>
@@ -385,6 +387,9 @@ function Header() {
                 >
                   Khóa học của tôi
                 </Dropdown.Item>
+                <Dropdown.Item onClick={() => nav(`/historypurchase`)}>
+                  Lịch sử mua hàng
+                </Dropdown.Item>
                 <Dropdown.Item
                   onClick={() => {
                     handleClose();
@@ -440,7 +445,6 @@ function Header() {
                               control={
                                 <Checkbox
                                   onChange={(e) => {
-                                    console.log(e.target.checked);
                                     if (e.target.checked === true) {
                                       setDataPost({
                                         ...dataPost,

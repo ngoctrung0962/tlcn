@@ -15,10 +15,8 @@ import ReactMarkdown from 'react-markdown'
 
 export default function ChatBotTab() {
   const { currentUser } = useSelector((state) => state.user);
-  console.log("currentUser", currentUser);
 
   const [dataConvertation, setdataConvertation] = useState();
-  console.log("dataConvertation", dataConvertation);
   // hook form
   const {
     register,
