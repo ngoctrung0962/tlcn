@@ -24,7 +24,6 @@ const CartItem = ({
             disabled={disableClick}
             defaultChecked={disableClick}
             onChange={(e) => {
-              console.log(e.target.checked);
               if (e.target.checked === true) {
                 setDataPost({
                   ...dataPost,

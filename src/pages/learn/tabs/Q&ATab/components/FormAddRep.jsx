@@ -107,8 +107,6 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
 
   const handleUploadImageBefore = async (files, info, uploadHandler) => {
     // uploadHandler(files);
-    console.log("handleUploadImageBefore", uploadHandler);
-    console.log("info", info);
     const formData = new FormData();
     formData.append("files", files[0]);
     const promise = new Promise((resolve, reject) => {
@@ -151,8 +149,6 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
     imageInfo,
     remainingFilesCount
   ) => {
-    console.log("target", targetImgElement);
-    console.log("image", imageInfo);
     // Thay đổi đường dẫn ảnh
     // targetImgElement.src = imageInfo.src;
   };

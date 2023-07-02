@@ -12,6 +12,7 @@ import { FaShoppingCart, FaRegRegistered } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
 import { handleAddtoCart } from "../../redux/cartRedux";
 import Swal from "sweetalert2";
+import { formatDateDisplay } from "../../utils/MyUtils";
 const CoursePage = (props) => {
   const user = useSelector((state) => state.user.currentUser);
   const nav = useNavigate();
@@ -84,24 +85,72 @@ const CoursePage = (props) => {
         <div className="col-12 col-lg-9 col-md-7">
           <div className="course__left m-3">
             <h3 className="course__title">{course ? course?.name : ""}</h3>
-            <div
-              className="course__dess"
-              dangerouslySetInnerHTML={{
-                __html: course?.description,
+            {/* Thông tin giảng viên start*/}
+            <div className="d-flex flex-row align-items-center gap-2">
+              <span
+                style={{
+                  fontSize: "13px",
+                  fontWeight: "600",
+                  color: "#2d3748",
+                }}
+              >
+                {" "}
+                Giảng viên:
+              </span>
+
+              <Link
+                className="course__teacher align-items-center gap-2 d-flex"
+                to={`/teacher/${course?.accountName}`}
+              >
+                <div className="course__teacher__avatar">
+                  <img
+                    className="img-fluid"
+                    src={course?.ownerAvt}
+                    alt="avatar"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      borderRadius: "50%",
+                    }}
+                  />
+                </div>
+                <div className="course__teacher__info">
+                  <h5 className="m-0">{course?.accountName}</h5>
+                </div>
+              </Link>
+            </div>
+            <p
+              style={{
+                fontSize: "13px",
+                fontWeight: "600",
+                color: "#2d3748",
+                marginBottom: "10px",
               }}
             >
-              {/* {course ? course.description : ""} */}
-            </div>
+              Ngày phát hành: {formatDateDisplay(course?.createDate)}
+            </p>
+            <p
+              style={{
+                fontSize: "13px",
+                fontWeight: "600",
+                color: "#2d3748",
+                marginBottom: "10px",
+              }}
+            >
+              Lần cần nhật gần đây: {formatDateDisplay(course?.updateDate)}
+            </p>
+
+            {/* Thông tin giảng viên end*/}
             <div className="course__social">
               <div className="course__rating d-flex flex-row align-items-center gap-3">
                 <Rating
                   name="read-only"
-                  value={course?.rate}
+                  value={course ? course.rate : 0}
                   readOnly
                   size="small"
                 />
                 <span className="total">
-                  ({listReviews ? listReviews?.length : "0"} review)
+                  ({listReviews ? listReviews?.length : "0"} lượt đánh giá)
                 </span>
                 <p className="m-0">
                   Đang có {course ? course?.numStudents : ""} học viên tham gia
@@ -140,31 +189,14 @@ const CoursePage = (props) => {
                 <div className="course__content__item">
                   <h4 className="course__content__title">Giới thiệu</h4>
                   <div className="course__content__des">
-                    <p>
-                      <strong>Khóa học này dành cho ai?</strong>
-                    </p>
-                    <p>
-                      Khóa học này dành cho những người muốn học cách học online
-                    </p>
-                    <p>
-                      <strong>Khóa học này có gì?</strong>
-                    </p>
-                    <p>
-                      Khóa học này có 3 bài học, mỗi bài học có 1 video và 1 bài
-                      tập
-                    </p>
-                    <p>
-                      <strong>Khóa học này có bao nhiêu bài học?</strong>
-                    </p>
-                    <p>Khóa học này có 3 bài học</p>
-                    <p>
-                      <strong>Khóa học này có bao nhiêu video?</strong>
-                    </p>
-                    <p>Khóa học này có 3 video</p>
-                    <p>
-                      <strong>Khóa học này có bao nhiêu bài tập?</strong>
-                    </p>
-                    <p>Khóa học này có 3 bài tập</p>
+                    <div
+                      className="course__dess"
+                      dangerouslySetInnerHTML={{
+                        __html: course?.description,
+                      }}
+                    >
+                      {/* {course ? course.description : ""} */}
+                    </div>
                   </div>
                 </div>
               </Tab>

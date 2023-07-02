@@ -32,7 +32,6 @@ const SecondForm = () => {
     const [currentFrequencyOption, setCurrentFrequencyOption] = useState("ONCE");
     const [isEnd, setIsEnd] = useState(false);
 
-    console.log(currentFrequencyOption);
 
     const optionDayInMonth = [
         { label: '1st', value: '1' },
@@ -133,7 +132,6 @@ const SecondForm = () => {
                             as="select"
                             {...field}
                             onChange={(e) => {
-                                console.log(e.target.value);
                                 if (e.target.value === "ONCE") {
                                     setIsEnd(false);
                                 }
@@ -171,9 +169,7 @@ const SecondForm = () => {
                             classNamePrefix="select"
                             defaultValue={1}
                             onChange={(e) => {
-                                console.log(e);
                                 const values = e.map(i => i.value).join(',');
-                                console.log("values: ", values)
                                 setValue("byDay", values);
                             }}
                         />
@@ -193,7 +189,6 @@ const SecondForm = () => {
                             className="basic-multi-select"
                             classNamePrefix="select"
                             onChange={(e) => {
-                                console.log(e);
                                 setValue("byMonthDay", e.value);
                             }}
                         />
@@ -364,7 +359,6 @@ const FirstForm = () => {
 };
 const ThirdForm = () => {
     const [isHasGoogleAccount, setIsHasGoogleAccount] = useState(false);
-    console.log(isHasGoogleAccount);
     const {
         control,
         setValue,
@@ -386,8 +380,6 @@ const ThirdForm = () => {
         },
     });
     const handleLoginWithGG = async () => {
-        console.log("clcik");
-        console.log(process.env.REACT_APP_GOOGLE_REDIRECT_URL)
         await client.requestCode();
     };
 
@@ -549,7 +541,6 @@ const LinaerStepper = ({show, handleClose}) => {
                 }
                 if (data.notificationDuration && data.startTime) {
                     // Cộng thêm thời gian nhắc nhở vào thời gian kết thúc
-                    console.log("Have");
                     data.endTime = moment(data.startTime)
                         .add(data.notificationDuration, "minutes")
                         .toISOString();

@@ -21,7 +21,7 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
   };
   return (
     <div
-      // data-aos="flip-left" 
+      // data-aos="flip-left"
       className="card col-12 col-md-5 py-3 d-flex flex-xl-row flex-column align-items-center  card__course-item"
     >
       <img
@@ -57,7 +57,9 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
             className="img-fluid avt__teacher"
           />
           <h3 className="name">
-            <a href="course-details.html">David McLean</a>
+            <Link to={`/teacher/${item?.accountName}`}>
+              {item?.accountName}
+            </Link>
           </h3>
         </div>
         <h5 className="card-title mb-2 ">{item?.name}</h5>

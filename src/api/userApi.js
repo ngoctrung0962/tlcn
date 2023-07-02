@@ -46,6 +46,10 @@ const userApi = {
     const url = `/enroll-teacher`;
     return axiosClient.post(url, data);
   },
+  getTeacherInfo(username) {
+    const url = `teacher/profile/${username}`;
+    return axiosClient.get(url);
+  },
 };
 
 export default userApi;

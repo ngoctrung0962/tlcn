@@ -94,7 +94,6 @@ const Quiz = ({ lectureId }) => {
     setDataAnswer({ ...dataAnswer });
   };
 
-  console.log(dataAnswer);
   const [activeQuestion, setActiveQuestion] = useState(1);
 
   const handleNextOrPrev = (type) => {
@@ -111,11 +110,9 @@ const Quiz = ({ lectureId }) => {
 
   const handleStartQuiz = async () => {
     setQuizStatus("started");
-    console.log(lectureId);
     try {
       const res = await quizApi.startQuiz(lectureId);
       if (res.errorCode === "") {
-        console.log(res);
         setListQuestions(res.data.questions);
         setRefStat(res.data.refStat);
       }
@@ -142,11 +139,9 @@ const Quiz = ({ lectureId }) => {
             setDataResult(res.data);
           }
         } catch (error) {}
-        console.log(dataAnswer);
       }
     });
   };
-  console.log(dataResult);
 
   return (
     <div className="containerrr">

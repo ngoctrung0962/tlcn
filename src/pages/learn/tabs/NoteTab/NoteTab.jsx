@@ -119,7 +119,7 @@ export default function NoteTab({ videoRef }) {
       </div>
       <div className=" row note__list">
         <Form.Label>Danh sách note ({listNote?.length})</Form.Label>
-        {listNote.length != 0 || !loading ? (
+        {listNote?.length != 0 || !loading ? (
           listNote?.map((item, index) => {
             return (
               <div className=" note__item mb-2" key={index}>

@@ -58,7 +58,6 @@ export default function CoursesPage() {
     try {
       setLoading(true);
       const res = await coursesApi.searchCourse(temp, paginate.page);
-      console.log(res.data);
       setListCourses(res.data.content);
     } catch (error) {
       console.log(error);
@@ -176,7 +175,6 @@ export default function CoursesPage() {
     try {
       setLoading(true);
       const res = await coursesApi.searchCourse(temp, 0);
-      console.log(res.data);
       setListCourses(res.data.content);
     } catch (error) {}
     setLoading(false);

@@ -18,7 +18,6 @@ export default function SuccessPage(props) {
 
   const { currentUser } = useSelector((state) => state.user);
   const temp = JSON.parse(orderInfo);
-  console.log("current user:", temp);
 
   const nav = useNavigate();
   return (

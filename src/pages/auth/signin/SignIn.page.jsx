@@ -10,6 +10,7 @@ import userApi from "../../../api/userApi";
 import Storagekey from "../../../constants/storagekey";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
+import { useState } from "react";
 export default function SignIn() {
   const {
     register,
@@ -17,9 +18,12 @@ export default function SignIn() {
     watch,
     formState: { errors },
   } = useForm();
+  const [loading, setLoading] = useState(false);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onSubmit = async (data) => {
+    setLoading(true);
     try {
       const res = await userApi.login(data);
       if (!res.errorCode) {
@@ -51,6 +55,7 @@ export default function SignIn() {
     } catch (error) {
       console.log(error);
     }
+    setLoading(false);
   };
   return (
     <>
@@ -102,8 +107,17 @@ export default function SignIn() {
                 variant="outlined"
                 type="submit"
                 onClick={handleSubmit(onSubmit)}
+                disabled={loading}
               >
                 Đăng nhập
+                {loading && (
+                  <div
+                    className="spinner-border spinner-border-sm ms-2"
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                )}
               </Button>
             </Form>
           </div>
