@@ -1,9 +1,7 @@
 import { Rating } from "@mui/material";
-import { Tab } from "bootstrap";
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import { Tabs } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import coursesApi from "../../api/coursesApi";
 import reviewApi from "../../api/reviewApi";
@@ -13,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { handleAddtoCart } from "../../redux/cartRedux";
 import Swal from "sweetalert2";
 import { formatDateDisplay } from "../../utils/MyUtils";
+import { Tabs, Tab } from "react-bootstrap";
 const CoursePage = (props) => {
   const user = useSelector((state) => state.user.currentUser);
   const nav = useNavigate();
@@ -163,7 +162,6 @@ const CoursePage = (props) => {
                   speed="1"
                   loop
                   autoplay
-                  style={{ height: "65vh" }}
                 ></lottie-player>
               </div>
 
@@ -178,7 +176,6 @@ const CoursePage = (props) => {
           <section id="course__content" className="course__content mb-3">
             <Tabs
               defaultActiveKey="coursecontent"
-              id="uncontrolled-tab-example"
               className="justify-content-center"
             >
               <Tab
@@ -194,9 +191,7 @@ const CoursePage = (props) => {
                       dangerouslySetInnerHTML={{
                         __html: course?.description,
                       }}
-                    >
-                      {/* {course ? course.description : ""} */}
-                    </div>
+                    ></div>
                   </div>
                 </div>
               </Tab>

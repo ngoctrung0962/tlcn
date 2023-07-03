@@ -318,14 +318,6 @@ const QATab = ({ activeLecture }) => {
                               ></p>
 
                               <div class="small d-flex justify-content-start">
-                                <a
-                                  href="#!"
-                                  class="d-flex align-items-center me-3"
-                                >
-                                  <i class="far fa-thumbs-up me-2"></i>
-                                  <p class="mb-0">Like</p>
-                                </a>
-
                                 <div
                                   class="d-flex align-items-center me-3"
                                   onClick={() => handleClick(item?.id)}

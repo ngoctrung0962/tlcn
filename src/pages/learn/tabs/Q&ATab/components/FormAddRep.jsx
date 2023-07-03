@@ -210,7 +210,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                   {/* Nút xóa */}
                   {currentUser?.username === QA?.username && (
                     <Button
-                      class="btn  btn-sm  "
+                      class="btn"
                       style={{
                         position: "absolute",
                         right: "5px",
@@ -267,11 +267,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                   dangerouslySetInnerHTML={{ __html: QA?.content }}
                 ></p>
 
-                <div class="small d-flex justify-content-start">
-                  <a href="#!" class="d-flex align-items-center me-3">
-                    <i class="far fa-thumbs-up me-2"></i>
-                    <p class="mb-0">Like</p>
-                  </a>
+                {/* <div class="small d-flex justify-content-start">
                   <a href="#!" class="d-flex align-items-center me-3">
                     <i class="far fa-comment-dots me-2"></i>
                     <p class="mb-0">Comment</p>
@@ -280,7 +276,7 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                     <i class="fas fa-share me-2"></i>
                     <p class="mb-0">Share</p>
                   </a>
-                </div>
+                </div> */}
               </div>
 
               {/* List trả lời cmt */}
@@ -430,15 +426,18 @@ const FormAddRep = ({ commentId, setIsOpenFormAddRep, activeLecture }) => {
                     </Form>
                   </div>
                 </div>
-                <div class="float-end mt-2 pt-1">
+                <div class="float-end mt-2 pt-1 d-flex gap-3">
                   <button
                     type="button"
-                    class="btn btn-primary btn-sm"
+                    class="btn btn-primary btn-sm main__btn"
                     onClick={handleSubmit(onSubmit)}
                   >
                     Thêm phản hồi
                   </button>
-                  <button type="button" class="btn btn-outline-primary btn-sm">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary btn-sm main__btn"
+                  >
                     Cancel
                   </button>
                 </div>
