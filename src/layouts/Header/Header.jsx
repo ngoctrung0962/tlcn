@@ -93,7 +93,12 @@ function Header() {
         await Cookies.remove("token");
         await Cookies.remove("username");
         await dispatch(deleteDetailUser());
-        Swal.fire("Đăng xuất thành công!", "", "success");
+        Swal.fire({
+          icon: "success",
+          title: "Đăng xuất thành công",
+          showConfirmButton: false,
+          timer: 1000,
+        });
       }
     });
   };

@@ -32,9 +32,11 @@ export default function HotCourse() {
           Khóa học nổi bật <span className="text-center">HOT</span>
         </h1>
       </div>
-      <div className="row d-flex flex-column flex-md-row justify-content-between gap-3 flex-wrap align-items-center">
+      <div className="row  flex-column flex-md-row justify-content-between flex-wrap align-items-center">
         {listHotCourse?.map((item, index) => (
-          <CourseCard item={item} key={index} listWishList={listWishList} />
+          <div className="col-12 col-md-6 " key={index}>
+            <CourseCard item={item} key={index} listWishList={listWishList} />
+          </div>
         ))}
       </div>
     </div>

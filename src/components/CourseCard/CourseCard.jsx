@@ -22,7 +22,7 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
   return (
     <div
       // data-aos="flip-left"
-      className="card col-12 col-md-5 py-3 d-flex flex-xl-row flex-column align-items-center  card__course-item"
+      className="card   d-flex flex-xl-row flex-column align-items-center  card__course-item"
     >
       <img
         src={

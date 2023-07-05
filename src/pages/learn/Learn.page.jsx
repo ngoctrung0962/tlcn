@@ -394,7 +394,12 @@ const LearnPage = () => {
                       <LoadingSkeleton height={"20vh"} />
                     </p>
                   ))}
-                <p>{activeLecture?.description}</p>
+
+                <p
+                  dangerouslySetInnerHTML={{
+                    __html: activeLecture?.description,
+                  }}
+                ></p>
               </Tab>
               {activeLecture && activeLecture?.lectureType === "VIDEO" && (
                 <Tab eventKey="note" title="Note">
