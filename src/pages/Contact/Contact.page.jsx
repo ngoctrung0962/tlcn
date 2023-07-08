@@ -3,7 +3,12 @@ import { Form } from "react-bootstrap";
 import { FaUserAlt } from "react-icons/fa";
 export default function ContactPage() {
   return (
-    <div className="contact__container">
+    <div
+      className="contact__container d-flex justify-content-center align-items-center"
+      style={{
+        height: "calc(100vh - 70px)",
+      }}
+    >
       <div className="contact__inner container">
         <div className="row">
           <div className="col-12 col-md-6">

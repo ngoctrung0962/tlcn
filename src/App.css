@@ -2182,3 +2182,6 @@ a {
   margin-right: 10px;
   border-left: 5px solid var(--orange);
 }
+.color-menu-icon {
+  color: #fff !important;
+}
