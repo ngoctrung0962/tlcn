@@ -208,13 +208,16 @@ const Quiz = ({ lectureId }) => {
           <h1>Đã nộp bài</h1>
           <div className="result__quiz">
             <div className="result__quiz__item">
-              <span className="result__quiz__text">Số câu đúng: </span>
-              <span>{dataResult?.numCorrect}</span>
+              <span className="result__quiz__text">Bạn đã trả lời đúng </span>
+              <span>
+                {dataResult?.numCorrect}/ {listQuestions.length}{" "}
+              </span>
+              <span className="result__quiz__text">câu hỏi </span>
             </div>
-            <div className="result__quiz__item">
+            {/* <div className="result__quiz__item">
               <span className="result__quiz__text">Số câu sai: </span>
               <span>{dataResult?.numWrong}</span>
-            </div>
+            </div> */}
             <div className="result__quiz__item">
               <p className="result__quiz__text m-0">
                 {dataResult?.passed
@@ -235,7 +238,7 @@ const Quiz = ({ lectureId }) => {
             </span>
             <div className="d-flex flex-column flex-md-row  row">
               {dataResult?.resultDetail?.map((item, index) => (
-                <div key={index} className="col-12 col-xl-3 col-lg-6">
+                <div key={index} className="col-12">
                   <QuestionResult key={item.questionId} questionResult={item} />
                 </div>
               ))}
