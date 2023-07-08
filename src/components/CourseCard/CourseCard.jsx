@@ -47,7 +47,7 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
             } else handleAddWishList(item.id);
           }}
         >
-          <i className="fa-regular fa-heart ms-2"></i>
+          <i class="fa-solid fa-heart ms-3"></i>
         </div>
 
         <div className="instructor">
