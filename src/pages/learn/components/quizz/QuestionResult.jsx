@@ -3,7 +3,7 @@ import { useState } from "react";
 
 const QuestionResult = ({ questionResult, key }) => {
   return (
-    <div key={key} className="question__container">
+    <div key={key} className="question__container mb-3">
       <div className="question__title">
         <h3>{questionResult?.content}</h3>
       </div>
@@ -18,7 +18,13 @@ const QuestionResult = ({ questionResult, key }) => {
                   : "question__result question__choose__wrong"
               }
             >
-              <p key={index}>
+              <p
+                key={index}
+                style={{
+                  color: "#fff",
+                  margin: 0,
+                }}
+              >
                 {index + 1}: {choose?.content}
               </p>
 
