@@ -58,7 +58,12 @@ const Account = () => {
 
   const [showModalUpdateAvatar, setShowModalUpdateAvatar] = useState(false);
   return (
-    <div className="account">
+    <div
+      className="account"
+      style={{
+        height: "100vh",
+      }}
+    >
       {showModalRequestBecomeTeacher && (
         <ModalRequestBecomeTeacher
           userDetail={userDetail}

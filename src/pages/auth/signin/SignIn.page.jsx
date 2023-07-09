@@ -59,6 +59,14 @@ export default function SignIn() {
         });
       }
     } catch (error) {
+      Swal.fire({
+        icon: "error",
+        iconHtml: "👎",
+        title: "Đăng nhập thất bại",
+        allowOutsideClick: true,
+        showConfirmButton: false,
+        timer: 2000,
+      });
       console.log(error);
     }
     setLoading(false);
