@@ -35,13 +35,17 @@ export default function SignIn() {
           const resGetUser = await userApi.get(res.data.username);
           dispatch(loginSuccess(resGetUser.data));
           await Cookies.set("username", res.data.username);
+
+          navigate("/");
           Swal.fire({
             icon: "success",
             iconHtml: "👍",
             title: "Đăng nhập thành công",
             text: "Chào mừng bạn đến với trang web của chúng tôi",
+            allowOutsideClick: true,
+            showConfirmButton: false,
+            timer: 1000,
           });
-          navigate("/");
         }
       } else {
         Swal.fire({
@@ -50,6 +54,8 @@ export default function SignIn() {
           title: "Đăng nhập thất bại",
           text: "Vui lòng kiểm tra lại tài khoản hoặc mật khẩu",
           allowOutsideClick: true,
+          showConfirmButton: false,
+          timer: 2000,
         });
       }
     } catch (error) {

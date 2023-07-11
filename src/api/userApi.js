@@ -19,9 +19,9 @@ const userApi = {
     const url = `/account/${username}`;
     return axiosClient.put(url, data);
   },
-  resetPass(user) {
-    const ob = {};
-  },
+  // resetPass(user) {
+  //   const ob = {};
+  // },
   login(data) {
     const url = `/login`;
     return axiosClient.post(url, data);

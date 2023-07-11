@@ -60,16 +60,18 @@ const MyLearning = () => {
               eventKey="coursebought"
               title="Khóa học đã mua"
             >
-              <div className="row m-0 p-0 justify-content-evenly  align-items-center gap-1">
+              <div className="row m-3 align-items-center ">
                 {!loading ? (
                   listCourseBought.map((item, index) => {
                     return (
-                      <CourseCard
-                        item={item}
-                        key={index}
-                        listWishList={listWishList}
-                        isWasBought={true}
-                      />
+                      <div className="col-12 col-md-6 ">
+                        <CourseCard
+                          item={item}
+                          key={index}
+                          listWishList={listWishList}
+                          isWasBought={true}
+                        />
+                      </div>
                     );
                   })
                 ) : (

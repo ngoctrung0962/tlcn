@@ -10,7 +10,6 @@ export default function FailPage(props) {
               src="https://assets2.lottiefiles.com/packages/lf20_9xRnlw.json"
               background="transparent"
               speed="1"
-              loop
               autoplay
             ></lottie-player>
           </div>

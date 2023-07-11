@@ -2,6 +2,7 @@ import React from "react";
 import Banner from "../../components/Banner/Banner";
 import HotCourse from "./HotCourse/NewCourse";
 import NewCourse from "./NewCourse/NewCourse";
+import Footer from "../../layouts/Footer/Footer";
 
 export default function HomePage() {
   //Hàm hiển thị nút back to top khi scroll
@@ -52,6 +53,7 @@ export default function HomePage() {
           </section>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

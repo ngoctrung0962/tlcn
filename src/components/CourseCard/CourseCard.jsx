@@ -22,7 +22,7 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
   return (
     <div
       // data-aos="flip-left"
-      className="card col-12 col-md-5 py-3 d-flex flex-xl-row flex-column align-items-center  card__course-item"
+      className="card   d-flex flex-xl-row flex-column align-items-center  card__course-item"
     >
       <img
         src={
@@ -47,7 +47,7 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
             } else handleAddWishList(item.id);
           }}
         >
-          <i className="fa-regular fa-heart ms-2"></i>
+          <i class="fa-solid fa-heart ms-3"></i>
         </div>
 
         <div className="instructor">

@@ -6,62 +6,6 @@ import Swal from "sweetalert2";
 import QuestionResult from "./QuestionResult";
 
 const Quiz = ({ lectureId }) => {
-  const fakeData = {
-    refStat: "963476eb-2c56-4314-b406-bc8256473c65",
-    questions: [
-      {
-        createDate: "2023-03-30T00:00:00.000+00:00",
-        updateDate: null,
-        id: 1,
-        quizId: 29,
-        offset: 1,
-        content: "What is docker image",
-        questionType: "CHOOSE_ONE",
-        options: [
-          {
-            createDate: null,
-            updateDate: null,
-            id: 1,
-            questionId: 1,
-            content: "the image divide into multi layer",
-          },
-          {
-            createDate: null,
-            updateDate: null,
-            id: 2,
-            questionId: 1,
-            content: "the image has only one layer",
-          },
-        ],
-      },
-      {
-        createDate: "0023-03-30T00:00:00.000+00:00",
-        updateDate: null,
-        id: 2,
-        quizId: 29,
-        offset: 2,
-        content: "What is volume in docker",
-        questionType: "MULTI_CHOISE",
-        options: [
-          {
-            createDate: null,
-            updateDate: null,
-            id: 3,
-            questionId: 2,
-            content: "the volume is correct",
-          },
-          {
-            createDate: null,
-            updateDate: null,
-            id: 4,
-            questionId: 2,
-            content: "the volume is super correct",
-          },
-        ],
-      },
-    ],
-  };
-
   const [listQuestions, setListQuestions] = useState();
   const [refStat, setRefStat] = useState();
 
@@ -72,33 +16,52 @@ const Quiz = ({ lectureId }) => {
 
   const [dataResult, setDataResult] = useState();
 
-  const handleChoose = (questionId, chooseId) => {
-    const chooseData = dataAnswer.user_chooses.find(
-      (choose) => choose.questionId === questionId
-    );
-    // Nếu có rồi thì bỏ chọn
-    if (chooseData?.choose.includes(chooseId)) {
-      chooseData.choose = chooseData.choose.filter((item) => item !== chooseId);
-      setDataAnswer({ ...dataAnswer });
-      return;
-    }
-
-    if (chooseData) {
-      chooseData.choose = [...chooseData.choose, chooseId];
-    } else {
+  const handleChoose = (questionId, chooseId, typeQuestion) => {
+    if (typeQuestion === "CHOICE_ONE") {
+      dataAnswer.user_chooses = dataAnswer.user_chooses.filter(
+        (item) => item.questionId !== questionId
+      );
       dataAnswer.user_chooses.push({
         questionId: questionId,
         choose: [chooseId],
       });
+      setDataAnswer({ ...dataAnswer });
+      return;
+    } else {
+      const chooseData = dataAnswer.user_chooses.find(
+        (choose) => choose.questionId === questionId
+      );
+      // Nếu có rồi thì bỏ chọn
+      if (chooseData?.choose.includes(chooseId)) {
+        chooseData.choose = chooseData.choose.filter(
+          (item) => item !== chooseId
+        );
+        if (chooseData.choose.length === 0) {
+          // Xóa user_choose nếu không có lựa chọn nào
+          dataAnswer.user_chooses = dataAnswer.user_chooses.filter(
+            (item) => item.questionId !== questionId
+          );
+        }
+        setDataAnswer({ ...dataAnswer });
+        return;
+      }
+      if (chooseData) {
+        chooseData.choose = [...chooseData.choose, chooseId];
+      } else {
+        dataAnswer.user_chooses.push({
+          questionId: questionId,
+          choose: [chooseId],
+        });
+      }
+      setDataAnswer({ ...dataAnswer });
     }
-    setDataAnswer({ ...dataAnswer });
   };
 
   const [activeQuestion, setActiveQuestion] = useState(1);
 
   const handleNextOrPrev = (type) => {
     if (type === "next") {
-      if (activeQuestion === fakeData.questions.length) return;
+      if (activeQuestion === listQuestions?.length) return;
       setActiveQuestion(activeQuestion + 1);
     } else {
       if (activeQuestion === 1) return;
@@ -118,7 +81,7 @@ const Quiz = ({ lectureId }) => {
       }
     } catch (error) {}
   };
-
+  console.log("dataAnswer", dataAnswer);
   const handleSubmitQuiz = async () => {
     Swal.fire({
       title: "Bạn có chắc chắn muốn nộp bài?",
@@ -165,51 +128,71 @@ const Quiz = ({ lectureId }) => {
               return (
                 <div
                   key={question.id}
-                  className="d-flex justify-content-center align-items-center"
+                  className="d-flex justify-content-center align-items-center flex-column"
                   style={{
                     width: "80%",
-                    height: "60vh",
-                    position: "relative",
                   }}
                 >
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "0",
-                      left: "-10px",
+                  <div className="d-flex justify-content-between w-100 mb-3">
+                    <div>
+                      <span
+                        style={{
+                          fontSize: "1.5rem",
+                          fontWeight: "bold",
+                          color: "#054a49",
+                        }}
+                      >
+                        {activeQuestion}/{listQuestions.length} Câu hỏi
+                      </span>
+                    </div>
 
-                      zIndex: "1",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontSize: "1.5rem",
-                        fontWeight: "bold",
-                        color: "#054a49",
-                      }}
-                    >
-                      {activeQuestion}/{listQuestions.length}
-                    </span>
-                  </div>
-
-                  <div
-                    style={{
-                      position: "absolute",
-                      top: "0",
-                      right: "-10px",
-
-                      zIndex: "1",
-                    }}
-                  >
                     <button
                       className="btn__next__quiz"
                       onClick={() => {
                         handleSubmitQuiz();
                       }}
+                      style={{
+                        display:
+                          dataAnswer.user_chooses.length ===
+                          listQuestions.length
+                            ? "block"
+                            : "none",
+                      }}
                     >
                       Nộp bài
                     </button>
+                    <div
+                      className="t mb-3"
+                      style={{
+                        display: listQuestions ? "flex" : "none",
+                      }}
+                    >
+                      <button
+                        className="btn__next__quiz"
+                        onClick={() => {
+                          handleNextOrPrev("prev");
+                        }}
+                        disabled={activeQuestion === 1 ? true : false}
+                      >
+                        Prev
+                      </button>
+
+                      <button
+                        className="btn__next__quiz"
+                        onClick={() => {
+                          handleNextOrPrev("next");
+                        }}
+                        disabled={
+                          activeQuestion === listQuestions?.length
+                            ? true
+                            : false
+                        }
+                      >
+                        Next
+                      </button>
+                    </div>
                   </div>
+
                   <Question
                     question={question}
                     dataAnswer={dataAnswer}
@@ -219,52 +202,46 @@ const Quiz = ({ lectureId }) => {
                 </div>
               );
           })}
-          <div className="t">
-            <button
-              className="btn__next__quiz"
-              onClick={() => {
-                handleNextOrPrev("prev");
-              }}
-            >
-              Prev
-            </button>
-
-            <button
-              className="btn__next__quiz"
-              onClick={() => {
-                handleNextOrPrev("next");
-              }}
-            >
-              Next
-            </button>
-          </div>
         </div>
       ) : (
-        <div className="form__quiz__result d-flex justify-content-center align-items-center flex-column">
+        <div className="form__quiz__result d-flex justify-content-center  flex-column mb-4">
           <h1>Đã nộp bài</h1>
           <div className="result__quiz">
             <div className="result__quiz__item">
-              <p className="result__quiz__text">
+              <span className="result__quiz__text">Bạn đã trả lời đúng </span>
+              <span>
+                {dataResult?.numCorrect}/ {listQuestions.length}{" "}
+              </span>
+              <span className="result__quiz__text">câu hỏi </span>
+            </div>
+            {/* <div className="result__quiz__item">
+              <span className="result__quiz__text">Số câu sai: </span>
+              <span>{dataResult?.numWrong}</span>
+            </div> */}
+            <div className="result__quiz__item">
+              <p className="result__quiz__text m-0">
                 {dataResult?.passed
                   ? "Bạn đã vượt qua bài kiểm tra"
                   : "Bạn chưa vượt qua bài kiểm tra"}
               </p>
             </div>
-            <div className="result__quiz__item">
-              <span className="result__quiz__text">Số câu đúng: </span>
-              <span>{dataResult?.numCorrect}</span>
-            </div>
-            <div className="result__quiz__item">
-              <span className="result__quiz__text">Số câu sai</span>
-              <span>{dataResult?.numWrong}</span>
-            </div>
-            <div className="result__quiz__item">
-              <span className="result__quiz__text">Kết quả chi tiết</span>
-              <div>
-                {dataResult?.resultDetail?.map((item) => (
+          </div>
+          <div className="result__quiz__ite">
+            <span
+              className="result__quiz__text"
+              style={{
+                fontSize: "1.5rem",
+                fontWeight: "bold",
+              }}
+            >
+              Kết quả chi tiết
+            </span>
+            <div className="d-flex flex-column flex-md-row  row">
+              {dataResult?.resultDetail?.map((item, index) => (
+                <div key={index} className="col-12">
                   <QuestionResult key={item.questionId} questionResult={item} />
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

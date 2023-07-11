@@ -351,15 +351,17 @@ export default function CoursesPage() {
             style={{ minHeight: "500px" }}
             className="courses__container mx-1 my-3 "
           >
-            <div className="d-flex justify-content-evenly flex-wrap  align-items-center ">
+            <div className=" row ">
               {listCourses.length > 0 ? (
                 listCourses?.map((item, index) => {
                   return (
-                    <CourseCard
-                      item={item}
-                      key={index}
-                      listWishList={listWishList}
-                    />
+                    <div className="col-12 col-md-6 " key={index}>
+                      <CourseCard
+                        item={item}
+                        key={index}
+                        listWishList={listWishList}
+                      />
+                    </div>
                   );
                 })
               ) : (
