@@ -27,9 +27,11 @@ function Header() {
   }, []);
 
   const { pathname } = useLocation();
+
   const { listCart, totalQuantity, totalPrice } = useSelector(
     (state) => state.cart
   );
+  
   const user = useSelector((state) => state.user.currentUser);
   const {
     register,
