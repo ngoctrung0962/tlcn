@@ -238,9 +238,17 @@ export default function Teacher() {
         <div className="teacher__top__course ">
           <span>Khóa học nổi bật</span>
           <div className="teacher__top__course__list d-md-flex flex-wrap justify-content-between ">
-            {teacherInfo?.topCourses.map((item, index) => (
-              <CourseCard item={item} key={index} listWishList={listWishList} />
-            ))}
+            <div className="row">
+              {teacherInfo?.topCourses.map((item, index) => (
+                <div className="col-md-6 col-12 ">
+                  <CourseCard
+                    item={item}
+                    key={index}
+                    listWishList={listWishList}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </Row>
