@@ -355,7 +355,7 @@ export default function CoursesPage() {
               {listCourses.length > 0 ? (
                 listCourses?.map((item, index) => {
                   return (
-                    <div className="col-12 col-md-6 " key={index}>
+                    <div className="col-12 col-md-6  " key={index}>
                       <CourseCard
                         item={item}
                         key={index}
