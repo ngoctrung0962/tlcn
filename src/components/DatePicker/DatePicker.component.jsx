@@ -6,15 +6,7 @@ import viLocale from 'date-fns/locale/vi';
 import React from 'react';
 import { Controller } from 'react-hook-form';
 
-export default function CustomDatePicker({
-    control,
-    field,
-    minDate,
-    maxDate,
-    required,
-    validate,
-    readOnly,
-}) {
+export default function CustomDatePicker({control,field,minDate,maxDate,required,validate,readOnly,}) {
     const rangeDate = {};
     if (minDate) rangeDate.minDate = parseISO(new Date(minDate).toISOString());
     if (maxDate) rangeDate.maxDate = parseISO(new Date(maxDate).toISOString());
