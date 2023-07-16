@@ -52,7 +52,11 @@ export default function CourseCard({ item, listWishList, isWasBought }) {
 
         <div className="instructor">
           <img
-            src={require("../../assets/img/garden-model.png")}
+            src={
+              item?.ownerAvt
+                ? item?.ownerAvt
+                : require("../../assets/img/garden-model.png")
+            }
             alt="Images"
             className="img-fluid avt__teacher"
           />
