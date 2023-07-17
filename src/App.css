@@ -628,6 +628,9 @@ a {
   display: inline-block;
   margin-right: 10px;
   max-width: 28px;
+  max-height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .instructor .name {
   font-size: 12px;
@@ -2006,7 +2009,7 @@ a {
 .teacher__top__course {
   margin-bottom: 1rem;
 }
-.teacher__top__course span {
+.teacher__top__course .title {
   font-size: 1rem;
   font-weight: 600;
   color: var(--black);
