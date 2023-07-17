@@ -46,12 +46,7 @@ const Cart = () => {
   };
 
   return (
-    <div
-      className="cart__page"
-      style={{
-        height: "calc(100vh - 70px)",
-      }}
-    >
+    <div className="cart__page">
       <div className="row">
         <div className="col-12 col-md-8">
           <div className="cart__left ">

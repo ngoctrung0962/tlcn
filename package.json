@@ -16,6 +16,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@uiw/react-md-editor": "^3.20.4",
     "aos": "^3.0.0-beta.6",
+    "aws-transcription-to-vtt": "^1.0.3",
     "axios": "^0.27.2",
     "bootstrap": "^5.2.0",
     "date-fns": "^2.29.3",

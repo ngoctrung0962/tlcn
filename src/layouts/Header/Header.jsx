@@ -95,12 +95,7 @@ function Header() {
         await Cookies.remove("token");
         await Cookies.remove("username");
         await dispatch(deleteDetailUser());
-        Swal.fire({
-          icon: "success",
-          title: "Đăng xuất thành công",
-          showConfirmButton: false,
-          timer: 1000,
-        });
+        Swal.fire("Đăng xuất thành công!", "", "success");
       }
     });
   };
@@ -113,7 +108,6 @@ function Header() {
   const navLinkColorHover = document.getElementsByClassName("nav-link");
   const cartIconColor = document.getElementById("cart__icon");
   const userIconColor = document.getElementById("user__icon");
-  const menuIconColor = document.getElementById("icon__menuheader");
   const changeBackground = () => {
     if (window.scrollY >= 80) {
       navbarColor?.classList.add("color-nav");
@@ -121,7 +115,6 @@ function Header() {
       logoBrandColor1?.classList.add("color-logo1");
       cartIconColor?.classList.add("color-cart-icon");
       userIconColor?.classList.add("color-user-icon");
-      menuIconColor?.classList.add("color-menu-icon");
       //class
       for (let i = 0; i < navItemColor.length; i++) {
         navItemColor[i].classList.add("color-nav-item");
@@ -135,8 +128,6 @@ function Header() {
       logoBrandColor1?.classList.remove("color-logo1");
       cartIconColor?.classList.remove("color-cart-icon");
       userIconColor?.classList.remove("color-user-icon");
-      menuIconColor?.classList.remove("color-menu-icon");
-
       //class
       for (let i = 0; i < navItemColor.length; i++) {
         navItemColor[i].classList.remove("color-nav-item");
@@ -220,7 +211,6 @@ function Header() {
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
           aria-label="Toggle navigation"
-          id="icon__menuheader"
         >
           <i className="bx bx-menu"></i>
         </button>
